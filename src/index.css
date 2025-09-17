@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom keyframe animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Animation utility classes */
+.animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+.animate-slideUp { animation: slideUp 0.3s ease-out; }
+.animate-slideDown { animation: slideDown 0.3s ease-out; }
+.animate-spin { animation: spin 1s linear infinite; }
+
+/* Backdrop blur utilities */
+.backdrop-blur-lg { backdrop-filter: blur(16px); }
+.backdrop-blur-sm { backdrop-filter: blur(4px); }
+
+/* Custom background opacity utilities */
+.bg-white\/10 { background-color: rgba(255, 255, 255, 0.1); }
+.border-white\/20 { border-color: rgba(255, 255, 255, 0.2); }
+.bg-black\/50 { background-color: rgba(0, 0, 0, 0.5); }
+
+/* Custom max-width and max-height utilities */
+.max-w-7xl { max-width: 80rem; }
+.max-w-4xl { max-width: 56rem; }
+.max-h-\[90vh\] { max-height: 90vh; }
+
+/* Custom z-index utilities */
+.z-50 { z-index: 50; }
+
+/* Icon utility classes */
+.icon { width: 20px; height: 20px; stroke: currentColor; }
+.icon-lg { width: 24px; height: 24px; stroke: currentColor; }
+.icon-xl { width: 32px; height: 32px; stroke: currentColor; }

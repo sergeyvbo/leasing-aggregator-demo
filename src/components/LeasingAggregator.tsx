@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
-import type { 
-  PageType, 
-  LoginData, 
-  CompanyData, 
-  VehicleData, 
-  Filter, 
-  LeasingProduct 
+import type {
+  PageType,
+  LoginData,
+  CompanyData,
+  VehicleData,
+  Filter,
+  LeasingProduct
 } from '../types';
-import { mockCompanyData, mockVehicleData, mockLeasingProducts } from '../data/mockData';
+import {
+  searchCompaniesByInn,
+  searchVehicleByVin,
+  getRandomLeasingProducts
+} from '../data/mockData';
 
 // Import page components
 import LoginPage from './pages/LoginPage';
@@ -24,32 +28,35 @@ import SuccessNotification from './ui/SuccessNotification';
 const LeasingAggregator: React.FC = () => {
   // Page navigation state
   const [currentPage, setCurrentPage] = useState<PageType>('login');
-  
+
   // Loading state
   const [loading, setLoading] = useState(false);
-  
+
   // Modal and notification states
   const [showModal, setShowModal] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  
+
   // Form data states
-  const [loginData, setLoginData] = useState<LoginData>({ 
-    username: '', 
-    password: '' 
+  const [loginData, setLoginData] = useState<LoginData>({
+    username: '',
+    password: ''
   });
-  
+
   const [companyData, setCompanyData] = useState<CompanyData>({
     inn: '',
     result: null
   });
-  
+
+  const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
+  const [selectedVehicle, setSelectedVehicle] = useState<string | null>(null);
+
   const [leasingSubject, setLeasingSubject] = useState('');
-  
+
   const [vehicleData, setVehicleData] = useState<VehicleData>({
     vin: '',
     result: null
   });
-  
+
   const [filters, setFilters] = useState<Filter[]>([]);
   const [leasingProducts, setLeasingProducts] = useState<LeasingProduct[]>([]);
 
@@ -69,8 +76,10 @@ const LeasingAggregator: React.FC = () => {
     setCurrentPage('login');
     setLoginData({ username: '', password: '' });
     setCompanyData({ inn: '', result: null });
+    setSelectedCompany(null);
     setLeasingSubject('');
     setVehicleData({ vin: '', result: null });
+    setSelectedVehicle(null);
     setFilters([]);
     setLeasingProducts([]);
     setShowModal(false);
@@ -81,7 +90,11 @@ const LeasingAggregator: React.FC = () => {
     if (!companyData.inn) return;
     setLoading(true);
     setTimeout(() => {
-      setCompanyData({ ...companyData, result: mockCompanyData });
+      const results = searchCompaniesByInn(companyData.inn);
+      setCompanyData({
+        inn: companyData.inn,
+        result: results
+      } as CompanyData);
       setLoading(false);
     }, 500);
   };
@@ -90,7 +103,8 @@ const LeasingAggregator: React.FC = () => {
     if (!vehicleData.vin) return;
     setLoading(true);
     setTimeout(() => {
-      setVehicleData({ ...vehicleData, result: mockVehicleData });
+      const result = searchVehicleByVin(vehicleData.vin);
+      setVehicleData({ ...vehicleData, result });
       setLoading(false);
     }, 500);
   };
@@ -98,7 +112,8 @@ const LeasingAggregator: React.FC = () => {
   const searchLeasingProducts = async () => {
     setLoading(true);
     setTimeout(() => {
-      setLeasingProducts(mockLeasingProducts);
+      const randomProducts = getRandomLeasingProducts(2, 5);
+      setLeasingProducts(randomProducts);
       setLoading(false);
     }, 500);
   };
@@ -137,11 +152,19 @@ const LeasingAggregator: React.FC = () => {
   };
 
   // Navigation handlers
-  const handleCompanySearchNext = () => {
+  const handleCompanySearchNext = (companyIndex: number) => {
+    // Set selected company when moving to next step
+    if (companyData.result && companyData.result[companyIndex]) {
+      setSelectedCompany(companyData.result[companyIndex].name);
+    }
     setCurrentPage('leasing-subject');
   };
 
   const handleLeasingSubjectNext = () => {
+    // Set selected vehicle when moving to next step
+    if (vehicleData.result) {
+      setSelectedVehicle(`${vehicleData.result.brand} ${vehicleData.result.model}`);
+    }
     setCurrentPage('leasing-search');
   };
 
@@ -189,16 +212,16 @@ const LeasingAggregator: React.FC = () => {
   // Render main application with header
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header 
-        username={loginData.username} 
-        onLogout={handleLogout} 
+      <Header
+        username={loginData.username}
+        onLogout={handleLogout}
       />
 
       <Stepper
         currentStep={getCurrentStep()}
-        selectedCompany={companyData.result?.name || null}
+        selectedCompany={selectedCompany}
         selectedSubject={leasingSubject || null}
-        selectedVehicle={vehicleData.result ? `${vehicleData.result.brand} ${vehicleData.result.model}` : null}
+        selectedVehicle={selectedVehicle}
         onStepClick={handleStepClick}
       />
 

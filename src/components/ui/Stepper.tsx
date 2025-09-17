@@ -43,12 +43,34 @@ const Stepper: React.FC<StepperProps> = ({
     return 'future';
   };
 
-  // Function to determine if a step is clickable (only completed steps)
+  // Function to determine if a step is clickable
   const isStepClickable = (stepId: number): boolean => {
-    return getStepState(stepId) === 'completed';
+    // Allow navigation to:
+    // 1. All previous steps (completed)
+    // 2. Current step (active)
+    // 3. Next step if current step has required data
+    if (stepId <= currentStep) {
+      return true; // Can always go back or stay on current step
+    }
+    
+    // For forward navigation, check if current step has required data
+    if (stepId === currentStep + 1) {
+      switch (currentStep) {
+        case 1:
+          // Can go to step 2 if company is selected
+          return selectedCompany !== null;
+        case 2:
+          // Can go to step 3 if subject and vehicle are selected
+          return selectedSubject !== null && selectedVehicle !== null;
+        default:
+          return false;
+      }
+    }
+    
+    return false; // Can't skip multiple steps ahead
   };
 
-  // Handle step click - only allow navigation to completed steps
+  // Handle step click - allow navigation based on new logic
   const handleStepClick = (stepId: number) => {
     if (isStepClickable(stepId)) {
       onStepClick(stepId);
@@ -57,23 +79,27 @@ const Stepper: React.FC<StepperProps> = ({
 
   // Function to get step description based on selected data
   const getStepDescription = (stepId: number): string | null => {
+    const stepState = getStepState(stepId);
+    
     switch (stepId) {
       case 1:
-        // Display selected company name or fallback
-        return selectedCompany || null;
+        // Display selected company name only if step is completed
+        return stepState === 'completed' ? selectedCompany : null;
       case 2:
-        // Display selected subject and vehicle info or fallback
-        if (selectedVehicle && selectedSubject) {
-          return `${selectedSubject} • ${selectedVehicle}`;
-        } else if (selectedSubject) {
-          return selectedSubject;
-        } else if (selectedVehicle) {
-          return selectedVehicle;
+        // Display selected subject and vehicle info only if step is completed
+        if (stepState === 'completed') {
+          if (selectedVehicle && selectedSubject) {
+            return `${selectedSubject} • ${selectedVehicle}`;
+          } else if (selectedSubject) {
+            return selectedSubject;
+          } else if (selectedVehicle) {
+            return selectedVehicle;
+          }
         }
         return null;
       case 3:
-        // Always show search description for step 3
-        return 'Поиск предложений';
+        // Show search description for active or completed step 3
+        return stepState === 'active' || stepState === 'completed' ? 'Поиск предложений' : null;
       default:
         return null;
     }
@@ -90,8 +116,8 @@ const Stepper: React.FC<StepperProps> = ({
             return (
               <React.Fragment key={step.id}>
                 <div 
-                  className={`flex items-center flex-1 min-w-0 transition-opacity duration-200 ${
-                    isClickable ? 'cursor-pointer hover:opacity-80' : 'cursor-default'
+                  className={`flex items-center flex-1 min-w-0 transition-all duration-200 ${
+                    isClickable ? 'cursor-pointer hover:opacity-80 hover:scale-105' : 'cursor-default opacity-60'
                   }`}
                   onClick={() => handleStepClick(step.id)}
                 >
@@ -161,8 +187,8 @@ const Stepper: React.FC<StepperProps> = ({
               <div key={step.id} className="flex items-center">
                 {/* Desktop Step Item */}
                 <div 
-                  className={`flex items-center transition-opacity duration-200 ${
-                    isClickable ? 'cursor-pointer hover:opacity-80' : 'cursor-default'
+                  className={`flex items-center transition-all duration-200 ${
+                    isClickable ? 'cursor-pointer hover:opacity-80 hover:scale-105' : 'cursor-default opacity-60'
                   }`}
                   onClick={() => handleStepClick(step.id)}
                 >

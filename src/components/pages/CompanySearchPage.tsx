@@ -7,7 +7,7 @@ interface CompanySearchPageProps {
   setCompanyData: (data: CompanyData) => void;
   loading: boolean;
   onSearch: () => void;
-  onNext: () => void;
+  onNext: (companyIndex: number) => void;
 }
 
 const CompanySearchPage: React.FC<CompanySearchPageProps> = ({
@@ -47,23 +47,27 @@ const CompanySearchPage: React.FC<CompanySearchPageProps> = ({
           </button>
         </div>
 
-        {companyData.result && (
-          <div className="bg-gradient-to-r from-green-50 to-blue-50 p-6 rounded-xl border border-green-200 animate-fadeIn">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Данные контрагента</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div><span className="font-medium">Наименование:</span> {companyData.result.name}</div>
-              <div><span className="font-medium">ИНН:</span> {companyData.result.inn}</div>
-              <div><span className="font-medium">КПП:</span> {companyData.result.kpp}</div>
-              <div><span className="font-medium">ОКАТО:</span> {companyData.result.okato}</div>
-              <div className="md:col-span-2"><span className="font-medium">ОПФ:</span> {companyData.result.opf}</div>
-              <div className="md:col-span-2"><span className="font-medium">Адрес:</span> {companyData.result.address}</div>
-            </div>
-            <button
-              onClick={onNext}
-              className="mt-6 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
-            >
-              Далее
-            </button>
+        {companyData.result && companyData.result.length > 0 && (
+          <div className="space-y-4 animate-fadeIn">
+            <h3 className="text-xl font-semibold text-gray-900">Найденные контрагенты</h3>
+            {companyData.result.map((company, index) => (
+              <div key={index} className="bg-gradient-to-r from-green-50 to-blue-50 p-6 rounded-xl border border-green-200">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div><span className="font-medium">Наименование:</span> {company.name}</div>
+                  <div><span className="font-medium">ИНН:</span> {company.inn}</div>
+                  <div><span className="font-medium">КПП:</span> {company.kpp}</div>
+                  <div><span className="font-medium">ОКАТО:</span> {company.okato}</div>
+                  <div className="md:col-span-2"><span className="font-medium">ОПФ:</span> {company.opf}</div>
+                  <div className="md:col-span-2"><span className="font-medium">Адрес:</span> {company.address}</div>
+                </div>
+                <button
+                  onClick={() => onNext(index)}
+                  className="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  Выбрать этого контрагента
+                </button>
+              </div>
+            ))}
           </div>
         )}
       </div>

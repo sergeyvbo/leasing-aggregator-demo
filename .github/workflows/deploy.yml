@@ -46,19 +46,35 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "dist/*"
           target: "/var/www/leasing"
-          
+
       - name: Send Telegram notification on success
         if: success()
         run: |
+          VERSION=${{ steps.bump_version.outputs.new_version }}
+          AUTHOR=$(git log -1 --pretty=format:'%an')
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
           -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
           -d parse_mode=Markdown \
-          -d text="✅ *Деплой успешен*\nRepo: `${GITHUB_REPOSITORY}`\nBranch: `${GITHUB_REF_NAME}`\nCommit: `${GITHUB_SHA}`\nVersion: `${{ steps.bump_version.outputs.new_version }}`\nActor: `${GITHUB_ACTOR}`"
+          -d text="✅ *Деплой успешен*
+Repo: ${GITHUB_REPOSITORY}
+Branch: ${GITHUB_REF_NAME}
+Commit: ${GITHUB_SHA}
+Version: ${VERSION}
+Actor: ${GITHUB_ACTOR}
+Commit Author: ${AUTHOR}"
 
       - name: Send Telegram notification on failure
         if: failure()
         run: |
+          VERSION=${{ steps.bump_version.outputs.new_version }}
+          AUTHOR=$(git log -1 --pretty=format:'%an')
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
           -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
           -d parse_mode=Markdown \
-          -d text="❌ *Деплой провален*\nRepo: `${GITHUB_REPOSITORY}`\nBranch: `${GITHUB_REF_NAME}`\nCommit: `${GITHUB_SHA}`\nVersion: `${{ steps.bump_version.outputs.new_version }}`\nActor: `${GITHUB_ACTOR}`"
+          -d text="❌ *Деплой провален*
+Repo: ${GITHUB_REPOSITORY}
+Branch: ${GITHUB_REF_NAME}
+Commit: ${GITHUB_SHA}
+Version: ${VERSION}
+Actor: ${GITHUB_ACTOR}
+Commit Author: ${AUTHOR}"

@@ -24,6 +24,7 @@ import CompanySearchPage from './pages/CompanySearchPage';
 import LeasingSubjectPage from './pages/LeasingSubjectPage';
 import LeasingSearchPage from './pages/LeasingSearchPage';
 import CommercialProposalPage from './pages/CommercialProposalPage';
+import ContractSigningPage from './pages/ContractSigningPage';
 
 // Import UI components
 import Header from './ui/Header';
@@ -67,6 +68,7 @@ const LeasingAggregator: React.FC = () => {
 
   const [filters, setFilters] = useState<Filter[]>([]);
   const [leasingProducts, setLeasingProducts] = useState<LeasingProduct[]>([]);
+  const [paymentSchedule, setPaymentSchedule] = useState<any>(null);
 
   // Clear vehicle data when leasing subject changes
   useEffect(() => {
@@ -97,6 +99,7 @@ const LeasingAggregator: React.FC = () => {
     setSelectedProduct(null);
     setFilters([]);
     setLeasingProducts([]);
+    setPaymentSchedule(null);
     setShowSuccess(false);
   };
 
@@ -204,9 +207,23 @@ const LeasingAggregator: React.FC = () => {
     setTimeout(() => setShowSuccess(false), 4000);
   };
 
-  const handleShowNotification = (message: string) => {
+  const handleShowNotification = (message: string, schedule?: any) => {
     setFinancingMessage(message);
     setShowFinancingNotification(true);
+    if (schedule) {
+      setPaymentSchedule(schedule);
+    }
+  };
+
+  const handleRejectDeal = () => {
+    // Возвращаемся на шаг "Предварительный расчет"
+    setCurrentPage('leasing-search');
+    setPaymentSchedule(null);
+  };
+
+  const handleProceedToContract = () => {
+    // Переходим к подписанию договора
+    setCurrentPage('contract-signing');
   };
 
   const handleCloseFinancingNotification = () => {
@@ -245,6 +262,9 @@ const LeasingAggregator: React.FC = () => {
       case 4:
         setCurrentPage('commercial-proposal');
         break;
+      case 5:
+        setCurrentPage('contract-signing');
+        break;
     }
   };
 
@@ -259,6 +279,8 @@ const LeasingAggregator: React.FC = () => {
         return 3;
       case 'commercial-proposal':
         return 4;
+      case 'contract-signing':
+        return 5;
       default:
         return 1;
     }
@@ -290,6 +312,7 @@ const LeasingAggregator: React.FC = () => {
         selectedSubject={leasingSubject || null}
         selectedVehicle={selectedVehicle ? `${selectedVehicle.brand} ${selectedVehicle.model}` : null}
         selectedProduct={selectedProduct?.company || null}
+        hasPaymentSchedule={paymentSchedule !== null}
         onStepClick={handleStepClick}
       />
 
@@ -337,6 +360,17 @@ const LeasingAggregator: React.FC = () => {
             selectedProduct={selectedProduct}
             onSendProposal={handleSendProposal}
             onShowNotification={handleShowNotification}
+            onRejectDeal={handleRejectDeal}
+            onProceedToContract={handleProceedToContract}
+          />
+        )}
+
+        {currentPage === 'contract-signing' && (
+          <ContractSigningPage
+            selectedCompany={selectedCompany}
+            selectedVehicle={selectedVehicle}
+            selectedProduct={selectedProduct}
+            paymentSchedule={paymentSchedule}
           />
         )}
       </div>

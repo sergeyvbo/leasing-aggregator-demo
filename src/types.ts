@@ -1,5 +1,5 @@
 // Page navigation types
-export type PageType = 'login' | 'company-search' | 'leasing-subject' | 'leasing-search' | 'commercial-proposal';
+export type PageType = 'login' | 'company-search' | 'leasing-subject' | 'leasing-search' | 'commercial-proposal' | 'contract-signing';
 
 // Login data
 export interface LoginData {
@@ -71,6 +71,8 @@ export interface PaymentSchedule {
   totalAmount: number;
   monthlyPayment: number;
   totalInterest: number;
+  advanceAmount: number;
+  loanAmount: number;
   schedule: PaymentScheduleItem[];
 }
 

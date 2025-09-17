@@ -2,11 +2,12 @@ import React from 'react';
 
 // Stepper component props interface
 export interface StepperProps {
-  currentStep: number; // 1, 2, 3, или 4
+  currentStep: number; // 1, 2, 3, 4, или 5
   selectedCompany: string | null; // Название выбранной компании
   selectedSubject: string | null; // Выбранный предмет лизинга
   selectedVehicle: string | null; // Марка и модель автомобиля
   selectedProduct: string | null; // Выбранное лизинговое предложение
+  hasPaymentSchedule: boolean; // Получен ли график платежей
   onStepClick: (step: number) => void; // Callback для навигации
 }
 
@@ -27,6 +28,10 @@ const STEPS = [
   {
     id: 4,
     title: 'Коммерческое предложение',
+  },
+  {
+    id: 5,
+    title: 'Подписание договора',
   }
 ];
 
@@ -39,6 +44,7 @@ const Stepper: React.FC<StepperProps> = ({
   selectedSubject,
   selectedVehicle,
   selectedProduct,
+  hasPaymentSchedule,
   onStepClick
 }) => {
 
@@ -71,6 +77,9 @@ const Stepper: React.FC<StepperProps> = ({
         case 3:
           // Can go to step 4 if product is selected
           return selectedProduct !== null;
+        case 4:
+          // Can go to step 5 if payment schedule is received
+          return hasPaymentSchedule;
         default:
           return false;
       }
@@ -112,6 +121,9 @@ const Stepper: React.FC<StepperProps> = ({
       case 4:
         // Show selected product for active or completed step 4
         return stepState === 'active' || stepState === 'completed' ? selectedProduct : null;
+      case 5:
+        // Show contract signing description for active or completed step 5
+        return stepState === 'active' || stepState === 'completed' ? 'Подписание договора' : null;
       default:
         return null;
     }

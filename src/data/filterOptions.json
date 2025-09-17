@@ -1,0 +1,24 @@
+{
+  "filterParameters": [
+    {
+      "value": "term",
+      "label": "Срок лизинга (годы)"
+    },
+    {
+      "value": "payment",
+      "label": "Ежемесячный платеж"
+    },
+    {
+      "value": "buyout",
+      "label": "Обязательность выкупа"
+    },
+    {
+      "value": "initial",
+      "label": "Первоначальный взнос"
+    },
+    {
+      "value": "rate",
+      "label": "Процентная ставка"
+    }
+  ]
+}

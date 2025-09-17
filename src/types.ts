@@ -53,3 +53,13 @@ export interface LeasingProduct {
   initialPayment: string;
   rate: string;
 }
+
+// Filter configuration types
+export interface FilterOption {
+  value: string;
+  label: string;
+}
+
+export interface FilterConfig {
+  filterParameters: FilterOption[];
+}

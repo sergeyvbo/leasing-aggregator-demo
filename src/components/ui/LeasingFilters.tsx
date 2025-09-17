@@ -1,8 +1,9 @@
-import React from 'react';
-import type { Filter } from '../../types';
+import React, { useState, useEffect } from 'react';
+import type { Filter, FilterOption } from '../../types';
 import PlusIcon from '../icons/PlusIcon';
 import XIcon from '../icons/XIcon';
 import SearchIcon from '../icons/SearchIcon';
+import filterConfigData from '../../data/filterOptions.json';
 
 interface LeasingFiltersProps {
   filters: Filter[];
@@ -21,6 +22,13 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
   onUpdateFilter,
   onSearchLeasingProducts
 }) => {
+  const [filterOptions, setFilterOptions] = useState<FilterOption[]>([]);
+
+  useEffect(() => {
+    // Load filter options from JSON config
+    setFilterOptions(filterConfigData.filterParameters);
+  }, []);
+
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8">
       <h2 className="text-3xl font-bold text-gray-900 mb-8">Поиск лизинговых продуктов</h2>
@@ -48,11 +56,11 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
                   className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">Выберите параметр</option>
-                  <option value="term">Срок лизинга (годы)</option>
-                  <option value="payment">Ежемесячный платеж</option>
-                  <option value="buyout">Обязательность выкупа</option>
-                  <option value="initial">Первоначальный взнос</option>
-                  <option value="rate">Процентная ставка</option>
+                  {filterOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
                 <input
                   type="text"
@@ -86,11 +94,11 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">Выберите параметр</option>
-                  <option value="term">Срок лизинга (годы)</option>
-                  <option value="payment">Ежемесячный платеж</option>
-                  <option value="buyout">Обязательность выкупа</option>
-                  <option value="initial">Первоначальный взнос</option>
-                  <option value="rate">Процентная ставка</option>
+                  {filterOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
                 <input
                   type="text"

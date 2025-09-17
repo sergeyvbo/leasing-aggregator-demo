@@ -42,10 +42,10 @@ const LoginPage: React.FC<LoginPageProps> = ({
           <h1 className="text-3xl font-bold text-white mb-2">Лизинговый Брокер</h1>
           <p className="text-blue-200">Личный кабинет</p>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="relative">
-            <UserIcon size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300" />
+            <UserIcon size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-200 z-10" />
             <input
               type="text"
               placeholder="Имя пользователя"
@@ -55,9 +55,9 @@ const LoginPage: React.FC<LoginPageProps> = ({
               required
             />
           </div>
-          
+
           <div className="relative">
-            <LockIcon size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300" />
+            <LockIcon size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-200 z-10" />
             <input
               type="password"
               placeholder="Пароль"
@@ -67,7 +67,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
               required
             />
           </div>
-          
+
           <button
             type="submit"
             disabled={loading || !loginData.username || !loginData.password}
@@ -83,7 +83,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
             )}
           </button>
         </form>
-        
+
         <div className="mt-6 flex justify-between text-sm">
           <button className="text-blue-300 hover:text-white transition-colors">
             Регистрация

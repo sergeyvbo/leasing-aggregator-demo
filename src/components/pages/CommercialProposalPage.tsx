@@ -34,9 +34,10 @@ const CommercialProposalPage: React.FC<CommercialProposalPageProps> = ({
 
     setTimeout(async () => {
       // Generate payment schedule
+      let schedule = null;
       if (selectedVehicle && selectedProduct) {
         const { generatePaymentSchedule } = await import('../../data/mockData');
-        const schedule = generatePaymentSchedule(selectedVehicle.cost, selectedProduct);
+        schedule = generatePaymentSchedule(selectedVehicle.cost, selectedProduct);
         setPaymentSchedule(schedule);
       }
 
@@ -169,8 +170,8 @@ const CommercialProposalPage: React.FC<CommercialProposalPageProps> = ({
               onClick={handleSendProposal}
               disabled={isProposalSent}
               className={`px-8 py-4 rounded-xl transition-all duration-300 flex items-center text-lg font-medium ${isProposalSent
-                  ? 'bg-green-500 text-white cursor-default'
-                  : 'bg-gradient-to-r from-green-600 to-blue-600 text-white hover:from-green-700 hover:to-blue-700'
+                ? 'bg-green-500 text-white cursor-default'
+                : 'bg-gradient-to-r from-green-600 to-blue-600 text-white hover:from-green-700 hover:to-blue-700'
                 }`}
             >
               {isProposalSent ? (

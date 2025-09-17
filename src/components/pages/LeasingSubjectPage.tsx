@@ -47,7 +47,8 @@ const LeasingSubjectPage: React.FC<LeasingSubjectPageProps> = ({
               <CarIcon size={24} className="mr-2 text-blue-600" />
               Данные автомобиля
             </h3>
-            <div className="flex space-x-4 mb-6">
+            {/* Desktop layout */}
+            <div className="hidden sm:flex space-x-4 mb-6">
               <div className="flex-1">
                 <label className="block text-sm font-medium text-gray-700 mb-2">VIN номер</label>
                 <input
@@ -62,6 +63,32 @@ const LeasingSubjectPage: React.FC<LeasingSubjectPageProps> = ({
                 onClick={onSearchVehicle}
                 disabled={loading || !vehicleData.vin}
                 className="bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+              >
+                {loading ? (
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                ) : (
+                  <SearchIcon size={20} className="mr-2" />
+                )}
+                Поиск
+              </button>
+            </div>
+
+            {/* Mobile layout */}
+            <div className="sm:hidden space-y-4 mb-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">VIN номер</label>
+                <input
+                  type="text"
+                  value={vehicleData.vin}
+                  onChange={(e) => setVehicleData({...vehicleData, vin: e.target.value})}
+                  placeholder="Введите VIN"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <button
+                onClick={onSearchVehicle}
+                disabled={loading || !vehicleData.vin}
+                className="w-full bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
               >
                 {loading ? (
                   <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>

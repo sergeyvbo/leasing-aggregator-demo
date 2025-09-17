@@ -17,6 +17,7 @@ import LeasingSearchPage from './pages/LeasingSearchPage';
 
 // Import UI components
 import Header from './ui/Header';
+import Stepper from './ui/Stepper';
 import Modal from './ui/Modal';
 import SuccessNotification from './ui/SuccessNotification';
 
@@ -144,6 +145,35 @@ const LeasingAggregator: React.FC = () => {
     setCurrentPage('leasing-search');
   };
 
+  // Stepper navigation handler
+  const handleStepClick = (step: number) => {
+    switch (step) {
+      case 1:
+        setCurrentPage('company-search');
+        break;
+      case 2:
+        setCurrentPage('leasing-subject');
+        break;
+      case 3:
+        setCurrentPage('leasing-search');
+        break;
+    }
+  };
+
+  // Get current step number based on page
+  const getCurrentStep = (): number => {
+    switch (currentPage) {
+      case 'company-search':
+        return 1;
+      case 'leasing-subject':
+        return 2;
+      case 'leasing-search':
+        return 3;
+      default:
+        return 1;
+    }
+  };
+
   // Render login page
   if (currentPage === 'login') {
     return (
@@ -162,6 +192,14 @@ const LeasingAggregator: React.FC = () => {
       <Header 
         username={loginData.username} 
         onLogout={handleLogout} 
+      />
+
+      <Stepper
+        currentStep={getCurrentStep()}
+        selectedCompany={companyData.result?.name || null}
+        selectedSubject={leasingSubject || null}
+        selectedVehicle={vehicleData.result ? `${vehicleData.result.brand} ${vehicleData.result.model}` : null}
+        onStepClick={handleStepClick}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

@@ -1,5 +1,6 @@
 import React from 'react';
 import BuildingIcon from '../icons/BuildingIcon';
+import { APP_VERSION } from '../../utils/version';
 
 interface HeaderProps {
   username: string;
@@ -14,7 +15,7 @@ const Header: React.FC<HeaderProps> = ({ username, onLogout }) => {
           <div className="flex items-center min-w-0 flex-1">
             <BuildingIcon size={24} className="text-blue-600 mr-2 sm:mr-3 flex-shrink-0" />
             <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 truncate">
-              Лизинговый Брокер
+              Лизинговый Брокер <span className="text-xs sm:text-sm text-gray-400 font-normal">v. {APP_VERSION}</span>
             </h1>
           </div>
           <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">

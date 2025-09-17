@@ -3,6 +3,7 @@ import type { LoginData } from '../../types';
 import UserIcon from '../icons/UserIcon';
 import LockIcon from '../icons/LockIcon';
 import BuildingIcon from '../icons/BuildingIcon';
+import { APP_VERSION } from '../../utils/version';
 
 interface LoginPageProps {
   loginData: LoginData;
@@ -33,7 +34,12 @@ const LoginPage: React.FC<LoginPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 flex items-center justify-center p-4 relative">
+      {/* Version display in bottom left corner */}
+      <div className="absolute bottom-4 left-4 text-blue-200/70 text-xs">
+        v. {APP_VERSION}
+      </div>
+      
       <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 w-full max-w-md shadow-2xl border border-white/20">
         <div className="text-center mb-8">
           <div className="bg-gradient-to-r from-blue-400 to-indigo-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">

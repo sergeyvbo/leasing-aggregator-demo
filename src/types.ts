@@ -40,6 +40,7 @@ export interface VehicleData {
 export interface Filter {
   id: number;
   parameter: string;
+  operator: string;
   value: string;
 }
 
@@ -55,11 +56,29 @@ export interface LeasingProduct {
 }
 
 // Filter configuration types
-export interface FilterOption {
+export interface FilterSelectOption {
+  value: string;
+  label: string;
+}
+
+export interface FilterParameter {
+  value: string;
+  label: string;
+  type: 'number' | 'select' | 'text';
+  unit?: string;
+  options?: FilterSelectOption[];
+}
+
+export interface ComparisonOperator {
   value: string;
   label: string;
 }
 
 export interface FilterConfig {
-  filterParameters: FilterOption[];
+  filterParameters: FilterParameter[];
+  comparisonOperators: {
+    number: ComparisonOperator[];
+    select: ComparisonOperator[];
+    text: ComparisonOperator[];
+  };
 }

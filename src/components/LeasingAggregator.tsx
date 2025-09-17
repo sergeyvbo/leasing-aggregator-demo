@@ -133,7 +133,9 @@ const LeasingAggregator: React.FC = () => {
   const searchLeasingProducts = async () => {
     setLoading(true);
     setTimeout(() => {
+      // Для демо всегда показываем 2-5 случайных предложений
       const randomProducts = getRandomLeasingProducts(2, 5);
+      console.log('Generated products:', randomProducts);
       setLeasingProducts(randomProducts);
       setLoading(false);
     }, 500);
@@ -144,6 +146,7 @@ const LeasingAggregator: React.FC = () => {
     const newFilter: Filter = {
       id: Date.now(),
       parameter: '',
+      operator: '',
       value: ''
     };
     setFilters([...filters, newFilter]);
@@ -154,7 +157,28 @@ const LeasingAggregator: React.FC = () => {
   };
 
   const updateFilter = (id: number, field: string, value: string) => {
-    setFilters(filters.map(f => f.id === id ? { ...f, [field]: value } : f));
+    setFilters(filters.map(f => {
+      if (f.id === id) {
+        const updatedFilter = { ...f, [field]: value };
+        
+        // Сбрасываем зависимые поля при изменении параметра
+        if (field === 'parameter') {
+          updatedFilter.operator = '';
+          updatedFilter.value = '';
+        }
+        // Сбрасываем значение при изменении оператора
+        else if (field === 'operator') {
+          updatedFilter.value = '';
+        }
+        
+        return updatedFilter;
+      }
+      return f;
+    }));
+  };
+
+  const clearAllFilters = () => {
+    setFilters([]);
   };
 
   // Modal and proposal handling
@@ -282,6 +306,7 @@ const LeasingAggregator: React.FC = () => {
             onShowModal={handleShowModal}
             onCloseModal={handleCloseModal}
             onSendProposal={handleSendProposal}
+            onClearAllFilters={clearAllFilters}
           />
         )}
       </div>

@@ -3,6 +3,7 @@ import type { Filter, LeasingProduct } from '../../types';
 import LeasingFilters from '../ui/LeasingFilters';
 import LeasingResults from '../ui/LeasingResults';
 import ProposalModal from '../ui/ProposalModal';
+import ActiveFilters from '../ui/ActiveFilters';
 
 interface LeasingSearchPageProps {
   filters: Filter[];
@@ -16,6 +17,7 @@ interface LeasingSearchPageProps {
   onShowModal: () => void;
   onCloseModal: () => void;
   onSendProposal: () => void;
+  onClearAllFilters: () => void;
 }
 
 const LeasingSearchPage: React.FC<LeasingSearchPageProps> = ({
@@ -29,7 +31,8 @@ const LeasingSearchPage: React.FC<LeasingSearchPageProps> = ({
   onSearchLeasingProducts,
   onShowModal,
   onCloseModal,
-  onSendProposal
+  onSendProposal,
+  onClearAllFilters
 }) => {
   return (
     <>
@@ -41,6 +44,12 @@ const LeasingSearchPage: React.FC<LeasingSearchPageProps> = ({
           onRemoveFilter={onRemoveFilter}
           onUpdateFilter={onUpdateFilter}
           onSearchLeasingProducts={onSearchLeasingProducts}
+        />
+
+        <ActiveFilters
+          filters={filters}
+          onRemoveFilter={onRemoveFilter}
+          onClearAllFilters={onClearAllFilters}
         />
 
         <LeasingResults

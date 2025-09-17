@@ -213,3 +213,87 @@ export const searchAircraftByName = (name: string): VehicleResult => {
   // Always return a random aircraft for any name (guaranteed result)
   return getRandomAircraft();
 };
+// Filter application function
+export const applyFiltersToProducts = (products: LeasingProduct[], filters: any[]): LeasingProduct[] => {
+  if (!filters || filters.length === 0) {
+    return products;
+  }
+
+  return products.filter(product => {
+    return filters.every(filter => {
+      if (!filter.parameter || !filter.operator || (filter.value === '' && !['empty', 'not_empty'].includes(filter.operator))) {
+        return true; // Skip incomplete filters
+      }
+
+      const productValue = getProductValue(product, filter.parameter);
+      return applyFilterOperator(productValue, filter.operator, filter.value);
+    });
+  });
+};
+
+// Helper function to get product value by parameter
+const getProductValue = (product: LeasingProduct, parameter: string): any => {
+  switch (parameter) {
+    case 'term':
+      return parseInt(product.term.replace(/\D/g, '')) || 0;
+    case 'payment':
+      return parseInt(product.monthlyPayment.replace(/\D/g, '')) || 0;
+    case 'buyout':
+      return product.buyoutRequired.toLowerCase() === 'да' ? 'yes' : 'no';
+    case 'initial':
+      return parseInt(product.initialPayment.replace(/\D/g, '')) || 0;
+    case 'rate':
+      return parseFloat(product.rate.replace(/[^\d.,]/g, '').replace(',', '.')) || 0;
+    case 'company_type':
+      // Mock company type based on company name
+      if (product.company.includes('Банк')) return 'bank';
+      if (product.company.includes('Лизинг')) return 'independent';
+      return 'captive';
+    default:
+      return '';
+  }
+};
+
+// Helper function to apply filter operator
+const applyFilterOperator = (productValue: any, operator: string, filterValue: string): boolean => {
+  switch (operator) {
+    case 'eq':
+      return productValue == filterValue;
+    case 'ne':
+      return productValue != filterValue;
+    case 'gt':
+      return Number(productValue) > Number(filterValue);
+    case 'gte':
+      return Number(productValue) >= Number(filterValue);
+    case 'lt':
+      return Number(productValue) < Number(filterValue);
+    case 'lte':
+      return Number(productValue) <= Number(filterValue);
+    case 'between':
+      const [min, max] = filterValue.split(',').map(v => Number(v.trim()));
+      return Number(productValue) >= min && Number(productValue) <= max;
+    case 'not_between':
+      const [notMin, notMax] = filterValue.split(',').map(v => Number(v.trim()));
+      return Number(productValue) < notMin || Number(productValue) > notMax;
+    case 'in':
+      const inValues = filterValue.split(',').map(v => v.trim());
+      return inValues.includes(String(productValue));
+    case 'not_in':
+      const notInValues = filterValue.split(',').map(v => v.trim());
+      return !notInValues.includes(String(productValue));
+    case 'contains':
+      return String(productValue).toLowerCase().includes(filterValue.toLowerCase());
+    case 'not_contains':
+      return !String(productValue).toLowerCase().includes(filterValue.toLowerCase());
+    case 'starts':
+      return String(productValue).toLowerCase().startsWith(filterValue.toLowerCase());
+    case 'ends':
+      return String(productValue).toLowerCase().endsWith(filterValue.toLowerCase());
+    case 'empty':
+      return !productValue || String(productValue).trim() === '';
+    case 'not_empty':
+      return productValue && String(productValue).trim() !== '';
+    default:
+      return true;
+  }
+};

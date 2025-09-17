@@ -11,8 +11,14 @@ const LeasingResults: React.FC<LeasingResultsProps> = ({
   leasingProducts,
   onShowModal
 }) => {
+  console.log('LeasingResults received products:', leasingProducts);
+  
   if (leasingProducts.length === 0) {
-    return null;
+    return (
+      <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+        <p className="text-gray-500">Нажмите "Найти предложения" для поиска лизинговых продуктов</p>
+      </div>
+    );
   }
 
   return (

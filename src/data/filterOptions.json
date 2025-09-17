@@ -2,23 +2,252 @@
   "filterParameters": [
     {
       "value": "term",
-      "label": "Срок лизинга (годы)"
+      "label": "Срок лизинга (годы)",
+      "type": "number",
+      "unit": "лет"
     },
     {
       "value": "payment",
-      "label": "Ежемесячный платеж"
+      "label": "Ежемесячный платеж",
+      "type": "number",
+      "unit": "₽"
     },
     {
       "value": "buyout",
-      "label": "Обязательность выкупа"
+      "label": "Обязательность выкупа",
+      "type": "select",
+      "options": [
+        { "value": "yes", "label": "Да" },
+        { "value": "no", "label": "Нет" },
+        { "value": "optional", "label": "По желанию" }
+      ]
     },
     {
       "value": "initial",
-      "label": "Первоначальный взнос"
+      "label": "Первоначальный взнос",
+      "type": "number",
+      "unit": "%"
     },
     {
       "value": "rate",
-      "label": "Процентная ставка"
+      "label": "Процентная ставка",
+      "type": "number",
+      "unit": "%"
+    },
+    {
+      "value": "amount",
+      "label": "Сумма лизинга",
+      "type": "number",
+      "unit": "₽"
+    },
+    {
+      "value": "currency",
+      "label": "Валюта",
+      "type": "select",
+      "options": [
+        { "value": "RUB", "label": "Рубли" },
+        { "value": "USD", "label": "Доллары США" },
+        { "value": "EUR", "label": "Евро" },
+        { "value": "CNY", "label": "Юани" }
+      ]
+    },
+    {
+      "value": "insurance",
+      "label": "Тип страхования",
+      "type": "select",
+      "options": [
+        { "value": "full", "label": "КАСКО + ОСАГО" },
+        { "value": "osago", "label": "Только ОСАГО" },
+        { "value": "none", "label": "Без страхования" }
+      ]
+    },
+    {
+      "value": "company_type",
+      "label": "Тип лизинговой компании",
+      "type": "select",
+      "options": [
+        { "value": "bank", "label": "Банковская" },
+        { "value": "independent", "label": "Независимая" },
+        { "value": "captive", "label": "Кэптивная" }
+      ]
+    },
+    {
+      "value": "approval_time",
+      "label": "Время одобрения",
+      "type": "number",
+      "unit": "дней"
+    },
+    {
+      "value": "min_advance",
+      "label": "Минимальный аванс",
+      "type": "number",
+      "unit": "%"
+    },
+    {
+      "value": "max_advance",
+      "label": "Максимальный аванс",
+      "type": "number",
+      "unit": "%"
+    },
+    {
+      "value": "vehicle_age",
+      "label": "Возраст транспорта",
+      "type": "number",
+      "unit": "лет"
+    },
+    {
+      "value": "mileage",
+      "label": "Пробег",
+      "type": "number",
+      "unit": "км"
+    },
+    {
+      "value": "region",
+      "label": "Регион",
+      "type": "select",
+      "options": [
+        { "value": "moscow", "label": "Москва" },
+        { "value": "spb", "label": "Санкт-Петербург" },
+        { "value": "ekb", "label": "Екатеринбург" },
+        { "value": "nsk", "label": "Новосибирск" },
+        { "value": "kzn", "label": "Казань" },
+        { "value": "nn", "label": "Нижний Новгород" },
+        { "value": "samara", "label": "Самара" },
+        { "value": "omsk", "label": "Омск" },
+        { "value": "krd", "label": "Краснодар" },
+        { "value": "rostov", "label": "Ростов-на-Дону" }
+      ]
+    },
+    {
+      "value": "credit_score",
+      "label": "Кредитный рейтинг",
+      "type": "select",
+      "options": [
+        { "value": "excellent", "label": "Отличный" },
+        { "value": "good", "label": "Хороший" },
+        { "value": "fair", "label": "Удовлетворительный" },
+        { "value": "poor", "label": "Плохой" }
+      ]
+    },
+    {
+      "value": "business_age",
+      "label": "Возраст бизнеса",
+      "type": "number",
+      "unit": "лет"
+    },
+    {
+      "value": "annual_revenue",
+      "label": "Годовая выручка",
+      "type": "number",
+      "unit": "₽"
+    },
+    {
+      "value": "employee_count",
+      "label": "Количество сотрудников",
+      "type": "number",
+      "unit": "чел."
+    },
+    {
+      "value": "industry",
+      "label": "Отрасль",
+      "type": "select",
+      "options": [
+        { "value": "transport", "label": "Транспорт и логистика" },
+        { "value": "construction", "label": "Строительство" },
+        { "value": "agriculture", "label": "Сельское хозяйство" },
+        { "value": "manufacturing", "label": "Производство" },
+        { "value": "retail", "label": "Розничная торговля" },
+        { "value": "services", "label": "Услуги" },
+        { "value": "it", "label": "IT и телекоммуникации" },
+        { "value": "healthcare", "label": "Здравоохранение" }
+      ]
+    },
+    {
+      "value": "residual_value",
+      "label": "Остаточная стоимость",
+      "type": "number",
+      "unit": "%"
+    },
+    {
+      "value": "early_termination",
+      "label": "Досрочное погашение",
+      "type": "select",
+      "options": [
+        { "value": "allowed", "label": "Разрешено" },
+        { "value": "penalty", "label": "С штрафом" },
+        { "value": "forbidden", "label": "Запрещено" }
+      ]
+    },
+    {
+      "value": "maintenance",
+      "label": "Техническое обслуживание",
+      "type": "select",
+      "options": [
+        { "value": "included", "label": "Включено" },
+        { "value": "optional", "label": "Опционально" },
+        { "value": "excluded", "label": "Не включено" }
+      ]
+    },
+    {
+      "value": "fuel_type",
+      "label": "Тип топлива",
+      "type": "select",
+      "options": [
+        { "value": "gasoline", "label": "Бензин" },
+        { "value": "diesel", "label": "Дизель" },
+        { "value": "electric", "label": "Электричество" },
+        { "value": "hybrid", "label": "Гибрид" },
+        { "value": "gas", "label": "Газ" }
+      ]
+    },
+    {
+      "value": "seasonal_payments",
+      "label": "Сезонные платежи",
+      "type": "select",
+      "options": [
+        { "value": "available", "label": "Доступны" },
+        { "value": "not_available", "label": "Недоступны" }
+      ]
+    },
+    {
+      "value": "grace_period",
+      "label": "Льготный период",
+      "type": "number",
+      "unit": "месяцев"
+    },
+    {
+      "value": "processing_fee",
+      "label": "Комиссия за оформление",
+      "type": "number",
+      "unit": "₽"
     }
-  ]
+  ],
+  "comparisonOperators": {
+    "number": [
+      { "value": "eq", "label": "равно" },
+      { "value": "ne", "label": "не равно" },
+      { "value": "gt", "label": "больше" },
+      { "value": "gte", "label": "больше или равно" },
+      { "value": "lt", "label": "меньше" },
+      { "value": "lte", "label": "меньше или равно" },
+      { "value": "between", "label": "между" },
+      { "value": "not_between", "label": "не между" }
+    ],
+    "select": [
+      { "value": "eq", "label": "равно" },
+      { "value": "ne", "label": "не равно" },
+      { "value": "in", "label": "один из" },
+      { "value": "not_in", "label": "ни один из" }
+    ],
+    "text": [
+      { "value": "eq", "label": "равно" },
+      { "value": "ne", "label": "не равно" },
+      { "value": "contains", "label": "содержит" },
+      { "value": "not_contains", "label": "не содержит" },
+      { "value": "starts", "label": "начинается с" },
+      { "value": "ends", "label": "заканчивается на" },
+      { "value": "empty", "label": "пустое" },
+      { "value": "not_empty", "label": "не пустое" }
+    ]
+  }
 }

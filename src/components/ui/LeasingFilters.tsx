@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import type { Filter, FilterOption } from '../../types';
+import type { Filter, FilterParameter, ComparisonOperator, FilterConfig } from '../../types';
 import PlusIcon from '../icons/PlusIcon';
 import XIcon from '../icons/XIcon';
 import SearchIcon from '../icons/SearchIcon';
@@ -22,12 +22,31 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
   onUpdateFilter,
   onSearchLeasingProducts
 }) => {
-  const [filterOptions, setFilterOptions] = useState<FilterOption[]>([]);
+  const [filterParameters, setFilterParameters] = useState<FilterParameter[]>([]);
+  const [comparisonOperators, setComparisonOperators] = useState<{
+    number: ComparisonOperator[];
+    select: ComparisonOperator[];
+    text: ComparisonOperator[];
+  }>({ number: [], select: [], text: [] });
 
   useEffect(() => {
     // Load filter options from JSON config
-    setFilterOptions(filterConfigData.filterParameters);
+    const config = filterConfigData as FilterConfig;
+    setFilterParameters(config.filterParameters);
+    setComparisonOperators(config.comparisonOperators);
   }, []);
+
+  // Get parameter by value
+  const getParameterByValue = (value: string): FilterParameter | undefined => {
+    return filterParameters.find(param => param.value === value);
+  };
+
+  // Get available operators for parameter type
+  const getOperatorsForParameter = (parameterValue: string): ComparisonOperator[] => {
+    const parameter = getParameterByValue(parameterValue);
+    if (!parameter) return [];
+    return comparisonOperators[parameter.type] || [];
+  };
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8">
@@ -56,19 +75,130 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
                   className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">Выберите параметр</option>
-                  {filterOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
+                  {filterParameters.map((param) => (
+                    <option key={param.value} value={param.value}>
+                      {param.label}
                     </option>
                   ))}
                 </select>
-                <input
-                  type="text"
-                  value={filter.value}
-                  onChange={(e) => onUpdateFilter(filter.id, 'value', e.target.value)}
-                  placeholder="Значение"
+                
+                <select
+                  value={filter.operator}
+                  onChange={(e) => onUpdateFilter(filter.id, 'operator', e.target.value)}
                   className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                  disabled={!filter.parameter}
+                >
+                  <option value="">Выберите условие</option>
+                  {getOperatorsForParameter(filter.parameter).map((operator) => (
+                    <option key={operator.value} value={operator.value}>
+                      {operator.label}
+                    </option>
+                  ))}
+                </select>
+
+{(() => {
+                  const parameter = getParameterByValue(filter.parameter);
+                  
+                  // Обработка операторов "между" и "не между" для числовых значений
+                  if ((filter.operator === 'between' || filter.operator === 'not_between') && parameter?.type === 'number') {
+                    const values = filter.value.split(',');
+                    return (
+                      <div className="flex-1 flex space-x-2">
+                        <input
+                          type="number"
+                          value={values[0] || ''}
+                          onChange={(e) => {
+                            const newValues = [e.target.value, values[1] || ''];
+                            onUpdateFilter(filter.id, 'value', newValues.join(','));
+                          }}
+                          placeholder={`От (${parameter.unit || ''})`}
+                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                        <input
+                          type="number"
+                          value={values[1] || ''}
+                          onChange={(e) => {
+                            const newValues = [values[0] || '', e.target.value];
+                            onUpdateFilter(filter.id, 'value', newValues.join(','));
+                          }}
+                          placeholder={`До (${parameter.unit || ''})`}
+                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                      </div>
+                    );
+                  }
+                  
+                  // Обработка операторов "один из" и "ни один из" для select значений
+                  if ((filter.operator === 'in' || filter.operator === 'not_in') && parameter?.type === 'select' && parameter.options) {
+                    const selectedValues = filter.value.split(',').filter(v => v);
+                    return (
+                      <div className="flex-1">
+                        <div className="border border-gray-300 rounded-lg p-2 max-h-32 overflow-y-auto">
+                          {parameter.options.map((option) => (
+                            <label key={option.value} className="flex items-center space-x-2 py-1">
+                              <input
+                                type="checkbox"
+                                checked={selectedValues.includes(option.value)}
+                                onChange={(e) => {
+                                  let newValues = [...selectedValues];
+                                  if (e.target.checked) {
+                                    newValues.push(option.value);
+                                  } else {
+                                    newValues = newValues.filter(v => v !== option.value);
+                                  }
+                                  onUpdateFilter(filter.id, 'value', newValues.join(','));
+                                }}
+                                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                              />
+                              <span className="text-sm">{option.label}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  }
+                  
+                  // Операторы "пустое" и "не пустое" не требуют ввода значения
+                  if (filter.operator === 'empty' || filter.operator === 'not_empty') {
+                    return (
+                      <div className="flex-1 px-3 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-500 text-center">
+                        Значение не требуется
+                      </div>
+                    );
+                  }
+                  
+                  // Обычный select для одиночного выбора
+                  if (parameter?.type === 'select' && parameter.options && !['in', 'not_in'].includes(filter.operator)) {
+                    return (
+                      <select
+                        value={filter.value}
+                        onChange={(e) => onUpdateFilter(filter.id, 'value', e.target.value)}
+                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        disabled={!filter.operator}
+                      >
+                        <option value="">Выберите значение</option>
+                        {parameter.options.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                    );
+                  }
+                  
+                  // Обычный input для остальных случаев
+                  return (
+                    <input
+                      type={parameter?.type === 'number' ? 'number' : 'text'}
+                      value={filter.value}
+                      onChange={(e) => onUpdateFilter(filter.id, 'value', e.target.value)}
+                      placeholder={parameter?.unit ? `Значение (${parameter.unit})` : 'Значение'}
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      disabled={!filter.operator}
+                    />
+                  );
+                })()}
+                
                 <button
                   onClick={() => onRemoveFilter(filter.id)}
                   className="text-red-500 hover:text-red-700 p-2 flex-shrink-0"
@@ -94,19 +224,127 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">Выберите параметр</option>
-                  {filterOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
+                  {filterParameters.map((param) => (
+                    <option key={param.value} value={param.value}>
+                      {param.label}
                     </option>
                   ))}
                 </select>
-                <input
-                  type="text"
-                  value={filter.value}
-                  onChange={(e) => onUpdateFilter(filter.id, 'value', e.target.value)}
-                  placeholder="Значение"
+                
+                <select
+                  value={filter.operator}
+                  onChange={(e) => onUpdateFilter(filter.id, 'operator', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                  disabled={!filter.parameter}
+                >
+                  <option value="">Выберите условие</option>
+                  {getOperatorsForParameter(filter.parameter).map((operator) => (
+                    <option key={operator.value} value={operator.value}>
+                      {operator.label}
+                    </option>
+                  ))}
+                </select>
+
+                {(() => {
+                  const parameter = getParameterByValue(filter.parameter);
+                  
+                  // Обработка операторов "между" и "не между" для мобильной версии
+                  if ((filter.operator === 'between' || filter.operator === 'not_between') && parameter?.type === 'number') {
+                    const values = filter.value.split(',');
+                    return (
+                      <div className="space-y-2">
+                        <input
+                          type="number"
+                          value={values[0] || ''}
+                          onChange={(e) => {
+                            const newValues = [e.target.value, values[1] || ''];
+                            onUpdateFilter(filter.id, 'value', newValues.join(','));
+                          }}
+                          placeholder={`От (${parameter.unit || ''})`}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                        <input
+                          type="number"
+                          value={values[1] || ''}
+                          onChange={(e) => {
+                            const newValues = [values[0] || '', e.target.value];
+                            onUpdateFilter(filter.id, 'value', newValues.join(','));
+                          }}
+                          placeholder={`До (${parameter.unit || ''})`}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                      </div>
+                    );
+                  }
+                  
+                  // Обработка операторов "один из" и "ни один из" для мобильной версии
+                  if ((filter.operator === 'in' || filter.operator === 'not_in') && parameter?.type === 'select' && parameter.options) {
+                    const selectedValues = filter.value.split(',').filter(v => v);
+                    return (
+                      <div className="border border-gray-300 rounded-lg p-3 max-h-40 overflow-y-auto">
+                        {parameter.options.map((option) => (
+                          <label key={option.value} className="flex items-center space-x-2 py-2">
+                            <input
+                              type="checkbox"
+                              checked={selectedValues.includes(option.value)}
+                              onChange={(e) => {
+                                let newValues = [...selectedValues];
+                                if (e.target.checked) {
+                                  newValues.push(option.value);
+                                } else {
+                                  newValues = newValues.filter(v => v !== option.value);
+                                }
+                                onUpdateFilter(filter.id, 'value', newValues.join(','));
+                              }}
+                              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                            />
+                            <span className="text-sm">{option.label}</span>
+                          </label>
+                        ))}
+                      </div>
+                    );
+                  }
+                  
+                  // Операторы "пустое" и "не пустое" не требуют ввода значения (мобильная версия)
+                  if (filter.operator === 'empty' || filter.operator === 'not_empty') {
+                    return (
+                      <div className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-500 text-center">
+                        Значение не требуется
+                      </div>
+                    );
+                  }
+                  
+                  // Обычный select для одиночного выбора
+                  if (parameter?.type === 'select' && parameter.options && !['in', 'not_in'].includes(filter.operator)) {
+                    return (
+                      <select
+                        value={filter.value}
+                        onChange={(e) => onUpdateFilter(filter.id, 'value', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        disabled={!filter.operator}
+                      >
+                        <option value="">Выберите значение</option>
+                        {parameter.options.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                    );
+                  }
+                  
+                  // Обычный input для остальных случаев
+                  return (
+                    <input
+                      type={parameter?.type === 'number' ? 'number' : 'text'}
+                      value={filter.value}
+                      onChange={(e) => onUpdateFilter(filter.id, 'value', e.target.value)}
+                      placeholder={parameter?.unit ? `Значение (${parameter.unit})` : 'Значение'}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      disabled={!filter.operator}
+                    />
+                  );
+                })()}
               </div>
             </div>
           ))}

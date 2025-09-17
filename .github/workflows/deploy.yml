@@ -51,13 +51,14 @@ jobs:
         if: success()
         run: |
           VERSION=${{ steps.bump_version.outputs.new_version }}
-          AUTHOR=$(git log -1 --pretty=format:'%an')
+          AUTHOR=$(git log -2 --pretty=format:'%an' | tail -1)
+          COMMIT_MESSAGE=$(git log -2 --pretty=format:'%s' | tail -1)
+          COMMIT_SHA=$(git log -2 --pretty=format:'%h' | tail -1)
           REPO=${GITHUB_REPOSITORY}
           BRANCH=${GITHUB_REF##*/}
-          SHA=${GITHUB_SHA}
           ACTOR=${GITHUB_ACTOR}
 
-          MESSAGE="✅ *Деплой успешен*%0A%0ARepo: $REPO%0ABranch: $BRANCH%0ACommit: $SHA%0AVersion: $VERSION%0AActor: $ACTOR%0ACommit Author: $AUTHOR"
+          MESSAGE="✅ *Деплой успешен*%0A%0ARepo: $REPO%0ABranch: $BRANCH%0ACommit: $COMMIT_SHA%0ACommit Message: $COMMIT_MESSAGE%0AVersion: $VERSION%0AActor: $ACTOR%0ACommit Author: $AUTHOR"
 
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
@@ -68,13 +69,14 @@ jobs:
         if: failure()
         run: |
           VERSION=${{ steps.bump_version.outputs.new_version }}
-          AUTHOR=$(git log -1 --pretty=format:'%an')
+          AUTHOR=$(git log -2 --pretty=format:'%an' | tail -1)
+          COMMIT_MESSAGE=$(git log -2 --pretty=format:'%s' | tail -1)
+          COMMIT_SHA=$(git log -2 --pretty=format:'%h' | tail -1)
           REPO=${GITHUB_REPOSITORY}
           BRANCH=${GITHUB_REF##*/}
-          SHA=${GITHUB_SHA}
           ACTOR=${GITHUB_ACTOR}
 
-          MESSAGE="❌ *Деплой провален*%0A%0ARepo: $REPO%0ABranch: $BRANCH%0ACommit: $SHA%0AVersion: $VERSION%0AActor: $ACTOR%0ACommit Author: $AUTHOR"
+          MESSAGE="❌ *Деплой провален*%0A%0ARepo: $REPO%0ABranch: $BRANCH%0ACommit: $COMMIT_SHA%0ACommit Message: $COMMIT_MESSAGE%0AVersion: $VERSION%0AActor: $ACTOR%0ACommit Author: $AUTHOR"
 
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \

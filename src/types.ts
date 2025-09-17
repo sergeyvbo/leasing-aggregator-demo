@@ -29,6 +29,7 @@ export interface VehicleResult {
   year: string;
   power: string;
   engineNumber: string;
+  cost: string;
 }
 
 export interface VehicleData {
@@ -49,10 +50,11 @@ export interface LeasingProduct {
   id: number;
   company: string;
   term: string;
-  monthlyPayment: string;
-  buyoutRequired: string;
-  initialPayment: string;
+  advance: string;
+  paymentSchedule: string;
   rate: string;
+  agentFee: string;
+  buyoutPayment: string;
 }
 
 // Filter configuration types

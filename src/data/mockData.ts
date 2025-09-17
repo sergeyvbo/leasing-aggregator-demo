@@ -86,67 +86,67 @@ export const mockCompanyData: CompanyResult[] = [
 
 // Mock vehicle data for VIN search
 export const mockVehicleData: VehicleResult[] = [
-  { brand: 'Toyota', model: 'Camry', year: '2023', power: '249 л.с.', engineNumber: 'A25AFKS123456' },
-  { brand: 'BMW', model: 'X5', year: '2022', power: '340 л.с.', engineNumber: 'B58B30M123456' },
-  { brand: 'Mercedes-Benz', model: 'E200', year: '2021', power: '197 л.с.', engineNumber: 'M264E20DE123456' },
-  { brand: 'Lada', model: 'Vesta', year: '2020', power: '122 л.с.', engineNumber: 'VAZ21179A123456' },
-  { brand: 'Hyundai', model: 'Solaris', year: '2023', power: '123 л.с.', engineNumber: 'G4LC123456' },
-  { brand: 'Kia', model: 'Sportage', year: '2022', power: '150 л.с.', engineNumber: 'G4FS123456' },
-  { brand: 'Audi', model: 'A6', year: '2021', power: '249 л.с.', engineNumber: 'DNAA123456' },
-  { brand: 'Volkswagen', model: 'Tiguan', year: '2020', power: '180 л.с.', engineNumber: 'CZEA123456' },
-  { brand: 'Nissan', model: 'X-Trail', year: '2019', power: '171 л.с.', engineNumber: 'QR2534567' },
-  { brand: 'Mazda', model: 'CX-5', year: '2023', power: '194 л.с.', engineNumber: 'PYR813456' }
+  { brand: 'Toyota', model: 'Camry', year: '2023', power: '249 л.с.', engineNumber: 'A25AFKS123456', cost: '3 200 000 ₽' },
+  { brand: 'BMW', model: 'X5', year: '2022', power: '340 л.с.', engineNumber: 'B58B30M123456', cost: '6 800 000 ₽' },
+  { brand: 'Mercedes-Benz', model: 'E200', year: '2021', power: '197 л.с.', engineNumber: 'M264E20DE123456', cost: '4 500 000 ₽' },
+  { brand: 'Lada', model: 'Vesta', year: '2020', power: '122 л.с.', engineNumber: 'VAZ21179A123456', cost: '850 000 ₽' },
+  { brand: 'Hyundai', model: 'Solaris', year: '2023', power: '123 л.с.', engineNumber: 'G4LC123456', cost: '1 450 000 ₽' },
+  { brand: 'Kia', model: 'Sportage', year: '2022', power: '150 л.с.', engineNumber: 'G4FS123456', cost: '2 100 000 ₽' },
+  { brand: 'Audi', model: 'A6', year: '2021', power: '249 л.с.', engineNumber: 'DNAA123456', cost: '5 200 000 ₽' },
+  { brand: 'Volkswagen', model: 'Tiguan', year: '2020', power: '180 л.с.', engineNumber: 'CZEA123456', cost: '2 800 000 ₽' },
+  { brand: 'Nissan', model: 'X-Trail', year: '2019', power: '171 л.с.', engineNumber: 'QR2534567', cost: '2 300 000 ₽' },
+  { brand: 'Mazda', model: 'CX-5', year: '2023', power: '194 л.с.', engineNumber: 'PYR813456', cost: '2 650 000 ₽' }
 ];
 
 export const mockWatercraftData: VehicleResult[] = [
-  { brand: 'Yamaha', model: '242X', year: '2022', power: '360 л.с.', engineNumber: 'YAMWTR123456' },
-  { brand: 'Sea Ray', model: 'SLX 280', year: '2021', power: '380 л.с.', engineNumber: 'SRWTR123456' },
-  { brand: 'Bayliner', model: 'Element E18', year: '2020', power: '125 л.с.', engineNumber: 'BLWTR123456' },
-  { brand: 'Azimut', model: 'Grande 27', year: '2023', power: '1900 л.с.', engineNumber: 'AZWTR123456' },
-  { brand: 'Princess', model: 'V50', year: '2022', power: '1200 л.с.', engineNumber: 'PRWTR123456' },
-  { brand: 'Sunseeker', model: 'Predator 55', year: '2021', power: '1450 л.с.', engineNumber: 'SSWTR123456' },
-  { brand: 'Chaparral', model: '19 SSI', year: '2020', power: '200 л.с.', engineNumber: 'CHWTR123456' },
-  { brand: 'MasterCraft', model: 'XT23', year: '2022', power: '430 л.с.', engineNumber: 'MCWTR123456' },
-  { brand: 'Boston Whaler', model: '280 Vantage', year: '2021', power: '600 л.с.', engineNumber: 'BWWTR123456' },
-  { brand: 'Regal', model: 'LS4', year: '2023', power: '350 л.с.', engineNumber: 'RGWTR123456' }
+  { brand: 'Yamaha', model: '242X', year: '2022', power: '360 л.с.', engineNumber: 'YAMWTR123456', cost: '4 200 000 ₽' },
+  { brand: 'Sea Ray', model: 'SLX 280', year: '2021', power: '380 л.с.', engineNumber: 'SRWTR123456', cost: '8 500 000 ₽' },
+  { brand: 'Bayliner', model: 'Element E18', year: '2020', power: '125 л.с.', engineNumber: 'BLWTR123456', cost: '1 800 000 ₽' },
+  { brand: 'Azimut', model: 'Grande 27', year: '2023', power: '1900 л.с.', engineNumber: 'AZWTR123456', cost: '45 000 000 ₽' },
+  { brand: 'Princess', model: 'V50', year: '2022', power: '1200 л.с.', engineNumber: 'PRWTR123456', cost: '28 000 000 ₽' },
+  { brand: 'Sunseeker', model: 'Predator 55', year: '2021', power: '1450 л.с.', engineNumber: 'SSWTR123456', cost: '35 000 000 ₽' },
+  { brand: 'Chaparral', model: '19 SSI', year: '2020', power: '200 л.с.', engineNumber: 'CHWTR123456', cost: '2 500 000 ₽' },
+  { brand: 'MasterCraft', model: 'XT23', year: '2022', power: '430 л.с.', engineNumber: 'MCWTR123456', cost: '6 200 000 ₽' },
+  { brand: 'Boston Whaler', model: '280 Vantage', year: '2021', power: '600 л.с.', engineNumber: 'BWWTR123456', cost: '12 000 000 ₽' },
+  { brand: 'Regal', model: 'LS4', year: '2023', power: '350 л.с.', engineNumber: 'RGWTR123456', cost: '5 800 000 ₽' }
 ];
 
 // Mock aircraft data
 export const mockAircraftData: VehicleResult[] = [
-  { brand: 'Airbus', model: 'A320', year: '2020', power: '27 000 л.с.', engineNumber: 'AIRCRAFT123001' },
-  { brand: 'Boeing', model: '737 MAX', year: '2021', power: '28 000 л.с.', engineNumber: 'AIRCRAFT123002' },
-  { brand: 'Sukhoi', model: 'Superjet 100', year: '2019', power: '18 000 л.с.', engineNumber: 'AIRCRAFT123003' },
-  { brand: 'Cessna', model: '172 Skyhawk', year: '2022', power: '180 л.с.', engineNumber: 'AIRCRAFT123004' },
-  { brand: 'Gulfstream', model: 'G650', year: '2023', power: '33 000 л.с.', engineNumber: 'AIRCRAFT123005' },
-  { brand: 'Bombardier', model: 'Challenger 350', year: '2021', power: '31 000 л.с.', engineNumber: 'AIRCRAFT123006' },
-  { brand: 'Dassault', model: 'Falcon 8X', year: '2020', power: '31 500 л.с.', engineNumber: 'AIRCRAFT123007' },
-  { brand: 'Embraer', model: 'Phenom 300E', year: '2022', power: '20 000 л.с.', engineNumber: 'AIRCRAFT123008' },
-  { brand: 'Antonov', model: 'An-148', year: '2019', power: '26 000 л.с.', engineNumber: 'AIRCRAFT123009' },
-  { brand: 'Pilatus', model: 'PC-12', year: '2023', power: '1 200 л.с.', engineNumber: 'AIRCRAFT123010' }
+  { brand: 'Airbus', model: 'A320', year: '2020', power: '27 000 л.с.', engineNumber: 'AIRCRAFT123001', cost: '120 000 000 ₽' },
+  { brand: 'Boeing', model: '737 MAX', year: '2021', power: '28 000 л.с.', engineNumber: 'AIRCRAFT123002', cost: '135 000 000 ₽' },
+  { brand: 'Sukhoi', model: 'Superjet 100', year: '2019', power: '18 000 л.с.', engineNumber: 'AIRCRAFT123003', cost: '85 000 000 ₽' },
+  { brand: 'Cessna', model: '172 Skyhawk', year: '2022', power: '180 л.с.', engineNumber: 'AIRCRAFT123004', cost: '25 000 000 ₽' },
+  { brand: 'Gulfstream', model: 'G650', year: '2023', power: '33 000 л.с.', engineNumber: 'AIRCRAFT123005', cost: '450 000 000 ₽' },
+  { brand: 'Bombardier', model: 'Challenger 350', year: '2021', power: '31 000 л.с.', engineNumber: 'AIRCRAFT123006', cost: '180 000 000 ₽' },
+  { brand: 'Dassault', model: 'Falcon 8X', year: '2020', power: '31 500 л.с.', engineNumber: 'AIRCRAFT123007', cost: '380 000 000 ₽' },
+  { brand: 'Embraer', model: 'Phenom 300E', year: '2022', power: '20 000 л.с.', engineNumber: 'AIRCRAFT123008', cost: '95 000 000 ₽' },
+  { brand: 'Antonov', model: 'An-148', year: '2019', power: '26 000 л.с.', engineNumber: 'AIRCRAFT123009', cost: '75 000 000 ₽' },
+  { brand: 'Pilatus', model: 'PC-12', year: '2023', power: '1 200 л.с.', engineNumber: 'AIRCRAFT123010', cost: '35 000 000 ₽' }
 ];
 
 // Mock leasing products for search results
 export const mockLeasingProducts: LeasingProduct[] = [
-  { id: 1, company: 'Сбер Лизинг', term: '36 месяцев', monthlyPayment: '45 000 ₽', buyoutRequired: 'Да', initialPayment: '20%', rate: '8.5%' },
-  { id: 2, company: 'ВЭБ Лизинг', term: '48 месяцев', monthlyPayment: '38 500 ₽', buyoutRequired: 'Нет', initialPayment: '15%', rate: '9.2%' },
-  { id: 3, company: 'Альфа-Лизинг', term: '60 месяцев', monthlyPayment: '33 200 ₽', buyoutRequired: 'Да', initialPayment: '25%', rate: '7.8%' },
-  { id: 4, company: 'Газпромбанк Лизинг', term: '24 месяца', monthlyPayment: '52 000 ₽', buyoutRequired: 'Нет', initialPayment: '30%', rate: '10.0%' },
-  { id: 5, company: 'ВТБ Лизинг', term: '36 месяцев', monthlyPayment: '41 500 ₽', buyoutRequired: 'Да', initialPayment: '20%', rate: '8.9%' },
-  { id: 6, company: 'Райффайзен Лизинг', term: '48 месяцев', monthlyPayment: '39 000 ₽', buyoutRequired: 'Нет', initialPayment: '25%', rate: '9.1%' },
-  { id: 7, company: 'Юникредит Лизинг', term: '60 месяцев', monthlyPayment: '34 800 ₽', buyoutRequired: 'Да', initialPayment: '10%', rate: '7.5%' },
-  { id: 8, company: 'Росбанк Лизинг', term: '36 месяцев', monthlyPayment: '43 200 ₽', buyoutRequired: 'Нет', initialPayment: '15%', rate: '8.7%' },
-  { id: 9, company: 'Открытие Лизинг', term: '48 месяцев', monthlyPayment: '37 900 ₽', buyoutRequired: 'Да', initialPayment: '20%', rate: '9.0%' },
-  { id: 10, company: 'Тинькофф Лизинг', term: '24 месяца', monthlyPayment: '55 000 ₽', buyoutRequired: 'Нет', initialPayment: '30%', rate: '10.2%' },
-  { id: 11, company: 'Сбер Лизинг', term: '60 месяцев', monthlyPayment: '32 700 ₽', buyoutRequired: 'Да', initialPayment: '25%', rate: '7.9%' },
-  { id: 12, company: 'ВЭБ Лизинг', term: '36 месяцев', monthlyPayment: '42 100 ₽', buyoutRequired: 'Нет', initialPayment: '15%', rate: '8.8%' },
-  { id: 13, company: 'Альфа-Лизинг', term: '48 месяцев', monthlyPayment: '36 500 ₽', buyoutRequired: 'Да', initialPayment: '20%', rate: '9.3%' },
-  { id: 14, company: 'Газпромбанк Лизинг', term: '60 месяцев', monthlyPayment: '33 800 ₽', buyoutRequired: 'Нет', initialPayment: '25%', rate: '7.6%' },
-  { id: 15, company: 'ВТБ Лизинг', term: '24 месяца', monthlyPayment: '54 200 ₽', buyoutRequired: 'Да', initialPayment: '30%', rate: '10.1%' },
-  { id: 16, company: 'Райффайзен Лизинг', term: '36 месяцев', monthlyPayment: '40 000 ₽', buyoutRequired: 'Нет', initialPayment: '20%', rate: '8.6%' },
-  { id: 17, company: 'Юникредит Лизинг', term: '48 месяцев', monthlyPayment: '37 200 ₽', buyoutRequired: 'Да', initialPayment: '15%', rate: '9.4%' },
-  { id: 18, company: 'Росбанк Лизинг', term: '60 месяцев', monthlyPayment: '35 500 ₽', buyoutRequired: 'Нет', initialPayment: '25%', rate: '7.7%' },
-  { id: 19, company: 'Открытие Лизинг', term: '36 месяцев', monthlyPayment: '44 000 ₽', buyoutRequired: 'Да', initialPayment: '20%', rate: '8.4%' },
-  { id: 20, company: 'Тинькофф Лизинг', term: '48 месяцев', monthlyPayment: '38 800 ₽', buyoutRequired: 'Нет', initialPayment: '10%', rate: '9.5%' }
+  { id: 1, company: 'Сбер Лизинг', term: '36 месяцев', advance: '20%', paymentSchedule: 'Аннуитет', rate: '8.5%', agentFee: '2.5%', buyoutPayment: '150 000 ₽' },
+  { id: 2, company: 'ВЭБ Лизинг', term: '48 месяцев', advance: '15%', paymentSchedule: 'Дегрессия', rate: '9.2%', agentFee: '3.0%', buyoutPayment: '200 000 ₽' },
+  { id: 3, company: 'Альфа-Лизинг', term: '60 месяцев', advance: '25%', paymentSchedule: 'Сезонный график', rate: '7.8%', agentFee: '2.0%', buyoutPayment: '180 000 ₽' },
+  { id: 4, company: 'Газпромбанк Лизинг', term: '24 месяца', advance: '30%', paymentSchedule: 'Аннуитет', rate: '10.0%', agentFee: '3.5%', buyoutPayment: '120 000 ₽' },
+  { id: 5, company: 'ВТБ Лизинг', term: '36 месяцев', advance: '20%', paymentSchedule: 'Дегрессия', rate: '8.9%', agentFee: '2.8%', buyoutPayment: '160 000 ₽' },
+  { id: 6, company: 'Райффайзен Лизинг', term: '48 месяцев', advance: '25%', paymentSchedule: 'Аннуитет', rate: '9.1%', agentFee: '2.3%', buyoutPayment: '190 000 ₽' },
+  { id: 7, company: 'Юникредит Лизинг', term: '60 месяцев', advance: '10%', paymentSchedule: 'Сезонный график', rate: '7.5%', agentFee: '1.8%', buyoutPayment: '220 000 ₽' },
+  { id: 8, company: 'Росбанк Лизинг', term: '36 месяцев', advance: '15%', paymentSchedule: 'Дегрессия', rate: '8.7%', agentFee: '2.7%', buyoutPayment: '140 000 ₽' },
+  { id: 9, company: 'Открытие Лизинг', term: '48 месяцев', advance: '20%', paymentSchedule: 'Аннуитет', rate: '9.0%', agentFee: '2.4%', buyoutPayment: '170 000 ₽' },
+  { id: 10, company: 'Тинькофф Лизинг', term: '24 месяца', advance: '30%', paymentSchedule: 'Дегрессия', rate: '10.2%', agentFee: '3.2%', buyoutPayment: '110 000 ₽' },
+  { id: 11, company: 'Сбер Лизинг', term: '60 месяцев', advance: '25%', paymentSchedule: 'Сезонный график', rate: '7.9%', agentFee: '2.1%', buyoutPayment: '210 000 ₽' },
+  { id: 12, company: 'ВЭБ Лизинг', term: '36 месяцев', advance: '15%', paymentSchedule: 'Аннуитет', rate: '8.8%', agentFee: '2.9%', buyoutPayment: '155 000 ₽' },
+  { id: 13, company: 'Альфа-Лизинг', term: '48 месяцев', advance: '20%', paymentSchedule: 'Дегрессия', rate: '9.3%', agentFee: '2.6%', buyoutPayment: '185 000 ₽' },
+  { id: 14, company: 'Газпромбанк Лизинг', term: '60 месяцев', advance: '25%', paymentSchedule: 'Аннуитет', rate: '7.6%', agentFee: '1.9%', buyoutPayment: '230 000 ₽' },
+  { id: 15, company: 'ВТБ Лизинг', term: '24 месяца', advance: '30%', paymentSchedule: 'Сезонный график', rate: '10.1%', agentFee: '3.4%', buyoutPayment: '115 000 ₽' },
+  { id: 16, company: 'Райффайзен Лизинг', term: '36 месяцев', advance: '20%', paymentSchedule: 'Дегрессия', rate: '8.6%', agentFee: '2.5%', buyoutPayment: '165 000 ₽' },
+  { id: 17, company: 'Юникредит Лизинг', term: '48 месяцев', advance: '15%', paymentSchedule: 'Аннуитет', rate: '9.4%', agentFee: '2.8%', buyoutPayment: '195 000 ₽' },
+  { id: 18, company: 'Росбанк Лизинг', term: '60 месяцев', advance: '25%', paymentSchedule: 'Сезонный график', rate: '7.7%', agentFee: '2.0%', buyoutPayment: '225 000 ₽' },
+  { id: 19, company: 'Открытие Лизинг', term: '36 месяцев', advance: '20%', paymentSchedule: 'Дегрессия', rate: '8.4%', agentFee: '2.3%', buyoutPayment: '145 000 ₽' },
+  { id: 20, company: 'Тинькофф Лизинг', term: '48 месяцев', advance: '10%', paymentSchedule: 'Аннуитет', rate: '9.5%', agentFee: '3.1%', buyoutPayment: '175 000 ₽' }
 ];
 
 // Utility functions for random data selection
@@ -236,19 +236,16 @@ const getProductValue = (product: LeasingProduct, parameter: string): any => {
   switch (parameter) {
     case 'term':
       return parseInt(product.term.replace(/\D/g, '')) || 0;
-    case 'payment':
-      return parseInt(product.monthlyPayment.replace(/\D/g, '')) || 0;
-    case 'buyout':
-      return product.buyoutRequired.toLowerCase() === 'да' ? 'yes' : 'no';
-    case 'initial':
-      return parseInt(product.initialPayment.replace(/\D/g, '')) || 0;
+    case 'advance':
+      return parseInt(product.advance.replace(/\D/g, '')) || 0;
+    case 'payment_schedule':
+      return product.paymentSchedule.toLowerCase();
     case 'rate':
       return parseFloat(product.rate.replace(/[^\d.,]/g, '').replace(',', '.')) || 0;
-    case 'company_type':
-      // Mock company type based on company name
-      if (product.company.includes('Банк')) return 'bank';
-      if (product.company.includes('Лизинг')) return 'independent';
-      return 'captive';
+    case 'agent_fee':
+      return parseFloat(product.agentFee.replace(/[^\d.,]/g, '').replace(',', '.')) || 0;
+    case 'buyout_payment':
+      return parseInt(product.buyoutPayment.replace(/\D/g, '')) || 0;
     default:
       return '';
   }

@@ -124,6 +124,7 @@ const LeasingSubjectPage: React.FC<LeasingSubjectPageProps> = ({
                   <div><span className="font-medium">Модель:</span> {vehicleData.result.model}</div>
                   <div><span className="font-medium">Год выпуска:</span> {vehicleData.result.year}</div>
                   <div><span className="font-medium">Мощность:</span> {vehicleData.result.power}</div>
+                  <div><span className="font-medium">Стоимость:</span> {vehicleData.result.cost}</div>
                   <div className="md:col-span-2">
                     <span className="font-medium">
                       {leasingSubject === 'car' && 'Номер двигателя:'}

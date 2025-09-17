@@ -45,20 +45,24 @@ const LeasingResults: React.FC<LeasingResultsProps> = ({
                 <div className="font-medium">{product.term}</div>
               </div>
               <div className="pl-2 md:pl-0">
-                <span className="text-sm text-gray-600">Ежемесячный платеж:</span>
-                <div className="font-medium text-green-600">{product.monthlyPayment}</div>
+                <span className="text-sm text-gray-600">Аванс:</span>
+                <div className="font-medium">{product.advance}</div>
               </div>
               <div className="pr-2 md:pr-0">
-                <span className="text-sm text-gray-600">Выкуп:</span>
-                <div className="font-medium">{product.buyoutRequired}</div>
+                <span className="text-sm text-gray-600">Тип графика:</span>
+                <div className="font-medium">{product.paymentSchedule}</div>
               </div>
               <div className="pl-2 md:pl-0">
-                <span className="text-sm text-gray-600">Первый взнос:</span>
-                <div className="font-medium">{product.initialPayment}</div>
-              </div>
-              <div className="pr-2 md:pr-0 md:col-span-1">
                 <span className="text-sm text-gray-600">Ставка:</span>
-                <div className="font-medium">{product.rate}</div>
+                <div className="font-medium text-green-600">{product.rate}</div>
+              </div>
+              <div className="pr-2 md:pr-0">
+                <span className="text-sm text-gray-600">Агентское вознаграждение:</span>
+                <div className="font-medium">{product.agentFee}</div>
+              </div>
+              <div className="pl-2 md:pl-0">
+                <span className="text-sm text-gray-600">Выкупной платеж:</span>
+                <div className="font-medium text-blue-600">{product.buyoutPayment}</div>
               </div>
             </div>
 

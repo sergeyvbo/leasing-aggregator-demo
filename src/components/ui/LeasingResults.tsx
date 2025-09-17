@@ -4,12 +4,12 @@ import FileTextIcon from '../icons/FileTextIcon';
 
 interface LeasingResultsProps {
   leasingProducts: LeasingProduct[];
-  onShowModal: () => void;
+  onCreateProposal: (product: LeasingProduct) => void;
 }
 
 const LeasingResults: React.FC<LeasingResultsProps> = ({
   leasingProducts,
-  onShowModal
+  onCreateProposal
 }) => {
   console.log('LeasingResults received products:', leasingProducts);
   
@@ -31,7 +31,7 @@ const LeasingResults: React.FC<LeasingResultsProps> = ({
               <h4 className="text-xl font-semibold text-gray-900">{product.company}</h4>
               {/* Desktop button */}
               <button
-                onClick={onShowModal}
+                onClick={() => onCreateProposal(product)}
                 className="hidden sm:flex ml-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 items-center"
               >
                 <FileTextIcon size={20} className="mr-2" />
@@ -68,7 +68,7 @@ const LeasingResults: React.FC<LeasingResultsProps> = ({
 
             {/* Mobile button */}
             <button
-              onClick={onShowModal}
+              onClick={() => onCreateProposal(product)}
               className="sm:hidden w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center"
             >
               <FileTextIcon size={20} className="mr-2" />

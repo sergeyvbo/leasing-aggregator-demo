@@ -1,18 +1,54 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import XIcon from '../icons/XIcon';
 import SendIcon from '../icons/SendIcon';
 
 interface ProposalModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSendProposal: () => void;
+  onContinue: (proposalData: any) => void;
 }
 
 const ProposalModal: React.FC<ProposalModalProps> = ({
   isOpen,
   onClose,
-  onSendProposal
+  onContinue
 }) => {
+  const [formData, setFormData] = useState({
+    leasingAmount: '',
+    leasingTerm: '',
+    initialPayment: '',
+    interestRate: '',
+    currency: 'RUB',
+    insuranceType: 'КАСКО + ОСАГО',
+    additionalConditions: ''
+  });
+
+  // Reset form when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({
+        leasingAmount: '',
+        leasingTerm: '',
+        initialPayment: '',
+        interestRate: '',
+        currency: 'RUB',
+        insuranceType: 'КАСКО + ОСАГО',
+        additionalConditions: ''
+      });
+    }
+  }, [isOpen]);
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleContinue = () => {
+    onContinue(formData);
+  };
+
   if (!isOpen) {
     return null;
   }
@@ -33,43 +69,73 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Сумма лизинга</label>
-            <input type="text" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input 
+              type="text" 
+              value={formData.leasingAmount}
+              onChange={(e) => handleInputChange('leasingAmount', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Срок лизинга</label>
-            <input type="text" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input 
+              type="text" 
+              value={formData.leasingTerm}
+              onChange={(e) => handleInputChange('leasingTerm', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Первоначальный взнос</label>
-            <input type="text" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input 
+              type="text" 
+              value={formData.initialPayment}
+              onChange={(e) => handleInputChange('initialPayment', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Процентная ставка</label>
-            <input type="text" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input 
+              type="text" 
+              value={formData.interestRate}
+              onChange={(e) => handleInputChange('interestRate', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Валюта</label>
-            <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option>RUB</option>
-              <option>USD</option>
-              <option>EUR</option>
+            <select 
+              value={formData.currency}
+              onChange={(e) => handleInputChange('currency', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="RUB">RUB</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
             </select>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Тип страхования</label>
-            <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option>КАСКО + ОСАГО</option>
-              <option>Только ОСАГО</option>
-              <option>Без страхования</option>
+            <select 
+              value={formData.insuranceType}
+              onChange={(e) => handleInputChange('insuranceType', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="КАСКО + ОСАГО">КАСКО + ОСАГО</option>
+              <option value="Только ОСАГО">Только ОСАГО</option>
+              <option value="Без страхования">Без страхования</option>
             </select>
           </div>
           <div className="md:col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-2">Дополнительные условия</label>
             <textarea 
               rows={4} 
+              value={formData.additionalConditions}
+              onChange={(e) => handleInputChange('additionalConditions', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Укажите дополнительные условия договора..."
-            ></textarea>
+            />
           </div>
         </div>
 
@@ -81,11 +147,11 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
             Отмена
           </button>
           <button
-            onClick={onSendProposal}
+            onClick={handleContinue}
             className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-8 py-3 rounded-lg hover:from-green-700 hover:to-blue-700 transition-all duration-300 flex items-center"
           >
             <SendIcon size={20} className="mr-2" />
-            Отправить на согласование
+            Продолжить
           </button>
         </div>
       </div>

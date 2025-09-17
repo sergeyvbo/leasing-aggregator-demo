@@ -1,5 +1,5 @@
 // Page navigation types
-export type PageType = 'login' | 'company-search' | 'leasing-subject' | 'leasing-search';
+export type PageType = 'login' | 'company-search' | 'leasing-subject' | 'leasing-search' | 'commercial-proposal';
 
 // Login data
 export interface LoginData {
@@ -56,6 +56,8 @@ export interface LeasingProduct {
   agentFee: string;
   buyoutPayment: string;
 }
+
+
 
 // Filter configuration types
 export interface FilterSelectOption {

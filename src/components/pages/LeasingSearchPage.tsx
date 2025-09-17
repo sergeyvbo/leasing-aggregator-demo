@@ -2,21 +2,17 @@ import React from 'react';
 import type { Filter, LeasingProduct } from '../../types';
 import LeasingFilters from '../ui/LeasingFilters';
 import LeasingResults from '../ui/LeasingResults';
-import ProposalModal from '../ui/ProposalModal';
 import ActiveFilters from '../ui/ActiveFilters';
 
 interface LeasingSearchPageProps {
   filters: Filter[];
   leasingProducts: LeasingProduct[];
   loading: boolean;
-  showModal: boolean;
   onAddFilter: () => void;
   onRemoveFilter: (id: number) => void;
   onUpdateFilter: (id: number, field: string, value: string) => void;
   onSearchLeasingProducts: () => void;
-  onShowModal: () => void;
-  onCloseModal: () => void;
-  onSendProposal: () => void;
+  onCreateProposal: (product: LeasingProduct) => void;
   onClearAllFilters: () => void;
 }
 
@@ -24,14 +20,11 @@ const LeasingSearchPage: React.FC<LeasingSearchPageProps> = ({
   filters,
   leasingProducts,
   loading,
-  showModal,
   onAddFilter,
   onRemoveFilter,
   onUpdateFilter,
   onSearchLeasingProducts,
-  onShowModal,
-  onCloseModal,
-  onSendProposal,
+  onCreateProposal,
   onClearAllFilters
 }) => {
   return (
@@ -54,15 +47,9 @@ const LeasingSearchPage: React.FC<LeasingSearchPageProps> = ({
 
         <LeasingResults
           leasingProducts={leasingProducts}
-          onShowModal={onShowModal}
+          onCreateProposal={onCreateProposal}
         />
       </div>
-
-      <ProposalModal
-        isOpen={showModal}
-        onClose={onCloseModal}
-        onSendProposal={onSendProposal}
-      />
     </>
   );
 };

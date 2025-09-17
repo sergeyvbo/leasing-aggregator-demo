@@ -213,13 +213,17 @@ export const searchAircraftByName = (name: string): VehicleResult => {
   // Always return a random aircraft for any name (guaranteed result)
   return getRandomAircraft();
 };
-// Filter application function
+// Filter application function with value adaptation
 export const applyFiltersToProducts = (products: LeasingProduct[], filters: any[]): LeasingProduct[] => {
   if (!filters || filters.length === 0) {
     return products;
   }
 
-  return products.filter(product => {
+  // First, adapt product values to match filters
+  const adaptedProducts = products.map(product => adaptProductToFilters(product, filters));
+
+  // Then filter the adapted products
+  return adaptedProducts.filter(product => {
     return filters.every(filter => {
       if (!filter.parameter || !filter.operator || (filter.value === '' && !['empty', 'not_empty'].includes(filter.operator))) {
         return true; // Skip incomplete filters
@@ -229,6 +233,131 @@ export const applyFiltersToProducts = (products: LeasingProduct[], filters: any[
       return applyFilterOperator(productValue, filter.operator, filter.value);
     });
   });
+};
+
+// Function to adapt product values based on filters
+const adaptProductToFilters = (product: LeasingProduct, filters: any[]): LeasingProduct => {
+  const adaptedProduct = { ...product };
+
+  filters.forEach(filter => {
+    if (!filter.parameter || !filter.operator || filter.value === '') {
+      return;
+    }
+
+    switch (filter.parameter) {
+      case 'term':
+        if (filter.operator === 'eq') {
+          adaptedProduct.term = `${filter.value} месяцев`;
+        } else if (filter.operator === 'between') {
+          const [min, max] = filter.value.split(',').map((v: string) => Number(v.trim()));
+          const targetValue = Math.floor(Math.random() * (max - min + 1)) + min;
+          adaptedProduct.term = `${targetValue} месяцев`;
+        } else if (filter.operator === 'gte') {
+          const minValue = Number(filter.value);
+          const targetValue = minValue + Math.floor(Math.random() * 24); // Add up to 24 months
+          adaptedProduct.term = `${targetValue} месяцев`;
+        } else if (filter.operator === 'lte') {
+          const maxValue = Number(filter.value);
+          const targetValue = Math.max(12, maxValue - Math.floor(Math.random() * 12)); // Subtract up to 12 months, min 12
+          adaptedProduct.term = `${targetValue} месяцев`;
+        }
+        break;
+
+      case 'advance':
+        if (filter.operator === 'eq') {
+          adaptedProduct.advance = `${filter.value}%`;
+        } else if (filter.operator === 'between') {
+          const [min, max] = filter.value.split(',').map((v: string) => Number(v.trim()));
+          const targetValue = Math.floor(Math.random() * (max - min + 1)) + min;
+          adaptedProduct.advance = `${targetValue}%`;
+        } else if (filter.operator === 'gte') {
+          const minValue = Number(filter.value);
+          const targetValue = minValue + Math.floor(Math.random() * (50 - minValue)); // Up to 50%
+          adaptedProduct.advance = `${targetValue}%`;
+        } else if (filter.operator === 'lte') {
+          const maxValue = Number(filter.value);
+          const targetValue = Math.max(5, maxValue - Math.floor(Math.random() * 10)); // Down to 5%
+          adaptedProduct.advance = `${targetValue}%`;
+        }
+        break;
+
+      case 'payment_schedule':
+        if (filter.operator === 'eq') {
+          const scheduleMap: { [key: string]: string } = {
+            'degressive': 'Дегрессия',
+            'seasonal': 'Сезонный график',
+            'annuity': 'Аннуитет'
+          };
+          adaptedProduct.paymentSchedule = scheduleMap[filter.value] || filter.value;
+        } else if (filter.operator === 'in') {
+          const options = filter.value.split(',').map((v: string) => v.trim());
+          const randomOption = options[Math.floor(Math.random() * options.length)];
+          const scheduleMap: { [key: string]: string } = {
+            'degressive': 'Дегрессия',
+            'seasonal': 'Сезонный график',
+            'annuity': 'Аннуитет'
+          };
+          adaptedProduct.paymentSchedule = scheduleMap[randomOption] || randomOption;
+        }
+        break;
+
+      case 'rate':
+        if (filter.operator === 'eq') {
+          adaptedProduct.rate = `${filter.value}%`;
+        } else if (filter.operator === 'between') {
+          const [min, max] = filter.value.split(',').map((v: string) => Number(v.trim()));
+          const targetValue = (Math.random() * (max - min) + min).toFixed(1);
+          adaptedProduct.rate = `${targetValue}%`;
+        } else if (filter.operator === 'gte') {
+          const minValue = Number(filter.value);
+          const targetValue = (minValue + Math.random() * 5).toFixed(1); // Add up to 5%
+          adaptedProduct.rate = `${targetValue}%`;
+        } else if (filter.operator === 'lte') {
+          const maxValue = Number(filter.value);
+          const targetValue = Math.max(1, maxValue - Math.random() * 2).toFixed(1); // Subtract up to 2%, min 1%
+          adaptedProduct.rate = `${targetValue}%`;
+        }
+        break;
+
+      case 'agent_fee':
+        if (filter.operator === 'eq') {
+          adaptedProduct.agentFee = `${filter.value}%`;
+        } else if (filter.operator === 'between') {
+          const [min, max] = filter.value.split(',').map((v: string) => Number(v.trim()));
+          const targetValue = (Math.random() * (max - min) + min).toFixed(1);
+          adaptedProduct.agentFee = `${targetValue}%`;
+        } else if (filter.operator === 'gte') {
+          const minValue = Number(filter.value);
+          const targetValue = (minValue + Math.random() * 2).toFixed(1); // Add up to 2%
+          adaptedProduct.agentFee = `${targetValue}%`;
+        } else if (filter.operator === 'lte') {
+          const maxValue = Number(filter.value);
+          const targetValue = Math.max(0.5, maxValue - Math.random() * 1).toFixed(1); // Subtract up to 1%, min 0.5%
+          adaptedProduct.agentFee = `${targetValue}%`;
+        }
+        break;
+
+      case 'buyout_payment':
+        if (filter.operator === 'eq') {
+          adaptedProduct.buyoutPayment = `${Number(filter.value).toLocaleString('ru-RU')} ₽`;
+        } else if (filter.operator === 'between') {
+          const [min, max] = filter.value.split(',').map((v: string) => Number(v.trim()));
+          const targetValue = Math.floor(Math.random() * (max - min + 1)) + min;
+          adaptedProduct.buyoutPayment = `${targetValue.toLocaleString('ru-RU')} ₽`;
+        } else if (filter.operator === 'gte') {
+          const minValue = Number(filter.value);
+          const targetValue = minValue + Math.floor(Math.random() * 100000); // Add up to 100k
+          adaptedProduct.buyoutPayment = `${targetValue.toLocaleString('ru-RU')} ₽`;
+        } else if (filter.operator === 'lte') {
+          const maxValue = Number(filter.value);
+          const targetValue = Math.max(50000, maxValue - Math.floor(Math.random() * 50000)); // Subtract up to 50k, min 50k
+          adaptedProduct.buyoutPayment = `${targetValue.toLocaleString('ru-RU')} ₽`;
+        }
+        break;
+    }
+  });
+
+  return adaptedProduct;
 };
 
 // Helper function to get product value by parameter
@@ -267,16 +396,16 @@ const applyFilterOperator = (productValue: any, operator: string, filterValue: s
     case 'lte':
       return Number(productValue) <= Number(filterValue);
     case 'between':
-      const [min, max] = filterValue.split(',').map(v => Number(v.trim()));
+      const [min, max] = filterValue.split(',').map((v: string) => Number(v.trim()));
       return Number(productValue) >= min && Number(productValue) <= max;
     case 'not_between':
-      const [notMin, notMax] = filterValue.split(',').map(v => Number(v.trim()));
+      const [notMin, notMax] = filterValue.split(',').map((v: string) => Number(v.trim()));
       return Number(productValue) < notMin || Number(productValue) > notMax;
     case 'in':
-      const inValues = filterValue.split(',').map(v => v.trim());
+      const inValues = filterValue.split(',').map((v: string) => v.trim());
       return inValues.includes(String(productValue));
     case 'not_in':
-      const notInValues = filterValue.split(',').map(v => v.trim());
+      const notInValues = filterValue.split(',').map((v: string) => v.trim());
       return !notInValues.includes(String(productValue));
     case 'contains':
       return String(productValue).toLowerCase().includes(filterValue.toLowerCase());

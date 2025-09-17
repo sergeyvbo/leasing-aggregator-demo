@@ -5,14 +5,17 @@ import type {
   CompanyData,
   VehicleData,
   Filter,
-  LeasingProduct
+  LeasingProduct,
+  CompanyResult,
+  VehicleResult
 } from '../types';
 import {
   searchCompaniesByInn,
   searchVehicleByVin,
   searchWatercraftByName,
   searchAircraftByName,
-  getRandomLeasingProducts
+  getRandomLeasingProducts,
+  applyFiltersToProducts
 } from '../data/mockData';
 
 // Import page components
@@ -20,6 +23,7 @@ import LoginPage from './pages/LoginPage';
 import CompanySearchPage from './pages/CompanySearchPage';
 import LeasingSubjectPage from './pages/LeasingSubjectPage';
 import LeasingSearchPage from './pages/LeasingSearchPage';
+import CommercialProposalPage from './pages/CommercialProposalPage';
 
 // Import UI components
 import Header from './ui/Header';
@@ -34,8 +38,7 @@ const LeasingAggregator: React.FC = () => {
   // Loading state
   const [loading, setLoading] = useState(false);
 
-  // Modal and notification states
-  const [showModal, setShowModal] = useState(false);
+  // Notification state
   const [showSuccess, setShowSuccess] = useState(false);
 
   // Form data states
@@ -49,8 +52,9 @@ const LeasingAggregator: React.FC = () => {
     result: null
   });
 
-  const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
-  const [selectedVehicle, setSelectedVehicle] = useState<string | null>(null);
+  const [selectedCompany, setSelectedCompany] = useState<CompanyResult | null>(null);
+  const [selectedVehicle, setSelectedVehicle] = useState<VehicleResult | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<LeasingProduct | null>(null);
 
   const [leasingSubject, setLeasingSubject] = useState('');
 
@@ -88,9 +92,9 @@ const LeasingAggregator: React.FC = () => {
     setLeasingSubject('');
     setVehicleData({ searchQuery: '', result: null });
     setSelectedVehicle(null);
+    setSelectedProduct(null);
     setFilters([]);
     setLeasingProducts([]);
-    setShowModal(false);
     setShowSuccess(false);
   };
 
@@ -133,10 +137,16 @@ const LeasingAggregator: React.FC = () => {
   const searchLeasingProducts = async () => {
     setLoading(true);
     setTimeout(() => {
-      // Для демо всегда показываем 2-5 случайных предложений
-      const randomProducts = getRandomLeasingProducts(2, 5);
-      console.log('Generated products:', randomProducts);
-      setLeasingProducts(randomProducts);
+      // Получаем больше продуктов для фильтрации
+      const allProducts = getRandomLeasingProducts(8, 12);
+
+      // Применяем фильтры с адаптацией значений
+      const filteredProducts = applyFiltersToProducts(allProducts, filters);
+
+      console.log('Applied filters:', filters);
+      console.log('Filtered and adapted products:', filteredProducts);
+
+      setLeasingProducts(filteredProducts);
       setLoading(false);
     }, 500);
   };
@@ -160,7 +170,7 @@ const LeasingAggregator: React.FC = () => {
     setFilters(filters.map(f => {
       if (f.id === id) {
         const updatedFilter = { ...f, [field]: value };
-        
+
         // Сбрасываем зависимые поля при изменении параметра
         if (field === 'parameter') {
           updatedFilter.operator = '';
@@ -170,7 +180,7 @@ const LeasingAggregator: React.FC = () => {
         else if (field === 'operator') {
           updatedFilter.value = '';
         }
-        
+
         return updatedFilter;
       }
       return f;
@@ -181,17 +191,13 @@ const LeasingAggregator: React.FC = () => {
     setFilters([]);
   };
 
-  // Modal and proposal handling
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
+  // Proposal handling
+  const handleCreateProposal = (product: LeasingProduct) => {
+    setSelectedProduct(product);
+    setCurrentPage('commercial-proposal');
   };
 
   const handleSendProposal = () => {
-    setShowModal(false);
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 4000);
   };
@@ -200,7 +206,7 @@ const LeasingAggregator: React.FC = () => {
   const handleCompanySearchNext = (companyIndex: number) => {
     // Set selected company when moving to next step
     if (companyData.result && companyData.result[companyIndex]) {
-      setSelectedCompany(companyData.result[companyIndex].name);
+      setSelectedCompany(companyData.result[companyIndex]);
     }
     setCurrentPage('leasing-subject');
   };
@@ -208,7 +214,7 @@ const LeasingAggregator: React.FC = () => {
   const handleLeasingSubjectNext = () => {
     // Set selected vehicle when moving to next step
     if (vehicleData.result) {
-      setSelectedVehicle(`${vehicleData.result.brand} ${vehicleData.result.model}`);
+      setSelectedVehicle(vehicleData.result);
     }
     setCurrentPage('leasing-search');
   };
@@ -225,6 +231,9 @@ const LeasingAggregator: React.FC = () => {
       case 3:
         setCurrentPage('leasing-search');
         break;
+      case 4:
+        setCurrentPage('commercial-proposal');
+        break;
     }
   };
 
@@ -237,6 +246,8 @@ const LeasingAggregator: React.FC = () => {
         return 2;
       case 'leasing-search':
         return 3;
+      case 'commercial-proposal':
+        return 4;
       default:
         return 1;
     }
@@ -264,9 +275,10 @@ const LeasingAggregator: React.FC = () => {
 
       <Stepper
         currentStep={getCurrentStep()}
-        selectedCompany={selectedCompany}
+        selectedCompany={selectedCompany?.name || null}
         selectedSubject={leasingSubject || null}
-        selectedVehicle={selectedVehicle}
+        selectedVehicle={selectedVehicle ? `${selectedVehicle.brand} ${selectedVehicle.model}` : null}
+        selectedProduct={selectedProduct?.company || null}
         onStepClick={handleStepClick}
       />
 
@@ -298,15 +310,21 @@ const LeasingAggregator: React.FC = () => {
             filters={filters}
             leasingProducts={leasingProducts}
             loading={loading}
-            showModal={showModal}
             onAddFilter={addFilter}
             onRemoveFilter={removeFilter}
             onUpdateFilter={updateFilter}
             onSearchLeasingProducts={searchLeasingProducts}
-            onShowModal={handleShowModal}
-            onCloseModal={handleCloseModal}
-            onSendProposal={handleSendProposal}
+            onCreateProposal={handleCreateProposal}
             onClearAllFilters={clearAllFilters}
+          />
+        )}
+
+        {currentPage === 'commercial-proposal' && (
+          <CommercialProposalPage
+            selectedCompany={selectedCompany}
+            selectedVehicle={selectedVehicle}
+            selectedProduct={selectedProduct}
+            onSendProposal={handleSendProposal}
           />
         )}
       </div>

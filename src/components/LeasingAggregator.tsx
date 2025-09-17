@@ -24,7 +24,7 @@ import LeasingSearchPage from './pages/LeasingSearchPage';
 // Import UI components
 import Header from './ui/Header';
 import Stepper from './ui/Stepper';
-import Modal from './ui/Modal';
+
 import SuccessNotification from './ui/SuccessNotification';
 
 const LeasingAggregator: React.FC = () => {
@@ -286,12 +286,7 @@ const LeasingAggregator: React.FC = () => {
         )}
       </div>
 
-      {/* Modal component */}
-      <Modal
-        isOpen={showModal}
-        onClose={handleCloseModal}
-        onSendProposal={handleSendProposal}
-      />
+
 
       {/* Success notification */}
       <SuccessNotification isVisible={showSuccess} />

@@ -2,14 +2,20 @@ import React from 'react';
 import XIcon from '../icons/XIcon';
 import SendIcon from '../icons/SendIcon';
 
-interface ModalProps {
+interface ProposalModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSendProposal: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSendProposal }) => {
-  if (!isOpen) return null;
+const ProposalModal: React.FC<ProposalModalProps> = ({
+  isOpen,
+  onClose,
+  onSendProposal
+}) => {
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
@@ -23,7 +29,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSendProposal }) => {
             <XIcon size={24} />
           </button>
         </div>
-
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Сумма лизинга</label>
@@ -87,4 +93,4 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSendProposal }) => {
   );
 };
 
-export default Modal;
+export default ProposalModal;

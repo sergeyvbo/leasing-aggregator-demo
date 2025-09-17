@@ -28,7 +28,7 @@ jobs:
         with:
           tag-prefix: 'v'
           commit-message: 'CI: bumps version to {{version}} [skip ci]'
-          package-dir: 'leasing-aggregator'
+          PACKAGEJSON_DIR: 'leasing-aggregator'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

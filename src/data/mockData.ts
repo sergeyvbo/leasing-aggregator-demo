@@ -98,6 +98,33 @@ export const mockVehicleData: VehicleResult[] = [
   { brand: 'Mazda', model: 'CX-5', year: '2023', power: '194 л.с.', engineNumber: 'PYR813456' }
 ];
 
+export const mockWatercraftData: VehicleResult[] = [
+  { brand: 'Yamaha', model: '242X', year: '2022', power: '360 л.с.', engineNumber: 'YAMWTR123456' },
+  { brand: 'Sea Ray', model: 'SLX 280', year: '2021', power: '380 л.с.', engineNumber: 'SRWTR123456' },
+  { brand: 'Bayliner', model: 'Element E18', year: '2020', power: '125 л.с.', engineNumber: 'BLWTR123456' },
+  { brand: 'Azimut', model: 'Grande 27', year: '2023', power: '1900 л.с.', engineNumber: 'AZWTR123456' },
+  { brand: 'Princess', model: 'V50', year: '2022', power: '1200 л.с.', engineNumber: 'PRWTR123456' },
+  { brand: 'Sunseeker', model: 'Predator 55', year: '2021', power: '1450 л.с.', engineNumber: 'SSWTR123456' },
+  { brand: 'Chaparral', model: '19 SSI', year: '2020', power: '200 л.с.', engineNumber: 'CHWTR123456' },
+  { brand: 'MasterCraft', model: 'XT23', year: '2022', power: '430 л.с.', engineNumber: 'MCWTR123456' },
+  { brand: 'Boston Whaler', model: '280 Vantage', year: '2021', power: '600 л.с.', engineNumber: 'BWWTR123456' },
+  { brand: 'Regal', model: 'LS4', year: '2023', power: '350 л.с.', engineNumber: 'RGWTR123456' }
+];
+
+// Mock aircraft data
+export const mockAircraftData: VehicleResult[] = [
+  { brand: 'Airbus', model: 'A320', year: '2020', power: '27 000 л.с.', engineNumber: 'AIRCRAFT123001' },
+  { brand: 'Boeing', model: '737 MAX', year: '2021', power: '28 000 л.с.', engineNumber: 'AIRCRAFT123002' },
+  { brand: 'Sukhoi', model: 'Superjet 100', year: '2019', power: '18 000 л.с.', engineNumber: 'AIRCRAFT123003' },
+  { brand: 'Cessna', model: '172 Skyhawk', year: '2022', power: '180 л.с.', engineNumber: 'AIRCRAFT123004' },
+  { brand: 'Gulfstream', model: 'G650', year: '2023', power: '33 000 л.с.', engineNumber: 'AIRCRAFT123005' },
+  { brand: 'Bombardier', model: 'Challenger 350', year: '2021', power: '31 000 л.с.', engineNumber: 'AIRCRAFT123006' },
+  { brand: 'Dassault', model: 'Falcon 8X', year: '2020', power: '31 500 л.с.', engineNumber: 'AIRCRAFT123007' },
+  { brand: 'Embraer', model: 'Phenom 300E', year: '2022', power: '20 000 л.с.', engineNumber: 'AIRCRAFT123008' },
+  { brand: 'Antonov', model: 'An-148', year: '2019', power: '26 000 л.с.', engineNumber: 'AIRCRAFT123009' },
+  { brand: 'Pilatus', model: 'PC-12', year: '2023', power: '1 200 л.с.', engineNumber: 'AIRCRAFT123010' }
+];
+
 // Mock leasing products for search results
 export const mockLeasingProducts: LeasingProduct[] = [
   { id: 1, company: 'Сбер Лизинг', term: '36 месяцев', monthlyPayment: '45 000 ₽', buyoutRequired: 'Да', initialPayment: '20%', rate: '8.5%' },
@@ -133,6 +160,16 @@ export const getRandomVehicle = (): VehicleResult => {
   return mockVehicleData[randomIndex];
 };
 
+export const getRandomWatercraft = (): VehicleResult => {
+  const randomIndex = Math.floor(Math.random() * mockWatercraftData.length);
+  return mockWatercraftData[randomIndex];
+};
+
+export const getRandomAircraft = (): VehicleResult => {
+  const randomIndex = Math.floor(Math.random() * mockAircraftData.length);
+  return mockAircraftData[randomIndex];
+};
+
 export const getRandomLeasingProducts = (min: number = 2, max: number = 5): LeasingProduct[] => {
   const count = Math.floor(Math.random() * (max - min + 1)) + min;
   const shuffled = [...mockLeasingProducts].sort(() => 0.5 - Math.random());
@@ -155,4 +192,24 @@ export const searchVehicleByVin = (vin: string): VehicleResult => {
 
   // Always return a random vehicle for any VIN (guaranteed result)
   return getRandomVehicle();
+};
+
+export const searchWatercraftByName = (name: string): VehicleResult => {
+  if (!name || name.length < 2) {
+    // Return a random watercraft even for short names to ensure result
+    return getRandomWatercraft();
+  }
+
+  // Always return a random watercraft for any name (guaranteed result)
+  return getRandomWatercraft();
+};
+
+export const searchAircraftByName = (name: string): VehicleResult => {
+  if (!name || name.length < 2) {
+    // Return a random aircraft even for short names to ensure result
+    return getRandomAircraft();
+  }
+
+  // Always return a random aircraft for any name (guaranteed result)
+  return getRandomAircraft();
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type {
   PageType,
   LoginData,
@@ -10,6 +10,8 @@ import type {
 import {
   searchCompaniesByInn,
   searchVehicleByVin,
+  searchWatercraftByName,
+  searchAircraftByName,
   getRandomLeasingProducts
 } from '../data/mockData';
 
@@ -53,12 +55,18 @@ const LeasingAggregator: React.FC = () => {
   const [leasingSubject, setLeasingSubject] = useState('');
 
   const [vehicleData, setVehicleData] = useState<VehicleData>({
-    vin: '',
+    searchQuery: '',
     result: null
   });
 
   const [filters, setFilters] = useState<Filter[]>([]);
   const [leasingProducts, setLeasingProducts] = useState<LeasingProduct[]>([]);
+
+  // Clear vehicle data when leasing subject changes
+  useEffect(() => {
+    setVehicleData({ searchQuery: '', result: null });
+    setSelectedVehicle(null);
+  }, [leasingSubject]);
 
   // Event handlers
   const handleLogin = async () => {
@@ -78,7 +86,7 @@ const LeasingAggregator: React.FC = () => {
     setCompanyData({ inn: '', result: null });
     setSelectedCompany(null);
     setLeasingSubject('');
-    setVehicleData({ vin: '', result: null });
+    setVehicleData({ searchQuery: '', result: null });
     setSelectedVehicle(null);
     setFilters([]);
     setLeasingProducts([]);
@@ -100,10 +108,23 @@ const LeasingAggregator: React.FC = () => {
   };
 
   const searchVehicle = async () => {
-    if (!vehicleData.vin) return;
+    if (!vehicleData.searchQuery) return;
     setLoading(true);
     setTimeout(() => {
-      const result = searchVehicleByVin(vehicleData.vin);
+      let result;
+      switch (leasingSubject) {
+        case 'car':
+          result = searchVehicleByVin(vehicleData.searchQuery);
+          break;
+        case 'aircraft':
+          result = searchAircraftByName(vehicleData.searchQuery);
+          break;
+        case 'ship':
+          result = searchWatercraftByName(vehicleData.searchQuery);
+          break;
+        default:
+          result = searchVehicleByVin(vehicleData.searchQuery);
+      }
       setVehicleData({ ...vehicleData, result });
       setLoading(false);
     }, 500);

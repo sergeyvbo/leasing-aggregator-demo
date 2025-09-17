@@ -41,27 +41,37 @@ const LeasingSubjectPage: React.FC<LeasingSubjectPageProps> = ({
           </select>
         </div>
 
-        {leasingSubject === 'car' && (
+        {leasingSubject && (
           <div className="bg-blue-50 p-6 rounded-xl border border-blue-200 animate-fadeIn">
             <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
               <CarIcon size={24} className="mr-2 text-blue-600" />
-              Данные автомобиля
+              {leasingSubject === 'car' && 'Данные автомобиля'}
+              {leasingSubject === 'aircraft' && 'Данные воздушного судна'}
+              {leasingSubject === 'ship' && 'Данные водного транспорта'}
             </h3>
             {/* Desktop layout */}
             <div className="hidden sm:flex space-x-4 mb-6">
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-2">VIN номер</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {leasingSubject === 'car' && 'VIN номер'}
+                  {leasingSubject === 'aircraft' && 'Название воздушного судна'}
+                  {leasingSubject === 'ship' && 'Название водного транспорта'}
+                </label>
                 <input
                   type="text"
-                  value={vehicleData.vin}
-                  onChange={(e) => setVehicleData({...vehicleData, vin: e.target.value})}
-                  placeholder="Введите VIN"
+                  value={vehicleData.searchQuery}
+                  onChange={(e) => setVehicleData({...vehicleData, searchQuery: e.target.value})}
+                  placeholder={
+                    leasingSubject === 'car' ? 'Введите VIN' :
+                    leasingSubject === 'aircraft' ? 'Введите название судна' :
+                    'Введите название транспорта'
+                  }
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
               <button
                 onClick={onSearchVehicle}
-                disabled={loading || !vehicleData.vin}
+                disabled={loading || !vehicleData.searchQuery}
                 className="bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
               >
                 {loading ? (
@@ -76,18 +86,26 @@ const LeasingSubjectPage: React.FC<LeasingSubjectPageProps> = ({
             {/* Mobile layout */}
             <div className="sm:hidden space-y-4 mb-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">VIN номер</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {leasingSubject === 'car' && 'VIN номер'}
+                  {leasingSubject === 'aircraft' && 'Название воздушного судна'}
+                  {leasingSubject === 'ship' && 'Название водного транспорта'}
+                </label>
                 <input
                   type="text"
-                  value={vehicleData.vin}
-                  onChange={(e) => setVehicleData({...vehicleData, vin: e.target.value})}
-                  placeholder="Введите VIN"
+                  value={vehicleData.searchQuery}
+                  onChange={(e) => setVehicleData({...vehicleData, searchQuery: e.target.value})}
+                  placeholder={
+                    leasingSubject === 'car' ? 'Введите VIN' :
+                    leasingSubject === 'aircraft' ? 'Введите название судна' :
+                    'Введите название транспорта'
+                  }
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
               <button
                 onClick={onSearchVehicle}
-                disabled={loading || !vehicleData.vin}
+                disabled={loading || !vehicleData.searchQuery}
                 className="w-full bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
               >
                 {loading ? (
@@ -106,7 +124,13 @@ const LeasingSubjectPage: React.FC<LeasingSubjectPageProps> = ({
                   <div><span className="font-medium">Модель:</span> {vehicleData.result.model}</div>
                   <div><span className="font-medium">Год выпуска:</span> {vehicleData.result.year}</div>
                   <div><span className="font-medium">Мощность:</span> {vehicleData.result.power}</div>
-                  <div className="md:col-span-2"><span className="font-medium">Номер двигателя:</span> {vehicleData.result.engineNumber}</div>
+                  <div className="md:col-span-2">
+                    <span className="font-medium">
+                      {leasingSubject === 'car' && 'Номер двигателя:'}
+                      {leasingSubject === 'aircraft' && 'Серийный номер:'}
+                      {leasingSubject === 'ship' && 'Номер двигателя:'}
+                    </span> {vehicleData.result.engineNumber}
+                  </div>
                 </div>
                 <button
                   onClick={onNext}

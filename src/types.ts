@@ -32,7 +32,7 @@ export interface VehicleResult {
 }
 
 export interface VehicleData {
-  vin: string;
+  searchQuery: string; // Универсальное поле для поиска (VIN, название и т.д.)
   result: VehicleResult | null;
 }
 

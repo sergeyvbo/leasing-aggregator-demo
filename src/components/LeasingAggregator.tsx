@@ -28,8 +28,8 @@ import CommercialProposalPage from './pages/CommercialProposalPage';
 // Import UI components
 import Header from './ui/Header';
 import Stepper from './ui/Stepper';
-
 import SuccessNotification from './ui/SuccessNotification';
+import FinancingNotification from './ui/FinancingNotification';
 
 const LeasingAggregator: React.FC = () => {
   // Page navigation state
@@ -38,8 +38,10 @@ const LeasingAggregator: React.FC = () => {
   // Loading state
   const [loading, setLoading] = useState(false);
 
-  // Notification state
+  // Notification states
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showFinancingNotification, setShowFinancingNotification] = useState(false);
+  const [financingMessage, setFinancingMessage] = useState('');
 
   // Form data states
   const [loginData, setLoginData] = useState<LoginData>({
@@ -202,6 +204,15 @@ const LeasingAggregator: React.FC = () => {
     setTimeout(() => setShowSuccess(false), 4000);
   };
 
+  const handleShowNotification = (message: string) => {
+    setFinancingMessage(message);
+    setShowFinancingNotification(true);
+  };
+
+  const handleCloseFinancingNotification = () => {
+    setShowFinancingNotification(false);
+  };
+
   // Navigation handlers
   const handleCompanySearchNext = (companyIndex: number) => {
     // Set selected company when moving to next step
@@ -325,6 +336,7 @@ const LeasingAggregator: React.FC = () => {
             selectedVehicle={selectedVehicle}
             selectedProduct={selectedProduct}
             onSendProposal={handleSendProposal}
+            onShowNotification={handleShowNotification}
           />
         )}
       </div>
@@ -333,6 +345,13 @@ const LeasingAggregator: React.FC = () => {
 
       {/* Success notification */}
       <SuccessNotification isVisible={showSuccess} />
+
+      {/* Financing notification */}
+      <FinancingNotification
+        isVisible={showFinancingNotification}
+        message={financingMessage}
+        onClose={handleCloseFinancingNotification}
+      />
     </div>
   );
 };

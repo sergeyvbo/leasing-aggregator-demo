@@ -57,6 +57,23 @@ export interface LeasingProduct {
   buyoutPayment: string;
 }
 
+// Payment schedule types
+export interface PaymentScheduleItem {
+  month: number;
+  date: string;
+  payment: number;
+  principal: number;
+  interest: number;
+  balance: number;
+}
+
+export interface PaymentSchedule {
+  totalAmount: number;
+  monthlyPayment: number;
+  totalInterest: number;
+  schedule: PaymentScheduleItem[];
+}
+
 
 
 // Filter configuration types

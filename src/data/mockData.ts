@@ -213,6 +213,118 @@ export const searchAircraftByName = (name: string): VehicleResult => {
   // Always return a random aircraft for any name (guaranteed result)
   return getRandomAircraft();
 };
+
+// Generate payment schedule for leasing
+export const generatePaymentSchedule = (
+  vehicleCost: string,
+  product: any
+): any => {
+  // Parse vehicle cost
+  const cost = parseInt(vehicleCost.replace(/\D/g, '')) || 2000000;
+  
+  // Parse product parameters
+  const termMonths = parseInt(product.term.replace(/\D/g, '')) || 36;
+  const advancePercent = parseInt(product.advance.replace(/\D/g, '')) || 20;
+  const rate = parseFloat(product.rate.replace(/[^\d.,]/g, '').replace(',', '.')) || 8.5;
+  
+  // Calculate loan parameters
+  const advanceAmount = Math.round(cost * advancePercent / 100);
+  const loanAmount = cost - advanceAmount;
+  const monthlyRate = rate / 100 / 12;
+  
+  // Calculate monthly payment based on payment schedule type
+  let monthlyPayment: number;
+  const schedule: any[] = [];
+  
+  if (product.paymentSchedule === 'Аннуитет') {
+    // Annuity payment calculation
+    monthlyPayment = Math.round(
+      loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, termMonths)) /
+      (Math.pow(1 + monthlyRate, termMonths) - 1)
+    );
+    
+    let balance = loanAmount;
+    for (let month = 1; month <= termMonths; month++) {
+      const interestPayment = Math.round(balance * monthlyRate);
+      const principalPayment = monthlyPayment - interestPayment;
+      balance = Math.max(0, balance - principalPayment);
+      
+      const date = new Date();
+      date.setMonth(date.getMonth() + month);
+      
+      schedule.push({
+        month,
+        date: date.toLocaleDateString('ru-RU'),
+        payment: monthlyPayment,
+        principal: principalPayment,
+        interest: interestPayment,
+        balance: balance
+      });
+    }
+  } else if (product.paymentSchedule === 'Дегрессия') {
+    // Decreasing payment calculation
+    const principalPayment = Math.round(loanAmount / termMonths);
+    let balance = loanAmount;
+    
+    for (let month = 1; month <= termMonths; month++) {
+      const interestPayment = Math.round(balance * monthlyRate);
+      const totalPayment = principalPayment + interestPayment;
+      balance = Math.max(0, balance - principalPayment);
+      
+      const date = new Date();
+      date.setMonth(date.getMonth() + month);
+      
+      schedule.push({
+        month,
+        date: date.toLocaleDateString('ru-RU'),
+        payment: totalPayment,
+        principal: principalPayment,
+        interest: interestPayment,
+        balance: balance
+      });
+    }
+    
+    monthlyPayment = schedule[0].payment; // First payment for display
+  } else {
+    // Seasonal schedule - simplified version
+    monthlyPayment = Math.round(loanAmount * 1.1 / termMonths); // 10% markup for seasonal
+    let balance = loanAmount;
+    
+    for (let month = 1; month <= termMonths; month++) {
+      // Seasonal variation: higher payments in certain months
+      const seasonalMultiplier = [6, 7, 8, 12].includes(month % 12) ? 1.3 : 0.8;
+      const adjustedPayment = Math.round(monthlyPayment * seasonalMultiplier);
+      const interestPayment = Math.round(balance * monthlyRate);
+      const principalPayment = Math.max(0, adjustedPayment - interestPayment);
+      balance = Math.max(0, balance - principalPayment);
+      
+      const date = new Date();
+      date.setMonth(date.getMonth() + month);
+      
+      schedule.push({
+        month,
+        date: date.toLocaleDateString('ru-RU'),
+        payment: adjustedPayment,
+        principal: principalPayment,
+        interest: interestPayment,
+        balance: balance
+      });
+    }
+  }
+  
+  const totalPayments = schedule.reduce((sum, item) => sum + item.payment, 0);
+  const totalInterest = totalPayments - loanAmount;
+  
+  return {
+    totalAmount: cost,
+    advanceAmount,
+    loanAmount,
+    monthlyPayment,
+    totalPayments,
+    totalInterest,
+    schedule: schedule.slice(0, 12) // Show first 12 months
+  };
+};
 // Filter application function with value adaptation
 export const applyFiltersToProducts = (products: LeasingProduct[], filters: any[]): LeasingProduct[] => {
   if (!filters || filters.length === 0) {

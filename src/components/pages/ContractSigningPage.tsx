@@ -80,7 +80,14 @@ const ContractSigningPage: React.FC<ContractSigningPageProps> = ({
                   <div><strong>Год выпуска:</strong> {selectedVehicle.year}</div>
                   <div><strong>Мощность:</strong> {selectedVehicle.power}</div>
                   <div><strong>Номер двигателя:</strong> {selectedVehicle.engineNumber}</div>
-                  <div className="md:col-span-2"><strong>Стоимость:</strong> {selectedVehicle.cost}</div>
+                  <div className="md:col-span-2">
+                    <strong>Стоимость:</strong> 
+                    <span className="ml-2">
+                      {selectedVehicle.customCost && selectedVehicle.customCost.trim() 
+                        ? selectedVehicle.customCost 
+                        : selectedVehicle.cost}
+                    </span>
+                  </div>
                 </div>
               </div>
             )}

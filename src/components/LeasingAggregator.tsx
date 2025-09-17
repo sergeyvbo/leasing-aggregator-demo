@@ -134,6 +134,10 @@ const LeasingAggregator: React.FC = () => {
         default:
           result = searchVehicleByVin(vehicleData.searchQuery);
       }
+      // Автоматически заполняем customCost значением из cost
+      if (result) {
+        result.customCost = result.cost;
+      }
       setVehicleData({ ...vehicleData, result });
       setLoading(false);
     }, 500);

@@ -30,6 +30,7 @@ export interface VehicleResult {
   power: string;
   engineNumber: string;
   cost: string;
+  customCost?: string; // Пользовательская стоимость
 }
 
 export interface VehicleData {

@@ -37,7 +37,7 @@ const CommercialProposalPage: React.FC<CommercialProposalPageProps> = ({
       let schedule = null;
       if (selectedVehicle && selectedProduct) {
         const { generatePaymentSchedule } = await import('../../data/mockData');
-        schedule = generatePaymentSchedule(selectedVehicle.cost, selectedProduct);
+        schedule = generatePaymentSchedule(selectedVehicle.cost, selectedProduct, selectedVehicle.customCost);
         setPaymentSchedule(schedule);
       }
 
@@ -74,7 +74,14 @@ const CommercialProposalPage: React.FC<CommercialProposalPageProps> = ({
               <div><span className="font-medium">Модель:</span> {selectedVehicle.model}</div>
               <div><span className="font-medium">Год выпуска:</span> {selectedVehicle.year}</div>
               <div><span className="font-medium">Мощность:</span> {selectedVehicle.power}</div>
-              <div><span className="font-medium">Стоимость:</span> {selectedVehicle.cost}</div>
+              <div>
+                <span className="font-medium">Стоимость:</span> 
+                <span className="ml-2">
+                  {selectedVehicle.customCost && selectedVehicle.customCost.trim() 
+                    ? selectedVehicle.customCost 
+                    : selectedVehicle.cost}
+                </span>
+              </div>
               <div><span className="font-medium">Номер двигателя:</span> {selectedVehicle.engineNumber}</div>
             </div>
           </div>

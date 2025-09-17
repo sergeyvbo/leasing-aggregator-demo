@@ -124,7 +124,6 @@ const LeasingSubjectPage: React.FC<LeasingSubjectPageProps> = ({
                   <div><span className="font-medium">Модель:</span> {vehicleData.result.model}</div>
                   <div><span className="font-medium">Год выпуска:</span> {vehicleData.result.year}</div>
                   <div><span className="font-medium">Мощность:</span> {vehicleData.result.power}</div>
-                  <div><span className="font-medium">Стоимость:</span> {vehicleData.result.cost}</div>
                   <div className="md:col-span-2">
                     <span className="font-medium">
                       {leasingSubject === 'car' && 'Номер двигателя:'}
@@ -133,6 +132,29 @@ const LeasingSubjectPage: React.FC<LeasingSubjectPageProps> = ({
                     </span> {vehicleData.result.engineNumber}
                   </div>
                 </div>
+                
+                <div className="mt-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Стоимость предмета лизинга
+                  </label>
+                  <input
+                    type="text"
+                    value={vehicleData.result.customCost || vehicleData.result.cost}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setVehicleData({
+                        ...vehicleData,
+                        result: {
+                          ...vehicleData.result!,
+                          customCost: value
+                        }
+                      });
+                    }}
+                    placeholder="Введите стоимость (например: 2 500 000 ₽)"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+
                 <button
                   onClick={onNext}
                   className="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"

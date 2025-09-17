@@ -12,6 +12,10 @@ jobs:
       contents: write
       pull-requests: write
 
+    defaults:
+      run:
+        working-directory: leasing-aggregator
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,7 +32,6 @@ jobs:
         with:
           tag-prefix: 'v'
           commit-message: 'CI: bumps version to {{version}} [skip ci]'
-          PACKAGEJSON_DIR: 'leasing-aggregator'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -44,5 +47,5 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "dist/*"
+          source: "leasing-aggregator/dist/*"
           target: "/var/www/leasing"

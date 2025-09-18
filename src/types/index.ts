@@ -62,3 +62,6 @@ export interface IconProps {
 
 // Re-export role types
 export * from './roles';
+
+// Re-export client types
+export * from './clients';

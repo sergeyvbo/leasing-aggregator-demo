@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Layout } from './Layout';
 import DealsPage from '../pages/DealsPage';
+import ClientsPage from '../pages/ClientsPage';
+import ClientDetailsPage from '../pages/ClientDetailsPage';
 import PlaceholderPage from '../pages/PlaceholderPage';
 import LoginPage from './pages/LoginPage';
 import type { RoleId } from '../types/roles';
 import type { LoginData } from '../types';
+import type { Client } from '../types/clients';
 import { ROLE_IDS, MENU_CONFIG } from '../types/roles';
 import { getSavedRole } from '../ui/RoleSelector';
+import { getClientWithVersion } from '../data/clientsData';
 
 const RoleBasedApp: React.FC = () => {
   // Authentication state
@@ -20,6 +24,10 @@ const RoleBasedApp: React.FC = () => {
   // State management for roles and navigation
   const [currentRole, setCurrentRole] = useState<RoleId>(getSavedRole());
   const [activeMenuItem, setActiveMenuItem] = useState<string>('');
+  
+  // Client navigation state
+  const [currentView, setCurrentView] = useState<'list' | 'details'>('list');
+  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
 
   // Initialize active menu item when role changes
   useEffect(() => {
@@ -54,6 +62,29 @@ const RoleBasedApp: React.FC = () => {
   // Handle menu item selection
   const handleMenuItemClick = (itemId: string) => {
     setActiveMenuItem(itemId);
+    // Reset client navigation when switching menu items
+    setCurrentView('list');
+    setSelectedClient(null);
+  };
+
+  // Handle client navigation
+  const handleViewClient = (client: Client) => {
+    setSelectedClient(client);
+    setCurrentView('details');
+  };
+
+  const handleBackToClientsList = () => {
+    setCurrentView('list');
+    setSelectedClient(null);
+  };
+
+  const handleClientVersionChange = (versionId: string) => {
+    if (selectedClient) {
+      const clientWithVersion = getClientWithVersion(selectedClient.id, versionId);
+      if (clientWithVersion) {
+        setSelectedClient(clientWithVersion);
+      }
+    }
   };
 
   // Render content based on active menu item and role
@@ -64,7 +95,17 @@ const RoleBasedApp: React.FC = () => {
         case 'deals':
           return <DealsPage />;
         case 'clients':
-          return <PlaceholderPage title="Клиенты" />;
+          // Handle client navigation
+          if (currentView === 'details' && selectedClient) {
+            return (
+              <ClientDetailsPage
+                client={selectedClient}
+                onBack={handleBackToClientsList}
+                onVersionChange={handleClientVersionChange}
+              />
+            );
+          }
+          return <ClientsPage onViewClient={handleViewClient} />;
         case 'reports':
           return <PlaceholderPage title="Отчеты" />;
         case 'organization':

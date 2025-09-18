@@ -1,38 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { VersionComponentProps } from '../../types/clients';
 
 // Arrow icons for navigation
-const ChevronLeftIcon: React.FC<{ size?: number; className?: string }> = ({ 
-  size = 20, 
-  className = '' 
+const ChevronLeftIcon: React.FC<{ size?: number; className?: string }> = ({
+  size = 20,
+  className = ''
 }) => (
-  <svg 
-    className={className} 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
+  <svg
+    className={className}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
     strokeWidth="2"
   >
-    <path d="m15 18-6-6 6-6"/>
+    <path d="m15 18-6-6 6-6" />
   </svg>
 );
 
-const ChevronRightIcon: React.FC<{ size?: number; className?: string }> = ({ 
-  size = 20, 
-  className = '' 
+const ChevronRightIcon: React.FC<{ size?: number; className?: string }> = ({
+  size = 20,
+  className = ''
 }) => (
-  <svg 
-    className={className} 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
+  <svg
+    className={className}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
     strokeWidth="2"
   >
-    <path d="m9 18 6-6-6-6"/>
+    <path d="m9 18 6-6-6-6" />
   </svg>
 );
 
@@ -42,8 +42,12 @@ const ChevronRightIcon: React.FC<{ size?: number; className?: string }> = ({
  */
 export const VersionComponent: React.FC<VersionComponentProps> = ({
   version,
-  onVersionChange
+  onVersionChange,
+  onEditStart,
+  onEditEnd
 }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingVersion, setEditingVersion] = useState(version);
   const handlePreviousVersion = () => {
     if (version.previousVersionId) {
       onVersionChange(version.previousVersionId);
@@ -55,6 +59,36 @@ export const VersionComponent: React.FC<VersionComponentProps> = ({
       onVersionChange(version.nextVersionId);
     }
   };
+
+  const handleEditData = () => {
+    const newVersion = {
+      ...version,
+      status: 'draft' as const,
+      date: new Date().toISOString().split('T')[0]
+    };
+    setEditingVersion(newVersion);
+    setIsEditing(true);
+    onEditStart?.();
+  };
+
+  const handleSave = () => {
+    setIsEditing(false);
+    onEditEnd?.();
+    // В реальном приложении здесь был бы вызов API для сохранения
+  };
+
+  const handlePublish = () => {
+    const publishedVersion = {
+      ...editingVersion,
+      status: 'active' as const
+    };
+    setEditingVersion(publishedVersion);
+    setIsEditing(false);
+    onEditEnd?.();
+    // В реальном приложении здесь был бы вызов API для публикации
+  };
+
+  const currentVersion = isEditing ? editingVersion : version;
 
   // Format date for display
   const formatDate = (dateString: string) => {
@@ -92,58 +126,87 @@ export const VersionComponent: React.FC<VersionComponentProps> = ({
     }
   };
 
-  const statusDisplay = getStatusDisplay(version.status);
+  const statusDisplay = getStatusDisplay(currentVersion.status);
 
   return (
-    <div className="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-lg px-3 sm:px-4 py-3">
-      {/* Previous version button */}
-      <button
-        onClick={handlePreviousVersion}
-        disabled={!version.previousVersionId}
-        className={`
-          flex items-center justify-center w-8 h-8 rounded-full border transition-colors flex-shrink-0
-          ${version.previousVersionId 
-            ? 'border-gray-300 text-gray-600 hover:bg-gray-100 hover:border-gray-400 cursor-pointer' 
-            : 'border-gray-200 text-gray-300 cursor-not-allowed'
-          }
-        `}
-        title="Предыдущая версия"
-        aria-label="Предыдущая версия"
-      >
-        <ChevronLeftIcon size={16} />
-      </button>
+    <div className="bg-gray-50 border border-gray-200 rounded-lg px-3 sm:px-4 py-3">
+      <div className="flex items-center justify-between mb-3">
+        {/* Previous version button */}
+        <button
+          onClick={handlePreviousVersion}
+          disabled={!version.previousVersionId || isEditing}
+          className={`
+            flex items-center justify-center w-8 h-8 rounded-full border transition-colors flex-shrink-0
+            ${version.previousVersionId && !isEditing
+              ? 'border-gray-300 text-gray-600 hover:bg-gray-100 hover:border-gray-400 cursor-pointer'
+              : 'border-gray-200 text-gray-300 cursor-not-allowed'
+            }
+          `}
+          title="Предыдущая версия"
+          aria-label="Предыдущая версия"
+        >
+          <ChevronLeftIcon size={16} />
+        </button>
 
-      {/* Version info */}
-      <div className="flex flex-col items-center space-y-1 mx-2 min-w-0">
-        <div className="text-xs sm:text-sm font-medium text-gray-900 text-center">
-          <span className="hidden sm:inline">версия №{version.number} от </span>
-          <span className="sm:hidden">v{version.number} </span>
-          {formatDate(version.date)}
+        {/* Version info */}
+        <div className="flex flex-col items-center space-y-1 mx-2 min-w-0">
+          <div className="text-xs sm:text-sm font-medium text-gray-900 text-center">
+            <span className="hidden sm:inline">версия №{currentVersion.number} от </span>
+            <span className="sm:hidden">v{currentVersion.number} </span>
+            {formatDate(currentVersion.date)}
+          </div>
+          <div className={`
+            px-2 py-1 text-xs font-medium rounded-full border whitespace-nowrap
+            ${statusDisplay.className}
+          `}>
+            {statusDisplay.text}
+          </div>
         </div>
-        <div className={`
-          px-2 py-1 text-xs font-medium rounded-full border whitespace-nowrap
-          ${statusDisplay.className}
-        `}>
-          {statusDisplay.text}
-        </div>
+
+        {/* Next version button */}
+        <button
+          onClick={handleNextVersion}
+          disabled={!version.nextVersionId || isEditing}
+          className={`
+            flex items-center justify-center w-8 h-8 rounded-full border transition-colors flex-shrink-0
+            ${version.nextVersionId && !isEditing
+              ? 'border-gray-300 text-gray-600 hover:bg-gray-100 hover:border-gray-400 cursor-pointer'
+              : 'border-gray-200 text-gray-300 cursor-not-allowed'
+            }
+          `}
+          title="Следующая версия"
+          aria-label="Следующая версия"
+        >
+          <ChevronRightIcon size={16} />
+        </button>
       </div>
 
-      {/* Next version button */}
-      <button
-        onClick={handleNextVersion}
-        disabled={!version.nextVersionId}
-        className={`
-          flex items-center justify-center w-8 h-8 rounded-full border transition-colors flex-shrink-0
-          ${version.nextVersionId 
-            ? 'border-gray-300 text-gray-600 hover:bg-gray-100 hover:border-gray-400 cursor-pointer' 
-            : 'border-gray-200 text-gray-300 cursor-not-allowed'
-          }
-        `}
-        title="Следующая версия"
-        aria-label="Следующая версия"
-      >
-        <ChevronRightIcon size={16} />
-      </button>
+      {/* Action buttons */}
+      <div className="flex justify-center space-x-2">
+        {!isEditing ? (
+          <button
+            onClick={handleEditData}
+            className="px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-200 rounded-md hover:bg-blue-100 transition-colors"
+          >
+            Изменить данные
+          </button>
+        ) : (
+          <>
+            <button
+              onClick={handleSave}
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+            >
+              Сохранить
+            </button>
+            <button
+              onClick={handlePublish}
+              className="px-4 py-2 text-sm font-medium text-white bg-green-600 border border-green-600 rounded-md hover:bg-green-700 transition-colors"
+            >
+              Опубликовать
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 };

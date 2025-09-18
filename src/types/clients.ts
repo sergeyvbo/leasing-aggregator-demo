@@ -86,6 +86,8 @@ export interface Client {
 export interface VersionComponentProps {
   version: EntityVersion;
   onVersionChange: (versionId: string) => void;
+  onEditStart?: () => void;
+  onEditEnd?: () => void;
 }
 
 export interface ClientRequisitesCardProps {

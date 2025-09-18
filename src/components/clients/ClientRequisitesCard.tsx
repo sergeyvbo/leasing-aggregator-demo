@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { ClientRequisitesCardProps } from '../../types/clients';
 import { VersionComponent } from './VersionComponent';
 
@@ -12,6 +12,27 @@ export const ClientRequisitesCard: React.FC<ClientRequisitesCardProps> = ({
   onVersionChange
 }) => {
   const { requisites, opf } = client;
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingRequisites, setEditingRequisites] = useState(requisites);
+
+  const handleEditStart = () => {
+    setIsEditing(true);
+    setEditingRequisites({ ...requisites });
+  };
+
+  const handleEditEnd = () => {
+    setIsEditing(false);
+    // В реальном приложении здесь было бы сохранение данных
+  };
+
+  const handleFieldChange = (fieldKey: string, value: string) => {
+    setEditingRequisites(prev => ({
+      ...prev,
+      [fieldKey]: value
+    }));
+  };
+
+  const currentRequisites = isEditing ? editingRequisites : requisites;
 
   // Define field labels for display
   const fieldLabels: Record<string, string> = {
@@ -107,6 +128,8 @@ export const ClientRequisitesCard: React.FC<ClientRequisitesCardProps> = ({
           <VersionComponent
             version={version}
             onVersionChange={onVersionChange}
+            onEditStart={handleEditStart}
+            onEditEnd={handleEditEnd}
           />
         </div>
       </div>
@@ -115,7 +138,7 @@ export const ClientRequisitesCard: React.FC<ClientRequisitesCardProps> = ({
       <div className="px-6 py-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {fieldsToDisplay.map((fieldKey) => {
-            const value = requisites[fieldKey];
+            const value = currentRequisites[fieldKey];
             const label = fieldLabels[fieldKey] || fieldKey;
             const isMandatory = ['fullName', 'inn'].includes(fieldKey);
 
@@ -125,32 +148,55 @@ export const ClientRequisitesCard: React.FC<ClientRequisitesCardProps> = ({
                   {label}
                   {isMandatory && <span className="text-red-500 ml-1">*</span>}
                 </label>
-                <div className={`
-                  px-3 py-2 border border-gray-200 rounded-md bg-gray-50 text-sm
-                  ${isMandatory ? 'font-medium' : ''}
-                `}>
-                  {formatFieldValue(fieldKey, value)}
-                </div>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={value || ''}
+                    onChange={(e) => handleFieldChange(fieldKey, e.target.value)}
+                    className={`
+                      w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm
+                      ${isMandatory ? 'font-medium' : ''}
+                    `}
+                    placeholder={`Введите ${label.toLowerCase()}`}
+                  />
+                ) : (
+                  <div className={`
+                    px-3 py-2 border border-gray-200 rounded-md bg-gray-50 text-sm
+                    ${isMandatory ? 'font-medium' : ''}
+                  `}>
+                    {formatFieldValue(fieldKey, value)}
+                  </div>
+                )}
               </div>
             );
           })}
         </div>
 
         {/* Additional fields that might be specific to this client */}
-        {Object.keys(requisites).some(key => !fieldsToDisplay.includes(key) && !['fullName', 'inn'].includes(key)) && (
+        {Object.keys(currentRequisites).some(key => !fieldsToDisplay.includes(key) && !['fullName', 'inn'].includes(key)) && (
           <div className="mt-6 pt-6 border-t border-gray-200">
             <h4 className="text-sm font-medium text-gray-700 mb-4">Дополнительные поля</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {Object.entries(requisites)
+              {Object.entries(currentRequisites)
                 .filter(([key]) => !fieldsToDisplay.includes(key))
                 .map(([key, value]) => (
                   <div key={key} className="space-y-1">
                     <label className="block text-sm font-medium text-gray-700">
                       {fieldLabels[key] || key}
                     </label>
-                    <div className="px-3 py-2 border border-gray-200 rounded-md bg-gray-50 text-sm">
-                      {formatFieldValue(key, value)}
-                    </div>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        value={value || ''}
+                        onChange={(e) => handleFieldChange(key, e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                        placeholder={`Введите ${(fieldLabels[key] || key).toLowerCase()}`}
+                      />
+                    ) : (
+                      <div className="px-3 py-2 border border-gray-200 rounded-md bg-gray-50 text-sm">
+                        {formatFieldValue(key, value)}
+                      </div>
+                    )}
                   </div>
                 ))}
             </div>

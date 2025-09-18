@@ -98,6 +98,8 @@ export interface ClientRequisitesCardProps {
 
 export interface DocumentCardProps {
   document: ClientDocument;
+  onEdit?: (documentId: string) => void;
+  onDelete?: (documentId: string) => void;
 }
 
 export interface AttachmentPreviewProps {

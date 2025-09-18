@@ -62,7 +62,23 @@ const ClientDetailsPage: React.FC<ClientDetailsPageProps> = ({
 
           {/* Documents Section */}
           <section className="scroll-mt-6" id="documents">
-            <DocumentsSection documents={client.documents} />
+            <DocumentsSection 
+              documents={client.documents}
+              version={client.version}
+              onVersionChange={handleVersionChange}
+              onAddDocument={() => {
+                // TODO: Implement add document functionality
+                console.log('Add document clicked');
+              }}
+              onEditDocument={(documentId) => {
+                // TODO: Implement edit document functionality
+                console.log('Edit document:', documentId);
+              }}
+              onDeleteDocument={(documentId) => {
+                // TODO: Implement delete document functionality
+                console.log('Delete document:', documentId);
+              }}
+            />
           </section>
 
           {/* Attachments Section */}

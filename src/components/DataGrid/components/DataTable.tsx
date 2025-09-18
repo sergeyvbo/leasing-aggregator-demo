@@ -1,5 +1,4 @@
 import type { DataTableProps } from '../types';
-import { ActionColumn } from './ActionColumn';
 
 /**
  * DataTable component that renders the main table structure with data
@@ -33,26 +32,21 @@ export function DataTable<T>({
   // Render loading skeleton
   if (loading) {
     return (
-      <div className="overflow-x-auto">
-        <div className="inline-block min-w-full align-middle">
+      <div className="flex max-w-full">
+        {/* Main scrollable table */}
+        <div className="flex-1 overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-300">
             <thead className="bg-gray-50">
               <tr>
                 {columns.map((column) => (
                   <th
                     key={String(column.key)}
-                    className={`px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${
-                      column.width || ''
-                    }`}
+                    className={`px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${column.width || 'min-w-[120px]'
+                      }`}
                   >
                     <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
                   </th>
                 ))}
-                {hasActions && (
-                  <th className="px-3 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    <div className="h-4 bg-gray-200 rounded animate-pulse w-16 ml-auto"></div>
-                  </th>
-                )}
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -61,24 +55,35 @@ export function DataTable<T>({
                   {columns.map((column) => (
                     <td
                       key={String(column.key)}
-                      className="px-3 sm:px-6 py-4 text-sm text-gray-900"
+                      className="px-3 sm:px-6 py-4 text-sm text-gray-900 whitespace-nowrap"
                     >
-                      <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+                      <div className="h-4 bg-gray-200 rounded animate-pulse max-w-[200px]"></div>
                     </td>
                   ))}
-                  {hasActions && (
-                    <td className="px-3 sm:px-6 py-4 text-right text-sm font-medium">
-                      <div className="flex items-center justify-end space-x-2">
-                        <div className="h-8 w-8 bg-gray-200 rounded animate-pulse"></div>
-                        <div className="h-8 w-8 bg-gray-200 rounded animate-pulse"></div>
-                      </div>
-                    </td>
-                  )}
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+
+        {/* Fixed actions column */}
+        {hasActions && (
+          <div className="flex-shrink-0 w-24 sm:w-32 border-l border-gray-200 bg-white">
+            <div className="bg-gray-50 px-3 sm:px-6 py-3 border-b border-gray-300">
+              <div className="h-4 bg-gray-200 rounded animate-pulse w-16 ml-auto"></div>
+            </div>
+            <div className="divide-y divide-gray-200">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <div key={index} className="px-3 sm:px-6 py-4">
+                  <div className="flex items-center justify-end space-x-2">
+                    <div className="h-8 w-8 bg-gray-200 rounded animate-pulse"></div>
+                    <div className="h-8 w-8 bg-gray-200 rounded animate-pulse"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -86,17 +91,17 @@ export function DataTable<T>({
   // Render empty state
   if (!data || data.length === 0) {
     return (
-      <div className="overflow-x-auto">
-        <div className="inline-block min-w-full align-middle">
+      <div className="flex max-w-full">
+        {/* Main scrollable table */}
+        <div className="flex-1 overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-300">
             <thead className="bg-gray-50">
               <tr>
                 {columns.map((column) => (
                   <th
                     key={String(column.key)}
-                    className={`px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${
-                      column.sortable ? 'cursor-pointer hover:bg-gray-100 transition-colors duration-200' : ''
-                    } ${column.width || ''}`}
+                    className={`px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${column.sortable ? 'cursor-pointer hover:bg-gray-100 transition-colors duration-200' : ''
+                      } ${column.width || 'min-w-[120px]'}`}
                     onClick={() => handleColumnClick(String(column.key), column.sortable)}
                   >
                     <div className="flex items-center space-x-1">
@@ -104,11 +109,10 @@ export function DataTable<T>({
                       {column.sortable && (
                         <div className="flex flex-col flex-shrink-0">
                           <svg
-                            className={`w-3 h-3 transition-colors duration-200 ${
-                              sortField === String(column.key) && sortDirection === 'asc'
-                                ? 'text-blue-600'
-                                : 'text-gray-400'
-                            }`}
+                            className={`w-3 h-3 transition-colors duration-200 ${sortField === String(column.key) && sortDirection === 'asc'
+                              ? 'text-blue-600'
+                              : 'text-gray-400'
+                              }`}
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -119,11 +123,10 @@ export function DataTable<T>({
                             />
                           </svg>
                           <svg
-                            className={`w-3 h-3 -mt-1 transition-colors duration-200 ${
-                              sortField === String(column.key) && sortDirection === 'desc'
-                                ? 'text-blue-600'
-                                : 'text-gray-400'
-                            }`}
+                            className={`w-3 h-3 -mt-1 transition-colors duration-200 ${sortField === String(column.key) && sortDirection === 'desc'
+                              ? 'text-blue-600'
+                              : 'text-gray-400'
+                              }`}
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -138,18 +141,12 @@ export function DataTable<T>({
                     </div>
                   </th>
                 ))}
-                {hasActions && (
-                  <th className="px-3 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    <span className="hidden sm:inline">Действия</span>
-                    <span className="sm:hidden">•••</span>
-                  </th>
-                )}
               </tr>
             </thead>
             <tbody className="bg-white">
               <tr>
                 <td
-                  colSpan={columns.length + (hasActions ? 1 : 0)}
+                  colSpan={columns.length}
                   className="px-3 sm:px-6 py-12 text-center text-sm text-gray-500"
                 >
                   <div className="flex flex-col items-center">
@@ -178,23 +175,38 @@ export function DataTable<T>({
             </tbody>
           </table>
         </div>
+
+        {/* Fixed actions column */}
+        {hasActions && (
+          <div className="flex-shrink-0 w-24 sm:w-32 border-l border-gray-200 bg-white">
+            <div className="bg-gray-50 px-3 sm:px-6 py-3 border-b border-gray-300">
+              <div className="text-xs font-medium text-gray-500 uppercase tracking-wider text-right">
+                <span className="hidden sm:inline">Действия</span>
+                <span className="sm:hidden">•••</span>
+              </div>
+            </div>
+            <div className="px-3 sm:px-6 py-12 text-center">
+              <span className="text-xs text-gray-400">—</span>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
 
-  // Render table with data
+  // Render table with data and fixed actions column
   return (
-    <div className="overflow-x-auto">
-      <div className="inline-block min-w-full align-middle">
+    <div className="flex max-w-full">
+      {/* Main scrollable table */}
+      <div className="flex-1 overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-300">
           <thead className="bg-gray-50">
             <tr>
               {columns.map((column) => (
                 <th
                   key={String(column.key)}
-                  className={`px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${
-                    column.sortable ? 'cursor-pointer hover:bg-gray-100 select-none transition-colors duration-200' : ''
-                  } ${column.width || ''}`}
+                  className={`px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${column.sortable ? 'cursor-pointer hover:bg-gray-100 select-none transition-colors duration-200' : ''
+                    } ${column.width || 'min-w-[120px]'}`}
                   onClick={() => handleColumnClick(String(column.key), column.sortable)}
                 >
                   <div className="flex items-center space-x-1">
@@ -202,11 +214,10 @@ export function DataTable<T>({
                     {column.sortable && (
                       <div className="flex flex-col flex-shrink-0">
                         <svg
-                          className={`w-3 h-3 transition-colors duration-200 ${
-                            sortField === String(column.key) && sortDirection === 'asc'
-                              ? 'text-blue-600'
-                              : 'text-gray-400'
-                          }`}
+                          className={`w-3 h-3 transition-colors duration-200 ${sortField === String(column.key) && sortDirection === 'asc'
+                            ? 'text-blue-600'
+                            : 'text-gray-400'
+                            }`}
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
@@ -217,11 +228,10 @@ export function DataTable<T>({
                           />
                         </svg>
                         <svg
-                          className={`w-3 h-3 -mt-1 transition-colors duration-200 ${
-                            sortField === String(column.key) && sortDirection === 'desc'
-                              ? 'text-blue-600'
-                              : 'text-gray-400'
-                          }`}
+                          className={`w-3 h-3 -mt-1 transition-colors duration-200 ${sortField === String(column.key) && sortDirection === 'desc'
+                            ? 'text-blue-600'
+                            : 'text-gray-400'
+                            }`}
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
@@ -236,12 +246,6 @@ export function DataTable<T>({
                   </div>
                 </th>
               ))}
-              {hasActions && (
-                <th className="px-3 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  <span className="hidden sm:inline">Действия</span>
-                  <span className="sm:hidden">•••</span>
-                </th>
-              )}
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -250,31 +254,90 @@ export function DataTable<T>({
                 {columns.map((column) => {
                   const value = item[column.key];
                   const cellContent = column.render ? column.render(value, item) : String(value);
-                  
+
                   return (
                     <td
                       key={String(column.key)}
-                      className="px-3 sm:px-6 py-4 text-sm text-gray-900"
+                      className="px-3 sm:px-6 py-4 text-sm text-gray-900 whitespace-nowrap"
                     >
-                      <div className="truncate max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg" title={String(value)}>
+                      <div className="truncate max-w-[200px]" title={String(value)}>
                         {cellContent}
                       </div>
                     </td>
                   );
                 })}
-                {hasActions && (
-                  <ActionColumn
-                    item={item}
-                    onEdit={onEdit}
-                    onDelete={onDelete}
-                    getItemId={getItemId}
-                  />
-                )}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      {/* Fixed actions column */}
+      {hasActions && (
+        <div className="flex-shrink-0 w-24 sm:w-32 border-l border-gray-200 bg-white">
+          <div className="bg-gray-50 px-3 sm:px-6 py-3 border-b border-gray-300">
+            <div className="text-xs font-medium text-gray-500 uppercase tracking-wider text-right">
+              <span className="hidden sm:inline">Действия</span>
+              <span className="sm:hidden">•••</span>
+            </div>
+          </div>
+          <div className="divide-y divide-gray-200">
+            {data.map((item, index) => (
+              <div key={getItemId(item) || index} className="px-3 sm:px-6 py-4 hover:bg-gray-50 transition-colors duration-150">
+                <div className="flex items-center justify-end space-x-1 sm:space-x-2">
+                  {onEdit && (
+                    <button
+                      onClick={() => onEdit(item)}
+                      className="inline-flex items-center p-1.5 sm:p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:scale-95"
+                      title="Редактировать"
+                      aria-label="Редактировать запись"
+                    >
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                        />
+                      </svg>
+                    </button>
+                  )}
+
+                  {onDelete && (
+                    <button
+                      onClick={() => onDelete(getItemId(item))}
+                      className="inline-flex items-center p-1.5 sm:p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 active:scale-95"
+                      title="Удалить"
+                      aria-label="Удалить запись"
+                    >
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                      </svg>
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

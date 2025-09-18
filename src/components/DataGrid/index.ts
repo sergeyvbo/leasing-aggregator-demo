@@ -1,5 +1,6 @@
 // Main DataGrid component export
 export { DataGrid } from './DataGrid';
+export { DataGridTest } from './DataGridTest';
 
 // Type exports for consumers
 export type {

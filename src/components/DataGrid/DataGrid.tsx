@@ -157,7 +157,7 @@ export function DataGrid<T>({
   }, []);
 
   return (
-    <div className={`bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden ${className}`}>
+    <div className={`bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden max-w-full ${className}`}>
       {/* Command Bar */}
       <CommandBar
         onAdd={onAdd}
@@ -171,17 +171,19 @@ export function DataGrid<T>({
         sortable={sortable}
       />
 
-      {/* Data Table */}
-      <DataTable
-        data={paginatedData}
-        columns={columns}
-        onEdit={onEdit}
-        onDelete={onDelete}
-        loading={loading}
-        sortField={sortField}
-        sortDirection={sortDirection}
-        onSort={handleSort}
-      />
+      {/* Data Table with fixed actions column */}
+      <div className="relative">
+        <DataTable
+          data={paginatedData}
+          columns={columns}
+          onEdit={onEdit}
+          onDelete={onDelete}
+          loading={loading}
+          sortField={sortField}
+          sortDirection={sortDirection}
+          onSort={handleSort}
+        />
+      </div>
 
       {/* Pagination */}
       <Pagination

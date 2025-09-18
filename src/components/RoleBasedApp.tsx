@@ -98,7 +98,7 @@ const RoleBasedApp: React.FC = () => {
   };
 
   // Handle deal creation from client page
-  const handleCreateDealFromClient = (inn: string) => {
+  const handleCreateDealFromClient = () => {
     if (selectedClient) {
       setDealCreationClient({
         inn: selectedClient.inn,

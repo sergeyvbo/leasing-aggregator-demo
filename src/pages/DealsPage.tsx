@@ -445,20 +445,6 @@ const DealsPage: React.FC<DealsPageProps> = ({ prefilledClient, onBackToClient }
     }
   };
 
-  // Helper function to search with specific INN
-  const searchCompanyWithInn = async (inn: string) => {
-    if (!inn) return;
-    setLoading(true);
-    setTimeout(() => {
-      const results = searchCompaniesByInn(inn);
-      setCompanyData({
-        inn: inn,
-        result: results
-      } as CompanyData);
-      setLoading(false);
-    }, 500);
-  };
-
   const handleEditDeal = (deal: Deal) => {
     // TODO: Implement deal editing functionality
     console.log('Edit deal:', deal);

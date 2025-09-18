@@ -26,8 +26,16 @@ const RoleBasedApp: React.FC = () => {
   const [activeMenuItem, setActiveMenuItem] = useState<string>('');
   
   // Client navigation state
-  const [currentView, setCurrentView] = useState<'list' | 'details'>('list');
+  const [currentView, setCurrentView] = useState<'list' | 'details' | 'create-deal'>('list');
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+  const [dealCreationClient, setDealCreationClient] = useState<{
+    inn: string;
+    name: string;
+    kpp?: string;
+    okato?: string;
+    opf?: string;
+    address?: string;
+  } | null>(null);
 
   // Initialize active menu item when role changes
   useEffect(() => {
@@ -65,6 +73,7 @@ const RoleBasedApp: React.FC = () => {
     // Reset client navigation when switching menu items
     setCurrentView('list');
     setSelectedClient(null);
+    setDealCreationClient(null);
   };
 
   // Handle client navigation
@@ -76,6 +85,7 @@ const RoleBasedApp: React.FC = () => {
   const handleBackToClientsList = () => {
     setCurrentView('list');
     setSelectedClient(null);
+    setDealCreationClient(null);
   };
 
   const handleClientVersionChange = (versionId: string) => {
@@ -87,6 +97,27 @@ const RoleBasedApp: React.FC = () => {
     }
   };
 
+  // Handle deal creation from client page
+  const handleCreateDealFromClient = (inn: string) => {
+    if (selectedClient) {
+      setDealCreationClient({
+        inn: selectedClient.inn,
+        name: selectedClient.fullName,
+        kpp: selectedClient.requisites.kpp,
+        okato: '', // This might need to be added to Client type if needed
+        opf: selectedClient.opf,
+        address: selectedClient.requisites.address
+      });
+      setCurrentView('create-deal');
+    }
+  };
+
+  // Handle back to client from deal creation
+  const handleBackToClientFromDeal = () => {
+    setCurrentView('details');
+    setDealCreationClient(null);
+  };
+
   // Render content based on active menu item and role
   const renderContent = () => {
     // Handle broker role menu items
@@ -96,12 +127,21 @@ const RoleBasedApp: React.FC = () => {
           return <DealsPage />;
         case 'clients':
           // Handle client navigation
+          if (currentView === 'create-deal' && dealCreationClient) {
+            return (
+              <DealsPage
+                prefilledClient={dealCreationClient}
+                onBackToClient={handleBackToClientFromDeal}
+              />
+            );
+          }
           if (currentView === 'details' && selectedClient) {
             return (
               <ClientDetailsPage
                 client={selectedClient}
                 onBack={handleBackToClientsList}
                 onVersionChange={handleClientVersionChange}
+                onCreateDeal={handleCreateDealFromClient}
               />
             );
           }

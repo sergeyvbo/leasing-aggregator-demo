@@ -8,12 +8,14 @@ interface ClientDetailsPageProps {
   client: Client;
   onBack: () => void;
   onVersionChange?: (versionId: string) => void;
+  onCreateDeal?: (inn: string) => void;
 }
 
 const ClientDetailsPage: React.FC<ClientDetailsPageProps> = ({
   client,
   onBack,
-  onVersionChange
+  onVersionChange,
+  onCreateDeal
 }) => {
   // Handle version change - this will update the client data when version navigation occurs
   const handleVersionChange = (versionId: string) => {
@@ -48,6 +50,21 @@ const ClientDetailsPage: React.FC<ClientDetailsPageProps> = ({
             </div>
           </div>
         </div>
+
+        {/* Create Deal Button */}
+        {onCreateDeal && (
+          <div className="mb-8">
+            <button
+              onClick={() => onCreateDeal(client.inn)}
+              className="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 flex items-center gap-2 shadow-md hover:shadow-lg"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+              Создать сделку
+            </button>
+          </div>
+        )}
 
         {/* Main content sections with proper spacing and responsive layout */}
         <div className="space-y-8 lg:space-y-10">

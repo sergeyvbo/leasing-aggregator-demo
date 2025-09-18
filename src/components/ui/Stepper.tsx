@@ -9,6 +9,7 @@ export interface StepperProps {
   selectedProduct: string | null; // Выбранное лизинговое предложение
   hasPaymentSchedule: boolean; // Получен ли график платежей
   onStepClick: (step: number) => void; // Callback для навигации
+  skipFirstStep?: boolean; // Пропустить первый шаг (уже выполнен)
 }
 
 // Step configuration
@@ -45,11 +46,17 @@ const Stepper: React.FC<StepperProps> = ({
   selectedVehicle,
   selectedProduct,
   hasPaymentSchedule,
-  onStepClick
+  onStepClick,
+  skipFirstStep = false
 }) => {
 
   // Function to determine step state based on current step
   const getStepState = (stepId: number): StepState => {
+    // If we're skipping first step and it's step 1, mark it as completed
+    if (skipFirstStep && stepId === 1) {
+      return 'completed';
+    }
+    
     if (currentStep > stepId) return 'completed';
     if (currentStep === stepId) return 'active';
     return 'future';
@@ -101,8 +108,8 @@ const Stepper: React.FC<StepperProps> = ({
     
     switch (stepId) {
       case 1:
-        // Display selected company name only if step is completed
-        return stepState === 'completed' ? selectedCompany : null;
+        // Display selected company name if step is completed or if we skipped first step
+        return (stepState === 'completed' || skipFirstStep) ? selectedCompany : null;
       case 2:
         // Display selected subject and vehicle info only if step is completed
         if (stepState === 'completed') {

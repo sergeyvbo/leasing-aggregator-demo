@@ -34,7 +34,17 @@ import { DataGrid } from '../components/DataGrid/DataGrid';
 import type { Deal } from './DealsPage/types';
 import { dealsColumns } from './DealsPage/dealsColumns';
 
-interface DealsPageProps {}
+interface DealsPageProps {
+  prefilledClient?: {
+    inn: string;
+    name: string;
+    kpp?: string;
+    okato?: string;
+    opf?: string;
+    address?: string;
+  };
+  onBackToClient?: () => void;
+}
 
 // Мок-данные для отображения сделок
 const mockDeals: Deal[] = [
@@ -145,7 +155,7 @@ const mockDeals: Deal[] = [
   }
 ];
 
-const DealsPage: React.FC<DealsPageProps> = () => {
+const DealsPage: React.FC<DealsPageProps> = ({ prefilledClient, onBackToClient }) => {
   // State for showing the deal creation flow
   const [showDealCreation, setShowDealCreation] = useState(false);
 
@@ -184,12 +194,19 @@ const DealsPage: React.FC<DealsPageProps> = () => {
     setSelectedVehicle(null);
   }, [leasingSubject]);
 
+  // Auto-start deal creation if prefilledClient is provided
+  useEffect(() => {
+    if (prefilledClient && !showDealCreation) {
+      handleAddDeal();
+    }
+  }, [prefilledClient]);
+
 
 
   // Event handlers from LeasingAggregator (login removed since it's handled at app level)
 
   const handleBackToDealsList = () => {
-    // Reset all state and return to deals table
+    // Reset all state and return to deals table or client page
     setCurrentPage('company-search'); // Start from company search instead of login
     setCompanyData({ inn: '', result: null });
     setSelectedCompany(null);
@@ -202,6 +219,11 @@ const DealsPage: React.FC<DealsPageProps> = () => {
     setPaymentSchedule(null);
     setShowSuccess(false);
     setShowDealCreation(false);
+    
+    // If we came from a client page, go back there
+    if (onBackToClient) {
+      onBackToClient();
+    }
   };
 
   const searchCompany = async () => {
@@ -394,7 +416,47 @@ const DealsPage: React.FC<DealsPageProps> = () => {
   // DataGrid handler functions
   const handleAddDeal = () => {
     setShowDealCreation(true);
-    setCurrentPage('company-search');
+    
+    // If we have a prefilled client, skip to step 2 with client already selected
+    if (prefilledClient) {
+      // Set the company data as if search was completed
+      const mockCompanyResult = [{
+        name: prefilledClient.name,
+        inn: prefilledClient.inn,
+        kpp: prefilledClient.kpp || '',
+        okato: prefilledClient.okato || '',
+        opf: prefilledClient.opf || '',
+        address: prefilledClient.address || ''
+      }];
+      
+      setCompanyData({ 
+        inn: prefilledClient.inn, 
+        result: mockCompanyResult 
+      });
+      
+      // Set the selected company
+      setSelectedCompany(mockCompanyResult[0]);
+      
+      // Go directly to step 2 (leasing subject selection)
+      setCurrentPage('leasing-subject');
+    } else {
+      // Normal flow - start from company search
+      setCurrentPage('company-search');
+    }
+  };
+
+  // Helper function to search with specific INN
+  const searchCompanyWithInn = async (inn: string) => {
+    if (!inn) return;
+    setLoading(true);
+    setTimeout(() => {
+      const results = searchCompaniesByInn(inn);
+      setCompanyData({
+        inn: inn,
+        result: results
+      } as CompanyData);
+      setLoading(false);
+    }, 500);
   };
 
   const handleEditDeal = (deal: Deal) => {
@@ -415,7 +477,7 @@ const DealsPage: React.FC<DealsPageProps> = () => {
   if (showDealCreation) {
     return (
       <div className="p-6">
-        {/* Back button to return to deals table */}
+        {/* Back button to return to deals table or client page */}
         <div className="mb-6">
           <button
             onClick={handleBackToDealsList}
@@ -424,7 +486,7 @@ const DealsPage: React.FC<DealsPageProps> = () => {
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            Назад к сделкам
+            {onBackToClient ? 'Назад к клиенту' : 'Назад к сделкам'}
           </button>
         </div>
 
@@ -436,6 +498,7 @@ const DealsPage: React.FC<DealsPageProps> = () => {
           selectedProduct={selectedProduct?.company || null}
           hasPaymentSchedule={paymentSchedule !== null}
           onStepClick={handleStepClick}
+          skipFirstStep={!!prefilledClient}
         />
 
         <div className="mt-8">

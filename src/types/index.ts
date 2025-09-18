@@ -59,3 +59,6 @@ export interface IconProps {
   size?: number;
   className?: string;
 }
+
+// Re-export role types
+export * from './roles';

@@ -1,8 +1,8 @@
-import LeasingAggregator from './components/LeasingAggregator';
+import RoleBasedApp from './components/RoleBasedApp';
 import './index.css';
 
 function App() {
-  return <LeasingAggregator />;
+  return <RoleBasedApp />;
 }
 
 export default App;

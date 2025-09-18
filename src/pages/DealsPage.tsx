@@ -29,17 +29,12 @@ import Stepper from '../components/ui/Stepper';
 import SuccessNotification from '../components/ui/SuccessNotification';
 import FinancingNotification from '../components/ui/FinancingNotification';
 
-interface Deal {
-  id: string;
-  client: string;
-  amount: number;
-  status: string;
-  date: string;
-}
+// Import DataGrid components
+import { DataGrid } from '../components/DataGrid/DataGrid';
+import type { Deal } from './DealsPage/types';
+import { dealsColumns } from './DealsPage/dealsColumns';
 
-interface DealsPageProps {
-  onCreateDeal?: () => void; // Made optional since we're integrating the functionality
-}
+interface DealsPageProps {}
 
 // Мок-данные для отображения сделок
 const mockDeals: Deal[] = [
@@ -77,10 +72,80 @@ const mockDeals: Deal[] = [
     amount: 650000,
     status: 'В обработке',
     date: '2024-01-05'
+  },
+  {
+    id: '6',
+    client: 'ООО "Автопарк"',
+    amount: 3200000,
+    status: 'Одобрено',
+    date: '2024-01-03'
+  },
+  {
+    id: '7',
+    client: 'ИП Сидоров М.К.',
+    amount: 920000,
+    status: 'В обработке',
+    date: '2024-01-02'
+  },
+  {
+    id: '8',
+    client: 'ООО "Грузоперевозки"',
+    amount: 1850000,
+    status: 'Завершено',
+    date: '2023-12-28'
+  },
+  {
+    id: '9',
+    client: 'ИП Козлов А.В.',
+    amount: 750000,
+    status: 'Отклонено',
+    date: '2023-12-25'
+  },
+  {
+    id: '10',
+    client: 'ООО "Экспресс Доставка"',
+    amount: 2100000,
+    status: 'В обработке',
+    date: '2023-12-22'
+  },
+  {
+    id: '11',
+    client: 'ИП Морозов Д.С.',
+    amount: 1200000,
+    status: 'Одобрено',
+    date: '2023-12-20'
+  },
+  {
+    id: '12',
+    client: 'ООО "Спецтехника"',
+    amount: 4800000,
+    status: 'Завершено',
+    date: '2023-12-18'
+  },
+  {
+    id: '13',
+    client: 'ИП Волков Н.П.',
+    amount: 680000,
+    status: 'В обработке',
+    date: '2023-12-15'
+  },
+  {
+    id: '14',
+    client: 'ООО "Мегатранс"',
+    amount: 3500000,
+    status: 'Отклонено',
+    date: '2023-12-12'
+  },
+  {
+    id: '15',
+    client: 'ИП Лебедев К.А.',
+    amount: 890000,
+    status: 'Одобрено',
+    date: '2023-12-10'
   }
 ];
 
-const DealsPage: React.FC<DealsPageProps> = ({ onCreateDeal }) => {
+const DealsPage: React.FC<DealsPageProps> = () => {
   // State for showing the deal creation flow
   const [showDealCreation, setShowDealCreation] = useState(false);
 
@@ -119,29 +184,7 @@ const DealsPage: React.FC<DealsPageProps> = ({ onCreateDeal }) => {
     setSelectedVehicle(null);
   }, [leasingSubject]);
 
-  // Utility functions for deals table
-  const formatAmount = (amount: number): string => {
-    return new Intl.NumberFormat('ru-RU', {
-      style: 'currency',
-      currency: 'RUB',
-      minimumFractionDigits: 0
-    }).format(amount);
-  };
 
-  const getStatusColor = (status: string): string => {
-    switch (status) {
-      case 'В обработке':
-        return 'text-yellow-600 bg-yellow-100';
-      case 'Одобрено':
-        return 'text-green-600 bg-green-100';
-      case 'Отклонено':
-        return 'text-red-600 bg-red-100';
-      case 'Завершено':
-        return 'text-blue-600 bg-blue-100';
-      default:
-        return 'text-gray-600 bg-gray-100';
-    }
-  };
 
   // Event handlers from LeasingAggregator (login removed since it's handled at app level)
 
@@ -348,13 +391,24 @@ const DealsPage: React.FC<DealsPageProps> = ({ onCreateDeal }) => {
     }
   };
 
-  // Handle "Create Deal" button click - starts the deal creation flow
-  const handleCreateDealClick = () => {
-    if (onCreateDeal) {
-      onCreateDeal(); // Call the original prop if provided for backward compatibility
-    }
+  // DataGrid handler functions
+  const handleAddDeal = () => {
     setShowDealCreation(true);
-    setCurrentPage('company-search'); // Start from company search, not login
+    setCurrentPage('company-search');
+  };
+
+  const handleEditDeal = (deal: Deal) => {
+    // TODO: Implement deal editing functionality
+    console.log('Edit deal:', deal);
+    // For now, we'll just log the deal. In a real implementation,
+    // this would open an edit modal or navigate to an edit page
+  };
+
+  const handleDeleteDeal = (id: string | number) => {
+    // TODO: Implement deal deletion functionality
+    console.log('Delete deal:', id);
+    // For now, we'll just log the ID. In a real implementation,
+    // this would show a confirmation dialog and then delete the deal
   };
 
   // If we're in deal creation mode, render the leasing aggregator functionality
@@ -461,63 +515,17 @@ const DealsPage: React.FC<DealsPageProps> = ({ onCreateDeal }) => {
     <div className="p-6">
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Сделки</h1>
       
-      {/* Таблица сделок */}
-      <div className="bg-white shadow-sm rounded-lg overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                ID
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Клиент
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Сумма
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Статус
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Дата
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {mockDeals.map((deal) => (
-              <tr key={deal.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {deal.id}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {deal.client}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {formatAmount(deal.amount)}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(deal.status)}`}>
-                    {deal.status}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {new Date(deal.date).toLocaleDateString('ru-RU')}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Кнопка "Создать сделку" под таблицей */}
-      <div className="mt-6">
-        <button
-          onClick={handleCreateDealClick}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
-        >
-          Создать сделку
-        </button>
-      </div>
+      {/* DataGrid component replaces the old table */}
+      <DataGrid
+        data={mockDeals}
+        columns={dealsColumns}
+        onAdd={handleAddDeal}
+        onEdit={handleEditDeal}
+        onDelete={handleDeleteDeal}
+        pageSize={5}
+        searchable={true}
+        sortable={true}
+      />
     </div>
   );
 };

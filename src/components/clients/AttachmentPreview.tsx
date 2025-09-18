@@ -1,7 +1,7 @@
 import React from 'react';
 import type { ClientAttachment, AttachmentPreviewProps } from '../../types/clients';
 
-const AttachmentPreview: React.FC<AttachmentPreviewProps> = ({ attachment, onView }) => {
+const AttachmentPreview: React.FC<AttachmentPreviewProps> = ({ attachment, onView, onDelete }) => {
   // Get file extension for icon display
   const getFileExtension = (filename: string): string => {
     return filename.split('.').pop()?.toLowerCase() || '';
@@ -56,6 +56,13 @@ const AttachmentPreview: React.FC<AttachmentPreviewProps> = ({ attachment, onVie
     onView(attachment);
   };
 
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering the view action
+    if (onDelete) {
+      onDelete(attachment.id);
+    }
+  };
+
   return (
     <div 
       className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md hover:border-gray-300 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 transition-all duration-200 cursor-pointer group"
@@ -106,6 +113,21 @@ const AttachmentPreview: React.FC<AttachmentPreviewProps> = ({ attachment, onVie
           </div>
         </div>
       </div>
+
+      {/* Delete button at the bottom */}
+      {onDelete && (
+        <div className="mt-3 pt-3 border-t border-gray-100">
+          <button
+            onClick={handleDelete}
+            className="w-full inline-flex items-center justify-center px-2 py-1 text-xs font-medium text-red-600 bg-red-50 border border-red-200 rounded-md hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
+          >
+            <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+            Удалить
+          </button>
+        </div>
+      )}
     </div>
   );
 };

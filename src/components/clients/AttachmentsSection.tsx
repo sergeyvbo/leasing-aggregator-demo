@@ -5,9 +5,11 @@ import { EmptyState } from '../common';
 
 interface AttachmentsSectionProps {
   attachments: ClientAttachment[];
+  onAddAttachment?: () => void;
+  onDeleteAttachment?: (attachmentId: string) => void;
 }
 
-const AttachmentsSection: React.FC<AttachmentsSectionProps> = ({ attachments }) => {
+const AttachmentsSection: React.FC<AttachmentsSectionProps> = ({ attachments, onAddAttachment, onDeleteAttachment }) => {
   const handleViewAttachment = (attachment: ClientAttachment) => {
     // For demo purposes, we'll just log the attachment
     // In a real application, this would open a modal or navigate to a viewer
@@ -24,7 +26,7 @@ const AttachmentsSection: React.FC<AttachmentsSectionProps> = ({ attachments }) 
     return (
       <EmptyState
         icon={<div className="text-4xl">📎</div>}
-        title="Нет вложений"
+        title="Нет сканов документов"
         description="У данного клиента пока нет загруженных документов и файлов"
       />
     );
@@ -35,8 +37,19 @@ const AttachmentsSection: React.FC<AttachmentsSectionProps> = ({ attachments }) 
       <div className="mb-4">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-medium text-gray-900">
-            Вложения ({attachments.length})
+            Сканы документов ({attachments.length})
           </h3>
+          {onAddAttachment && (
+            <button
+              onClick={onAddAttachment}
+              className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+            >
+              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Добавить
+            </button>
+          )}
         </div>
       </div>
 
@@ -47,6 +60,7 @@ const AttachmentsSection: React.FC<AttachmentsSectionProps> = ({ attachments }) 
             key={attachment.id}
             attachment={attachment}
             onView={handleViewAttachment}
+            onDelete={onDeleteAttachment}
           />
         ))}
       </div>

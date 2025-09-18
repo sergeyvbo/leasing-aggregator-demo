@@ -105,4 +105,5 @@ export interface DocumentCardProps {
 export interface AttachmentPreviewProps {
   attachment: ClientAttachment;
   onView: (attachment: ClientAttachment) => void;
+  onDelete?: (attachmentId: string) => void;
 }

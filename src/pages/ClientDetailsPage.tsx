@@ -84,8 +84,18 @@ const ClientDetailsPage: React.FC<ClientDetailsPageProps> = ({
           {/* Attachments Section */}
           <section className="scroll-mt-6" id="attachments">
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-900">Вложения</h2>
-              <AttachmentsSection attachments={client.attachments} />
+              <h2 className="text-xl font-semibold text-gray-900">Сканы документов</h2>
+              <AttachmentsSection 
+                attachments={client.attachments}
+                onAddAttachment={() => {
+                  // TODO: Implement add attachment functionality
+                  console.log('Add attachment clicked');
+                }}
+                onDeleteAttachment={(attachmentId) => {
+                  // TODO: Implement delete attachment functionality
+                  console.log('Delete attachment:', attachmentId);
+                }}
+              />
             </div>
           </section>
 

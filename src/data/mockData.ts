@@ -324,7 +324,7 @@ export const generatePaymentSchedule = (
     monthlyPayment,
     totalPayments,
     totalInterest,
-    schedule: schedule.slice(0, 12) // Show first 12 months
+    schedule: schedule // Show all payments
   };
 };
 // Filter application function with value adaptation

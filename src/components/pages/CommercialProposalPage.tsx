@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import type { CompanyResult, VehicleResult, LeasingProduct } from '../../types';
 import SendIcon from '../icons/SendIcon';
+import { DataGrid } from '../DataGrid/DataGrid';
+import type { PaymentScheduleItem } from './CommercialProposalPage/types';
+import { paymentScheduleColumns } from './CommercialProposalPage/paymentScheduleColumns';
 
 interface CommercialProposalPageProps {
   selectedCompany: CompanyResult | null;
@@ -75,10 +78,10 @@ const CommercialProposalPage: React.FC<CommercialProposalPageProps> = ({
               <div><span className="font-medium">Год выпуска:</span> {selectedVehicle.year}</div>
               <div><span className="font-medium">Мощность:</span> {selectedVehicle.power}</div>
               <div>
-                <span className="font-medium">Стоимость:</span> 
+                <span className="font-medium">Стоимость:</span>
                 <span className="ml-2">
-                  {selectedVehicle.customCost && selectedVehicle.customCost.trim() 
-                    ? selectedVehicle.customCost 
+                  {selectedVehicle.customCost && selectedVehicle.customCost.trim()
+                    ? selectedVehicle.customCost
                     : selectedVehicle.cost}
                 </span>
               </div>
@@ -132,39 +135,16 @@ const CommercialProposalPage: React.FC<CommercialProposalPageProps> = ({
               </div>
             </div>
 
-            {/* Таблица платежей */}
+            {/* DataGrid для графика платежей */}
             <div className="bg-white rounded-lg border overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Месяц</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Дата</th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Платеж</th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Основной долг</th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Проценты</th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Остаток</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    {paymentSchedule.schedule.map((item: any, index: number) => (
-                      <tr key={index} className="hover:bg-gray-50">
-                        <td className="px-4 py-3 text-sm font-medium text-gray-900">{item.month}</td>
-                        <td className="px-4 py-3 text-sm text-gray-600">{item.date}</td>
-                        <td className="px-4 py-3 text-sm text-right font-medium">{item.payment.toLocaleString('ru-RU')} ₽</td>
-                        <td className="px-4 py-3 text-sm text-right">{item.principal.toLocaleString('ru-RU')} ₽</td>
-                        <td className="px-4 py-3 text-sm text-right">{item.interest.toLocaleString('ru-RU')} ₽</td>
-                        <td className="px-4 py-3 text-sm text-right">{item.balance.toLocaleString('ru-RU')} ₽</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              {paymentSchedule.schedule.length === 12 && (
-                <div className="px-4 py-3 bg-gray-50 text-sm text-gray-600 text-center">
-                  Показаны первые 12 месяцев из {parseInt(selectedProduct?.term.replace(/\D/g, '') || '36')}
-                </div>
-              )}
+              <DataGrid
+                data={paymentSchedule.schedule as PaymentScheduleItem[]}
+                columns={paymentScheduleColumns}
+                pageSize={12}
+                searchable={false}
+                sortable={true}
+                className="text-sm"
+              />
             </div>
           </div>
         )}

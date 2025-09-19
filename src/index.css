@@ -58,3 +58,72 @@
 .icon { width: 20px; height: 20px; stroke: currentColor; }
 .icon-lg { width: 24px; height: 24px; stroke: currentColor; }
 .icon-xl { width: 32px; height: 32px; stroke: currentColor; }
+
+/* DataGrid row height synchronization using CSS Grid */
+.data-grid-wrapper {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  max-width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: white;
+}
+
+.data-grid-main {
+  overflow-x: auto;
+  border-right: 1px solid #e5e7eb;
+}
+
+.data-grid-actions {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Synchronized header heights */
+.data-grid-header-main,
+.data-grid-header-actions {
+  height: 49px; /* Exact height match */
+  display: flex;
+  align-items: center;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #d1d5db;
+}
+
+/* Synchronized row heights using CSS custom properties */
+.data-grid-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.data-grid-table tbody tr {
+  height: 57px; /* Fixed height for all rows */
+}
+
+.data-grid-table tbody td {
+  height: 57px; /* Match row height */
+  vertical-align: middle;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.data-grid-actions-row {
+  height: 57px; /* Exact match with table rows */
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .data-grid-actions-row {
+    padding: 0 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .data-grid-actions-row {
+    padding: 0 1.5rem;
+  }
+}

@@ -32,6 +32,7 @@ export interface ClientDocument {
   fields: Record<string, any>; // Dynamic fields based on document type
   issueDate?: string;
   expiryDate?: string;
+  attachments?: ClientAttachment[]; // Document-specific attachments
 }
 
 // Attachment with preview support

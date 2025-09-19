@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import type { ClientDocument } from '../../types/clients';
+import type { ClientDocument, ClientAttachment } from '../../types/clients';
 import { documentTypeFields, documentFieldLabels, documentTypeLabels } from '../../data/documentTypes';
+import AttachmentPreview from './AttachmentPreview';
 
 interface DocumentModalProps {
   document?: ClientDocument;
@@ -20,7 +21,8 @@ const DocumentModal: React.FC<DocumentModalProps> = ({
     title: '',
     fields: {},
     issueDate: '',
-    expiryDate: ''
+    expiryDate: '',
+    attachments: []
   });
 
   // Reset form when modal opens or document changes
@@ -38,7 +40,8 @@ const DocumentModal: React.FC<DocumentModalProps> = ({
           title: '',
           fields: {},
           issueDate: '',
-          expiryDate: ''
+          expiryDate: '',
+          attachments: []
         });
       }
     }
@@ -53,6 +56,39 @@ const DocumentModal: React.FC<DocumentModalProps> = ({
       type: newType as ClientDocument['type'],
       fields: {} // Reset fields when type changes
     }));
+  };
+
+  const handleAddAttachment = () => {
+    // TODO: Implement file upload functionality
+    // For now, we'll add a mock attachment for demonstration
+    const mockAttachment: ClientAttachment = {
+      id: `att_${Date.now()}`,
+      name: 'Новый документ.pdf',
+      type: 'application/pdf',
+      size: 1024000,
+      url: '#',
+      canPreview: false
+    };
+
+    setFormData(prev => ({
+      ...prev,
+      attachments: [...(prev.attachments || []), mockAttachment]
+    }));
+  };
+
+  const handleDeleteAttachment = (attachmentId: string) => {
+    setFormData(prev => ({
+      ...prev,
+      attachments: (prev.attachments || []).filter(att => att.id !== attachmentId)
+    }));
+  };
+
+  const handleViewAttachment = (attachment: ClientAttachment) => {
+    // For demo purposes, we'll just handle the attachment
+    // In a real application, this would open a modal or navigate to a viewer
+    if (attachment.url) {
+      window.open(attachment.url, '_blank');
+    }
   };
 
   const handleFieldChange = (fieldKey: string, value: string) => {
@@ -84,7 +120,8 @@ const DocumentModal: React.FC<DocumentModalProps> = ({
       title: formData.title,
       fields: formData.fields || {},
       issueDate: formData.issueDate || undefined,
-      expiryDate: formData.expiryDate || undefined
+      expiryDate: formData.expiryDate || undefined,
+      attachments: formData.attachments || []
     };
 
     onSave(documentToSave);
@@ -221,6 +258,49 @@ const DocumentModal: React.FC<DocumentModalProps> = ({
                   />
                 </div>
               </div>
+            </div>
+
+            {/* Document Attachments Section */}
+            <div className="bg-gray-50 rounded-lg p-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+                <h3 className="text-lg font-medium text-gray-900">
+                  Сканы документов ({(formData.attachments || []).length})
+                </h3>
+                <button
+                  type="button"
+                  onClick={handleAddAttachment}
+                  className="w-full sm:w-auto inline-flex items-center justify-center px-3 py-2 min-h-[44px] text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors touch-manipulation"
+                >
+                  <svg className="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                  <span>Добавить скан</span>
+                </button>
+              </div>
+
+              {/* Attachments Display */}
+              {!formData.attachments || formData.attachments.length === 0 ? (
+                <div className="text-center py-8">
+                  <div className="text-4xl mb-3">📎</div>
+                  <p className="text-gray-500 text-sm">
+                    Нет загруженных сканов документа
+                  </p>
+                  <p className="text-gray-400 text-xs mt-1">
+                    Добавьте сканы или фотографии документа
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3">
+                  {formData.attachments.map((attachment) => (
+                    <AttachmentPreview
+                      key={attachment.id}
+                      attachment={attachment}
+                      onView={handleViewAttachment}
+                      onDelete={handleDeleteAttachment}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 

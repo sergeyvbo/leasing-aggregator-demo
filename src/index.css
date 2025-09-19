@@ -64,21 +64,23 @@
   display: grid;
   grid-template-columns: 1fr auto;
   max-width: 100%;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
-  overflow: hidden;
   background: white;
 }
 
 .data-grid-main {
   overflow-x: auto;
-  border-right: 1px solid #e5e7eb;
 }
 
 .data-grid-actions {
   background-color: white;
   display: flex;
   flex-direction: column;
+  border-left: 1px solid #e5e7eb;
+}
+
+/* When there are no actions, the main section takes full width */
+.data-grid-wrapper:not(:has(.data-grid-actions)) {
+  grid-template-columns: 1fr;
 }
 
 /* Synchronized header heights */

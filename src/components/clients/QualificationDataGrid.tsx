@@ -1,6 +1,6 @@
 import React from 'react';
 import { DataGrid } from '../DataGrid/DataGrid';
-import type { ColumnDefinition } from '../DataGrid/types';
+import type { ColumnDefinition, SummaryConfig } from '../DataGrid/types';
 import type { ClientQualification } from '../../types/clients';
 import { EmptyState } from '../common';
 
@@ -23,10 +23,6 @@ const QualificationDataGrid: React.FC<QualificationDataGridProps> = ({ qualifica
   const formatLossStatus = (hasLoss: boolean): string => {
     return hasLoss ? 'Убыток' : 'Не убыток';
   };
-
-  // Calculate totals
-  const totalTurnover = qualifications.reduce((sum, q) => sum + q.accountTurnover, 0);
-  const totalRevenue = qualifications.reduce((sum, q) => sum + q.revenue, 0);
 
   // Column definitions for qualification data
   const columns: ColumnDefinition<ClientQualification>[] = [
@@ -67,6 +63,39 @@ const QualificationDataGrid: React.FC<QualificationDataGridProps> = ({ qualifica
     },
   ];
 
+  // Summary configuration for totals
+  const summaryConfig: SummaryConfig<ClientQualification> = {
+    calculate: (data: ClientQualification[]) => ({
+      totalTurnover: data.reduce((sum, q) => sum + q.accountTurnover, 0),
+      totalRevenue: data.reduce((sum, q) => sum + q.revenue, 0),
+      companiesWithLoss: data.filter(q => q.hasLoss).length,
+      totalCompanies: data.length,
+    }),
+    render: (summaryData: Record<string, any>) => (
+      <div className="p-3 md:p-4">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+          <span className="text-sm font-medium text-gray-900">Итого:</span>
+          <div className="flex flex-col sm:flex-row sm:space-x-4 md:space-x-8 space-y-2 sm:space-y-0 text-xs md:text-sm">
+            <div className="break-words">
+              <span className="text-gray-600">Общий оборот: </span>
+              <span className="font-medium text-gray-900">{formatCurrency(summaryData.totalTurnover)}</span>
+            </div>
+            <div className="break-words">
+              <span className="text-gray-600">Общая выручка: </span>
+              <span className="font-medium text-gray-900">{formatCurrency(summaryData.totalRevenue)}</span>
+            </div>
+            <div className="break-words">
+              <span className="text-gray-600">Компаний с убытком: </span>
+              <span className="font-medium text-gray-900">
+                {summaryData.companiesWithLoss} из {summaryData.totalCompanies}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
+  };
+
   // Handle empty state
   if (qualifications.length === 0) {
     return (
@@ -83,41 +112,16 @@ const QualificationDataGrid: React.FC<QualificationDataGridProps> = ({ qualifica
   }
 
   return (
-    <div className="space-y-3 md:space-y-4">
-      {/* Main qualification data grid - Enhanced with horizontal scroll for mobile */}
-      <div className="overflow-x-auto">
-        <DataGrid
-          data={qualifications}
-          columns={columns}
-          searchable={true}
-          sortable={true}
-          pageSize={10}
-          className="qualification-grid min-w-full"
-        />
-      </div>
-      
-      {/* Total summary row - Enhanced responsive layout */}
-      <div className="bg-gray-50 rounded-lg border border-gray-200 p-3 md:p-4">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3">
-          <span className="text-sm font-medium text-gray-900">Итого:</span>
-          <div className="flex flex-col sm:flex-row sm:space-x-4 md:space-x-8 space-y-2 sm:space-y-0 text-xs md:text-sm">
-            <div className="break-words">
-              <span className="text-gray-600">Общий оборот: </span>
-              <span className="font-medium text-gray-900">{formatCurrency(totalTurnover)}</span>
-            </div>
-            <div className="break-words">
-              <span className="text-gray-600">Общая выручка: </span>
-              <span className="font-medium text-gray-900">{formatCurrency(totalRevenue)}</span>
-            </div>
-            <div className="break-words">
-              <span className="text-gray-600">Компаний с убытком: </span>
-              <span className="font-medium text-gray-900">
-                {qualifications.filter(q => q.hasLoss).length} из {qualifications.length}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="overflow-x-auto">
+      <DataGrid
+        data={qualifications}
+        columns={columns}
+        searchable={true}
+        sortable={true}
+        pageSize={10}
+        summary={summaryConfig}
+        className="qualification-grid min-w-full"
+      />
     </div>
   );
 };

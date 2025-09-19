@@ -15,16 +15,16 @@ const sortData = <T,>(
   return [...data].sort((a, b) => {
     const aVal = a[field];
     const bVal = b[field];
-    
+
     // Handle null/undefined values
     if (aVal == null && bVal == null) return 0;
     if (aVal == null) return direction === 'asc' ? -1 : 1;
     if (bVal == null) return direction === 'asc' ? 1 : -1;
-    
+
     // Convert to strings for comparison if not numbers
     const aStr = typeof aVal === 'number' ? aVal : String(aVal).toLowerCase();
     const bStr = typeof bVal === 'number' ? bVal : String(bVal).toLowerCase();
-    
+
     if (direction === 'asc') {
       return aStr > bStr ? 1 : aStr < bStr ? -1 : 0;
     } else {
@@ -42,9 +42,9 @@ const filterData = <T,>(
   columns: Array<{ key: keyof T }>
 ): T[] => {
   if (!searchTerm.trim()) return data;
-  
+
   const lowercaseSearch = searchTerm.toLowerCase();
-  
+
   return data.filter(item =>
     columns.some(column => {
       const value = item[column.key];
@@ -82,6 +82,7 @@ export function DataGrid<T>({
   searchable = true,
   sortable = true,
   className = '',
+  summary,
 }: DataGridProps<T>) {
   // State management
   const [currentPage, setCurrentPage] = useState(1);
@@ -156,8 +157,14 @@ export function DataGrid<T>({
     setCurrentPage(page);
   }, []);
 
+  // Calculate summary data if summary config is provided
+  const summaryData = useMemo(() => {
+    if (!summary) return null;
+    return summary.calculate(processedData);
+  }, [summary, processedData]);
+
   return (
-    <div className={`bg-white rounded-lg shadow-sm overflow-hidden max-w-full ${className}`}>
+    <div className={`bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden max-w-full ${className}`}>
       {/* Command Bar */}
       <CommandBar
         onAdd={onAdd}
@@ -182,6 +189,13 @@ export function DataGrid<T>({
         sortDirection={sortDirection}
         onSort={handleSort}
       />
+
+      {/* Summary Row */}
+      {summary && summaryData && (
+        <div className="border-t border-gray-200 bg-gray-50">
+          {summary.render(summaryData)}
+        </div>
+      )}
 
       {/* Pagination */}
       <Pagination

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import React from 'react';
 
 /**
  * Column definition for DataGrid
@@ -15,6 +16,16 @@ export interface ColumnDefinition<T> {
   render?: (value: any, item: T) => ReactNode;
   /** CSS width class for the column */
   width?: string;
+}
+
+/**
+ * Summary row configuration
+ */
+export interface SummaryConfig<T> {
+  /** Function to calculate summary data from the full dataset */
+  calculate: (data: T[]) => Record<string, any>;
+  /** Custom render function for the summary row */
+  render: (summaryData: Record<string, any>) => React.ReactNode;
 }
 
 /**
@@ -42,6 +53,8 @@ export interface DataGridProps<T> {
   sortable?: boolean;
   /** Additional CSS classes for the container */
   className?: string;
+  /** Optional summary configuration */
+  summary?: SummaryConfig<T>;
 }
 
 /**

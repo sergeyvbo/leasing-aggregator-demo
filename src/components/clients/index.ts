@@ -2,6 +2,7 @@ export { VersionComponent } from './VersionComponent';
 export { ClientRequisitesCard } from './ClientRequisitesCard';
 export { DocumentCard } from './DocumentCard';
 export { DocumentsSection } from './DocumentsSection';
+export { default as DocumentModal } from './DocumentModal';
 export { default as AttachmentPreview } from './AttachmentPreview';
 export { default as AttachmentsSection } from './AttachmentsSection';
 export { default as QualificationDataGrid } from './QualificationDataGrid';

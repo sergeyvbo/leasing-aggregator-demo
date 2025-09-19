@@ -56,6 +56,40 @@ export const mockClients: Client[] = [
           scope: 'Медицинская деятельность',
           licenseType: 'Бессрочная'
         }
+      },
+      {
+        id: 'd1-3',
+        type: 'bank_statement',
+        title: 'Справка о движении денежных средств',
+        fields: {
+          bankName: 'ПАО Сбербанк',
+          accountNumber: '40702810938000123456',
+          statementPeriod: 'Январь-Декабрь 2024',
+          issueDate: '2024-12-31'
+        }
+      },
+      {
+        id: 'd1-4',
+        type: 'financial_report',
+        title: 'Бухгалтерский баланс за 2024 год',
+        fields: {
+          reportType: 'Бухгалтерский баланс',
+          reportingPeriod: '2024',
+          issueDate: '2024-12-31',
+          auditorName: 'ООО "Аудит-Консалтинг"'
+        }
+      },
+      {
+        id: 'd1-5',
+        type: 'contract',
+        title: 'Договор аренды офисного помещения',
+        fields: {
+          contractNumber: 'АР-2024/001',
+          contractDate: '2024-01-15',
+          contractSubject: 'Аренда офисного помещения площадью 150 кв.м.',
+          contractAmount: '180 000 руб./мес.',
+          counterparty: 'ООО "Недвижимость Центр"'
+        }
       }
     ],
     attachments: [
@@ -172,6 +206,43 @@ export const mockClients: Client[] = [
           issueDate: '1998-11-20',
           issuingAuthority: 'Регистрационная палата Санкт-Петербурга',
           registrationAddress: 'г. Санкт-Петербург, Невский проспект, д. 10'
+        }
+      },
+      {
+        id: 'd2-2',
+        type: 'passport',
+        title: 'Паспорт директора',
+        fields: {
+          passportSeries: '4012',
+          passportNumber: '567890',
+          issueDate: '2015-03-10',
+          issuingAuthority: 'ОУФМС России по Санкт-Петербургу в Центральном районе',
+          issuingCode: '780-001',
+          birthDate: '1985-07-22',
+          birthPlace: 'г. Санкт-Петербург'
+        }
+      },
+      {
+        id: 'd2-3',
+        type: 'inn_certificate',
+        title: 'Справка о постановке на учет в налоговом органе',
+        fields: {
+          innNumber: '781234567890',
+          issueDate: '1998-11-25',
+          issuingAuthority: 'ИФНС России №1 по Центральному району г. Санкт-Петербурга'
+        }
+      },
+      {
+        id: 'd2-4',
+        type: 'permit',
+        title: 'Разрешение на строительство',
+        fields: {
+          permitNumber: 'РС-78-2024-001234',
+          issueDate: '2024-02-15',
+          expiryDate: '2026-02-15',
+          purpose: 'Строительство офисного здания',
+          issuingAuthority: 'Комитет по градостроительству и архитектуре Санкт-Петербурга',
+          territory: 'г. Санкт-Петербург, Центральный район'
         }
       }
     ],

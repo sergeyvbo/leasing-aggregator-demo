@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { ClientDocument, EntityVersion } from '../../types/clients';
 import { DocumentCard } from './DocumentCard';
 import { EmptyState } from '../common';
 import { VersionComponent } from './VersionComponent';
+import DocumentModal from './DocumentModal';
 
 interface DocumentsSectionProps {
   documents: ClientDocument[];
@@ -21,6 +22,39 @@ export const DocumentsSection: React.FC<DocumentsSectionProps> = ({
   onEditDocument,
   onDeleteDocument
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDocument, setSelectedDocument] = useState<ClientDocument | undefined>(undefined);
+
+  const handleAddDocument = () => {
+    setSelectedDocument(undefined);
+    setIsModalOpen(true);
+  };
+
+  const handleEditDocument = (documentId: string) => {
+    const document = documents.find(doc => doc.id === documentId);
+    setSelectedDocument(document);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedDocument(undefined);
+  };
+
+  const handleSaveDocument = (document: ClientDocument) => {
+    // For demo purposes, just close the modal
+    // In a real app, this would save to backend
+    console.log('Saving document:', document);
+    setIsModalOpen(false);
+    setSelectedDocument(undefined);
+    
+    // Call the appropriate callback if provided
+    if (selectedDocument && onEditDocument) {
+      onEditDocument(document.id);
+    } else if (!selectedDocument && onAddDocument) {
+      onAddDocument();
+    }
+  };
   return (
     <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
       {/* Section Header with Version Component - Enhanced for mobile */}
@@ -48,7 +82,7 @@ export const DocumentsSection: React.FC<DocumentsSectionProps> = ({
         {/* Add Document Button - Enhanced for mobile */}
         <div className="mb-4 md:mb-6">
           <button
-            onClick={onAddDocument}
+            onClick={handleAddDocument}
             className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 min-h-[44px] text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors touch-manipulation"
           >
             <svg className="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -77,13 +111,21 @@ export const DocumentsSection: React.FC<DocumentsSectionProps> = ({
               <DocumentCard 
                 key={document.id} 
                 document={document}
-                onEdit={onEditDocument}
+                onEdit={handleEditDocument}
                 onDelete={onDeleteDocument}
               />
             ))}
           </div>
         )}
       </div>
+
+      {/* Document Modal */}
+      <DocumentModal
+        document={selectedDocument}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSave={handleSaveDocument}
+      />
     </div>
   );
 };

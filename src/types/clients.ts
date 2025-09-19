@@ -27,7 +27,7 @@ export interface ClientRequisites {
 // Document types with flexible fields
 export interface ClientDocument {
   id: string;
-  type: 'registration' | 'license' | 'permit' | 'other';
+  type: 'registration' | 'license' | 'permit' | 'passport' | 'inn_certificate' | 'bank_statement' | 'financial_report' | 'contract' | 'other';
   title: string;
   fields: Record<string, any>; // Dynamic fields based on document type
   issueDate?: string;

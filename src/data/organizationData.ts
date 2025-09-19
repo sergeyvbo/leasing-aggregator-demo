@@ -76,7 +76,7 @@ export const mockEmployees: Employee[] = [
     id: 'emp-1',
     fullName: 'Петров Петр Петрович',
     login: 'petrov',
-    role: 'Брокер',
+    role: 'Руководитель брокера',
     status: 'Активен',
     activeDealsCount: 15,
     isCurrentUser: true // Current logged-in user
@@ -85,7 +85,7 @@ export const mockEmployees: Employee[] = [
     id: 'emp-2',
     fullName: 'Сидорова Анна Владимировна',
     login: 'sidorova',
-    role: 'Руководитель брокера',
+    role: 'Брокер',
     status: 'Активен',
     activeDealsCount: 8
   },
@@ -93,7 +93,7 @@ export const mockEmployees: Employee[] = [
     id: 'emp-3',
     fullName: 'Козлов Михаил Александрович',
     login: 'kozlov',
-    role: 'Бизнес-администратор',
+    role: 'Брокер',
     status: 'Активен',
     activeDealsCount: 3
   },
@@ -101,7 +101,7 @@ export const mockEmployees: Employee[] = [
     id: 'emp-4',
     fullName: 'Новикова Елена Игоревна',
     login: 'novikova',
-    role: 'Технический администратор',
+    role: 'Брокер',
     status: 'Активен',
     activeDealsCount: 0
   },
@@ -125,7 +125,7 @@ export const mockEmployees: Employee[] = [
     id: 'emp-7',
     fullName: 'Морозов Сергей Николаевич',
     login: 'morozov',
-    role: 'Руководитель брокера',
+    role: 'Брокер',
     status: 'Активен',
     activeDealsCount: 5
   },

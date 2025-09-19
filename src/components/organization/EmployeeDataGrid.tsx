@@ -115,54 +115,27 @@ const EmployeeDataGrid: React.FC<EmployeeDataGridProps> = ({
       activeEmployees: data.filter(emp => emp.status === 'Активен').length,
       pendingEmployees: data.filter(emp => emp.status === 'Ожидает активации').length,
       totalActiveDeals: data.reduce((sum, emp) => sum + emp.activeDealsCount, 0),
-      brokers: data.filter(emp => emp.role === 'Брокер').length,
-      managers: data.filter(emp => emp.role === 'Руководитель брокера').length,
-      businessAdmins: data.filter(emp => emp.role === 'Бизнес-администратор').length,
-      techAdmins: data.filter(emp => emp.role === 'Технический администратор').length,
     }),
     render: (summaryData: Record<string, any>) => (
       <div className="p-3 md:p-4">
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3">
-            <span className="text-sm font-medium text-gray-900">Итого сотрудников:</span>
-            <div className="flex flex-col sm:flex-row sm:space-x-4 md:space-x-6 space-y-2 sm:space-y-0 text-xs md:text-sm">
-              <div className="break-words">
-                <span className="text-gray-600">Всего: </span>
-                <span className="font-medium text-gray-900">{summaryData.totalEmployees}</span>
-              </div>
-              <div className="break-words">
-                <span className="text-gray-600">Активных: </span>
-                <span className="font-medium text-green-700">{summaryData.activeEmployees}</span>
-              </div>
-              <div className="break-words">
-                <span className="text-gray-600">Ожидают активации: </span>
-                <span className="font-medium text-yellow-700">{summaryData.pendingEmployees}</span>
-              </div>
-              <div className="break-words">
-                <span className="text-gray-600">Активных сделок: </span>
-                <span className="font-medium text-blue-700">{summaryData.totalActiveDeals}</span>
-              </div>
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+          <span className="text-sm font-medium text-gray-900">Итого сотрудников:</span>
+          <div className="flex flex-col sm:flex-row sm:space-x-4 md:space-x-6 space-y-2 sm:space-y-0 text-xs md:text-sm">
+            <div className="break-words">
+              <span className="text-gray-600">Всего: </span>
+              <span className="font-medium text-gray-900">{summaryData.totalEmployees}</span>
             </div>
-          </div>
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3">
-            <span className="text-sm font-medium text-gray-900">По ролям:</span>
-            <div className="flex flex-col sm:flex-row sm:space-x-4 md:space-x-6 space-y-2 sm:space-y-0 text-xs md:text-sm">
-              <div className="break-words">
-                <span className="text-gray-600">Брокеры: </span>
-                <span className="font-medium text-blue-700">{summaryData.brokers}</span>
-              </div>
-              <div className="break-words">
-                <span className="text-gray-600">Руководители: </span>
-                <span className="font-medium text-purple-700">{summaryData.managers}</span>
-              </div>
-              <div className="break-words">
-                <span className="text-gray-600">Бизнес-админы: </span>
-                <span className="font-medium text-green-700">{summaryData.businessAdmins}</span>
-              </div>
-              <div className="break-words">
-                <span className="text-gray-600">Тех-админы: </span>
-                <span className="font-medium text-orange-700">{summaryData.techAdmins}</span>
-              </div>
+            <div className="break-words">
+              <span className="text-gray-600">Активных: </span>
+              <span className="font-medium text-green-700">{summaryData.activeEmployees}</span>
+            </div>
+            <div className="break-words">
+              <span className="text-gray-600">Ожидают активации: </span>
+              <span className="font-medium text-yellow-700">{summaryData.pendingEmployees}</span>
+            </div>
+            <div className="break-words">
+              <span className="text-gray-600">Активных сделок: </span>
+              <span className="font-medium text-blue-700">{summaryData.totalActiveDeals}</span>
             </div>
           </div>
         </div>

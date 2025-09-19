@@ -65,3 +65,6 @@ export * from './roles';
 
 // Re-export client types
 export * from './clients';
+
+// Re-export organization types
+export * from './organization';

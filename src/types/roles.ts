@@ -1,6 +1,7 @@
 // Role identifiers as constants
 export const ROLE_IDS = {
   BROKER: 'broker',
+  BROKER_MANAGER: 'broker-manager',
   BUSINESS_ADMIN: 'business-admin',
   TECH_ADMIN: 'tech-admin'
 } as const;
@@ -25,6 +26,10 @@ export interface RoleType {
 // Menu configuration for each role
 export const MENU_CONFIG: Record<RoleId, MenuItem[]> = {
   [ROLE_IDS.BROKER]: [
+    { id: 'deals', label: 'Сделки', path: '/deals' },
+    { id: 'clients', label: 'Клиенты', path: '/clients' }
+  ],
+  [ROLE_IDS.BROKER_MANAGER]: [
     { id: 'deals', label: 'Сделки', path: '/deals' },
     { id: 'clients', label: 'Клиенты', path: '/clients' },
     { id: 'reports', label: 'Отчеты', path: '/reports' },
@@ -52,6 +57,11 @@ export const ROLES: RoleType[] = [
     id: ROLE_IDS.BROKER,
     name: 'Брокер',
     menuItems: MENU_CONFIG[ROLE_IDS.BROKER]
+  },
+  {
+    id: ROLE_IDS.BROKER_MANAGER,
+    name: 'Руководитель брокера',
+    menuItems: MENU_CONFIG[ROLE_IDS.BROKER_MANAGER]
   },
   {
     id: ROLE_IDS.BUSINESS_ADMIN,

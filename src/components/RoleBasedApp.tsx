@@ -6,6 +6,7 @@ import ClientDetailsPage from '../pages/ClientDetailsPage';
 import ReportsPage from '../pages/ReportsPage';
 import ReportDetailsPage from '../pages/ReportDetailsPage';
 import PlaceholderPage from '../pages/PlaceholderPage';
+import MyOrganizationPage from '../pages/MyOrganizationPage';
 import LoginPage from './pages/LoginPage';
 import type { RoleId } from '../types/roles';
 import type { LoginData } from '../types';
@@ -167,6 +168,37 @@ const RoleBasedApp: React.FC = () => {
             );
           }
           return <ClientsPage onViewClient={handleViewClient} />;
+        default:
+          return <DealsPage />;
+      }
+    }
+
+    // Handle broker manager role menu items
+    if (currentRole === ROLE_IDS.BROKER_MANAGER) {
+      switch (activeMenuItem) {
+        case 'deals':
+          return <DealsPage />;
+        case 'clients':
+          // Handle client navigation
+          if (currentView === 'create-deal' && dealCreationClient) {
+            return (
+              <DealsPage
+                prefilledClient={dealCreationClient}
+                onBackToClient={handleBackToClientFromDeal}
+              />
+            );
+          }
+          if (currentView === 'details' && selectedClient) {
+            return (
+              <ClientDetailsPage
+                client={selectedClient}
+                onBack={handleBackToClientsList}
+                onVersionChange={handleClientVersionChange}
+                onCreateDeal={handleCreateDealFromClient}
+              />
+            );
+          }
+          return <ClientsPage onViewClient={handleViewClient} />;
         case 'reports':
           // Handle reports navigation
           if (reportsView === 'details' && selectedReport) {
@@ -179,7 +211,7 @@ const RoleBasedApp: React.FC = () => {
           }
           return <ReportsPage onViewReport={handleViewReport} />;
         case 'organization':
-          return <PlaceholderPage title="Моя организация" />;
+          return <MyOrganizationPage />;
         default:
           return <DealsPage />;
       }

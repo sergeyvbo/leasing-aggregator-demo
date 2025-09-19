@@ -3,11 +3,14 @@ import { Layout } from './Layout';
 import DealsPage from '../pages/DealsPage';
 import ClientsPage from '../pages/ClientsPage';
 import ClientDetailsPage from '../pages/ClientDetailsPage';
+import ReportsPage from '../pages/ReportsPage';
+import ReportDetailsPage from '../pages/ReportDetailsPage';
 import PlaceholderPage from '../pages/PlaceholderPage';
 import LoginPage from './pages/LoginPage';
 import type { RoleId } from '../types/roles';
 import type { LoginData } from '../types';
 import type { Client } from '../types/clients';
+import type { Report } from '../types/reports';
 import { ROLE_IDS, MENU_CONFIG } from '../types/roles';
 import { getSavedRole } from '../ui/RoleSelector';
 import { getClientWithVersion } from '../data/clientsData';
@@ -36,6 +39,10 @@ const RoleBasedApp: React.FC = () => {
     opf?: string;
     address?: string;
   } | null>(null);
+
+  // Reports navigation state
+  const [reportsView, setReportsView] = useState<'list' | 'details'>('list');
+  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
 
   // Initialize active menu item when role changes
   useEffect(() => {
@@ -74,6 +81,9 @@ const RoleBasedApp: React.FC = () => {
     setCurrentView('list');
     setSelectedClient(null);
     setDealCreationClient(null);
+    // Reset reports navigation when switching menu items
+    setReportsView('list');
+    setSelectedReport(null);
   };
 
   // Handle client navigation
@@ -118,6 +128,17 @@ const RoleBasedApp: React.FC = () => {
     setDealCreationClient(null);
   };
 
+  // Handle reports navigation
+  const handleViewReport = (report: Report) => {
+    setSelectedReport(report);
+    setReportsView('details');
+  };
+
+  const handleBackToReportsList = () => {
+    setReportsView('list');
+    setSelectedReport(null);
+  };
+
   // Render content based on active menu item and role
   const renderContent = () => {
     // Handle broker role menu items
@@ -147,7 +168,16 @@ const RoleBasedApp: React.FC = () => {
           }
           return <ClientsPage onViewClient={handleViewClient} />;
         case 'reports':
-          return <PlaceholderPage title="Отчеты" />;
+          // Handle reports navigation
+          if (reportsView === 'details' && selectedReport) {
+            return (
+              <ReportDetailsPage
+                report={selectedReport}
+                onBack={handleBackToReportsList}
+              />
+            );
+          }
+          return <ReportsPage onViewReport={handleViewReport} />;
         case 'organization':
           return <PlaceholderPage title="Моя организация" />;
         default:

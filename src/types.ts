@@ -106,3 +106,6 @@ export interface FilterConfig {
     text: ComparisonOperator[];
   };
 }
+
+// Re-export report types for consistency
+export type { Report, ReportParameter, GeneratedReport } from './types/reports';

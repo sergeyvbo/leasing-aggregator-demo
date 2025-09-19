@@ -32,7 +32,7 @@ const LeasingResults: React.FC<LeasingResultsProps> = ({
               {/* Desktop button */}
               <button
                 onClick={() => onCreateProposal(product)}
-                className="hidden sm:flex ml-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 items-center"
+                className="hidden sm:flex ml-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 items-center min-h-[44px]"
               >
                 <FileTextIcon size={20} className="mr-2" />
                 Создать КП
@@ -69,7 +69,7 @@ const LeasingResults: React.FC<LeasingResultsProps> = ({
             {/* Mobile button */}
             <button
               onClick={() => onCreateProposal(product)}
-              className="sm:hidden w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center"
+              className="sm:hidden w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center min-h-[44px]"
             >
               <FileTextIcon size={20} className="mr-2" />
               Создать КП

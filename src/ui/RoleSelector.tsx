@@ -32,11 +32,11 @@ export const RoleSelector: React.FC<RoleSelectorProps> = ({
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between w-64 px-4 py-2 text-left bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        className="flex items-center justify-between w-32 sm:w-48 md:w-64 px-3 md:px-4 py-2 min-h-[44px] text-left bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
       >
-        <span className="text-gray-900">{currentRoleName}</span>
+        <span className="text-gray-900 text-sm md:text-base truncate pr-2">{currentRoleName}</span>
         <svg
-          className={`w-5 h-5 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 md:w-5 md:h-5 text-gray-400 transition-transform flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -46,13 +46,13 @@ export const RoleSelector: React.FC<RoleSelectorProps> = ({
       </button>
 
       {isOpen && (
-        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg right-0 md:right-auto">
           <div className="py-1">
             {ROLES.map((role) => (
               <button
                 key={role.id}
                 onClick={() => handleRoleSelect(role.id)}
-                className={`w-full px-4 py-2 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100 ${
+                className={`w-full px-3 md:px-4 py-2 min-h-[44px] text-left text-sm md:text-base hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition-colors duration-200 ${
                   role.id === currentRole ? 'bg-blue-50 text-blue-700' : 'text-gray-900'
                 }`}
               >

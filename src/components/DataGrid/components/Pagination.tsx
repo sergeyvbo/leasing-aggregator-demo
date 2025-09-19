@@ -72,30 +72,30 @@ export const Pagination: React.FC<PaginationProps> = ({
   const pageNumbers = getPageNumbers();
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-4 py-3 bg-gray-50 border-t border-gray-200 sm:px-6">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-4 py-4 bg-gray-50 border-t border-gray-200 sm:px-6">
       {/* Mobile pagination */}
-      <div className="flex flex-1 justify-between sm:hidden">
+      <div className="flex flex-1 justify-between items-center sm:hidden">
         {showNavigation ? (
           <>
             <button
               onClick={handlePrevious}
               disabled={currentPage === 1}
-              className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 active:scale-95"
+              className="relative inline-flex items-center px-4 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 active:scale-95 min-h-[44px] min-w-[80px] touch-manipulation"
             >
               <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
               </svg>
               Назад
             </button>
-            <div className="flex items-center px-4 py-2 text-sm text-gray-700">
+            <div className="flex items-center px-3 py-2 text-sm text-gray-700 bg-white rounded-lg border border-gray-200">
               <span className="font-medium">{currentPage}</span>
-              <span className="mx-1">из</span>
+              <span className="mx-1 text-gray-500">из</span>
               <span className="font-medium">{totalPages}</span>
             </div>
             <button
               onClick={handleNext}
               disabled={currentPage === totalPages}
-              className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 active:scale-95"
+              className="relative inline-flex items-center px-4 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 active:scale-95 min-h-[44px] min-w-[80px] touch-manipulation"
             >
               Далее
               <svg className="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20">
@@ -105,7 +105,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           </>
         ) : (
           <div className="flex justify-center w-full">
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-gray-700 py-2">
               Показано {totalItems} из {totalItems} результатов
             </p>
           </div>
@@ -133,7 +133,7 @@ export const Pagination: React.FC<PaginationProps> = ({
               <button
                 onClick={handlePrevious}
                 disabled={currentPage === 1}
-                className="relative inline-flex items-center rounded-l-lg px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:text-gray-600 focus:z-20 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                className="relative inline-flex items-center justify-center rounded-l-lg px-3 py-2.5 md:px-2 md:py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:text-gray-600 focus:z-20 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 min-h-[44px] min-w-[44px] md:min-h-[auto] md:min-w-[auto] touch-manipulation"
               >
                 <span className="sr-only">Предыдущая</span>
                 <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -146,7 +146,7 @@ export const Pagination: React.FC<PaginationProps> = ({
                 <button
                   key={page}
                   onClick={() => handlePageClick(page)}
-                  className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 ${
+                  className={`relative inline-flex items-center justify-center px-4 py-2.5 md:py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 min-h-[44px] min-w-[44px] md:min-h-[auto] md:min-w-[auto] touch-manipulation ${
                     page === currentPage
                       ? 'z-10 bg-blue-600 text-white hover:bg-blue-700 ring-blue-600'
                       : 'text-gray-900 hover:text-gray-700'
@@ -160,7 +160,7 @@ export const Pagination: React.FC<PaginationProps> = ({
               <button
                 onClick={handleNext}
                 disabled={currentPage === totalPages}
-                className="relative inline-flex items-center rounded-r-lg px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:text-gray-600 focus:z-20 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                className="relative inline-flex items-center justify-center rounded-r-lg px-3 py-2.5 md:px-2 md:py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:text-gray-600 focus:z-20 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 min-h-[44px] min-w-[44px] md:min-h-[auto] md:min-w-[auto] touch-manipulation"
               >
                 <span className="sr-only">Следующая</span>
                 <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

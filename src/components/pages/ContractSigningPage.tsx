@@ -425,9 +425,9 @@ const ContractSigningPage: React.FC<ContractSigningPageProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8">
-      <div className="flex items-center justify-between mb-8">
-        <h2 className="text-3xl font-bold text-gray-900">Подписание договора лизинга</h2>
+    <div className="bg-white rounded-2xl shadow-xl p-4 md:p-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 md:mb-8 space-y-4 sm:space-y-0">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Подписание договора лизинга</h2>
 
         {/* Индикатор страниц */}
         <div className="flex items-center space-x-2">
@@ -435,7 +435,7 @@ const ContractSigningPage: React.FC<ContractSigningPageProps> = ({
             <button
               key={page}
               onClick={() => goToPage(page)}
-              className={`w-8 h-8 rounded-full text-sm font-medium transition-colors ${currentPage === page
+              className={`w-10 h-10 md:w-8 md:h-8 rounded-full text-sm font-medium transition-colors min-h-[44px] min-w-[44px] md:min-h-[auto] md:min-w-[auto] flex items-center justify-center ${currentPage === page
                 ? 'bg-blue-600 text-white'
                 : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
                 }`}
@@ -458,7 +458,7 @@ const ContractSigningPage: React.FC<ContractSigningPageProps> = ({
         <button
           onClick={prevPage}
           disabled={currentPage === 1}
-          className={`flex items-center px-4 py-2 rounded-lg transition-colors ${currentPage === 1
+          className={`flex items-center px-4 py-3 md:py-2 rounded-lg transition-colors min-h-[44px] md:min-h-[auto] ${currentPage === 1
             ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
             : 'bg-gray-600 text-white hover:bg-gray-700'
             }`}
@@ -476,7 +476,7 @@ const ContractSigningPage: React.FC<ContractSigningPageProps> = ({
         <button
           onClick={nextPage}
           disabled={currentPage === totalPages}
-          className={`flex items-center px-4 py-2 rounded-lg transition-colors ${currentPage === totalPages
+          className={`flex items-center px-4 py-3 md:py-2 rounded-lg transition-colors min-h-[44px] md:min-h-[auto] ${currentPage === totalPages
             ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
             : 'bg-gray-600 text-white hover:bg-gray-700'
             }`}
@@ -492,7 +492,7 @@ const ContractSigningPage: React.FC<ContractSigningPageProps> = ({
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <button
           onClick={handleSignContract}
-          className="px-8 py-4 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-xl hover:from-green-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center text-lg font-medium"
+          className="px-6 md:px-8 py-4 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-xl hover:from-green-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center text-base md:text-lg font-medium min-h-[44px]"
         >
           <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -502,7 +502,7 @@ const ContractSigningPage: React.FC<ContractSigningPageProps> = ({
 
         <button
           onClick={handlePayment}
-          className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300 flex items-center justify-center text-lg font-medium"
+          className="px-6 md:px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300 flex items-center justify-center text-base md:text-lg font-medium min-h-[44px]"
         >
           <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
@@ -512,7 +512,7 @@ const ContractSigningPage: React.FC<ContractSigningPageProps> = ({
 
         <button
           onClick={handleSavePDF}
-          className="px-8 py-4 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-xl hover:from-gray-700 hover:to-gray-800 transition-all duration-300 flex items-center justify-center text-lg font-medium"
+          className="px-6 md:px-8 py-4 bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-xl hover:from-gray-700 hover:to-gray-800 transition-all duration-300 flex items-center justify-center text-base md:text-lg font-medium min-h-[44px]"
         >
           <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

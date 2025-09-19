@@ -44,7 +44,7 @@ export const CommandBar: React.FC<CommandBarProps> = ({
         {onAdd && (
           <button
             onClick={onAdd}
-            className="inline-flex items-center px-4 py-2.5 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg shadow-sm hover:bg-blue-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 active:scale-95"
+            className="inline-flex items-center justify-center px-4 py-3 md:py-2.5 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg shadow-sm hover:bg-blue-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 active:scale-95 min-h-[44px] md:min-h-[auto] touch-manipulation"
           >
             <svg
               className="w-4 h-4 mr-2"
@@ -67,10 +67,10 @@ export const CommandBar: React.FC<CommandBarProps> = ({
       </div>
 
       {/* Right side - Search and Sort controls */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
         {/* Search input */}
         {searchable && (
-          <div className="relative min-w-0 flex-1 sm:flex-initial sm:w-64">
+          <div className="relative min-w-0 flex-1 sm:flex-initial sm:w-64 lg:w-72">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <svg
                 className="h-4 w-4 text-gray-400"
@@ -92,19 +92,19 @@ export const CommandBar: React.FC<CommandBarProps> = ({
               value={searchValue}
               onChange={handleSearchChange}
               placeholder="Поиск..."
-              className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all duration-200"
+              className="block w-full pl-10 pr-3 py-3 md:py-2.5 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all duration-200 min-h-[44px] md:min-h-[auto] touch-manipulation"
             />
           </div>
         )}
 
         {/* Sort controls */}
         {sortable && sortableColumns.length > 0 && (
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-2">
             {/* Sort field selector */}
             <select
               value={sortField}
               onChange={handleSortFieldChange}
-              className="block w-full sm:w-auto min-w-0 sm:min-w-[140px] px-3 py-2.5 text-sm border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              className="block w-full sm:w-auto min-w-0 sm:min-w-[140px] px-3 py-3 md:py-2.5 text-sm border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 min-h-[44px] md:min-h-[auto] touch-manipulation"
             >
               <option value="">Сортировка</option>
               {sortableColumns.map((column) => (
@@ -116,11 +116,11 @@ export const CommandBar: React.FC<CommandBarProps> = ({
 
             {/* Sort direction controls */}
             {sortField && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3 sm:gap-2">
                 <select
                   value={sortDirection}
                   onChange={handleSortDirectionChange}
-                  className="block w-full sm:w-auto min-w-0 sm:min-w-[120px] px-3 py-2.5 text-sm border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                  className="block w-full sm:w-auto min-w-0 sm:min-w-[120px] px-3 py-3 md:py-2.5 text-sm border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 min-h-[44px] md:min-h-[auto] touch-manipulation"
                 >
                   <option value="asc">↑ По возр.</option>
                   <option value="desc">↓ По убыв.</option>
@@ -129,7 +129,7 @@ export const CommandBar: React.FC<CommandBarProps> = ({
                 {/* Sort direction toggle button */}
                 <button
                   onClick={toggleSortDirection}
-                  className="inline-flex items-center p-2.5 text-gray-400 hover:text-gray-600 hover:bg-white hover:shadow-sm rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:scale-95"
+                  className="inline-flex items-center justify-center p-3 md:p-2.5 text-gray-400 hover:text-gray-600 hover:bg-white hover:shadow-sm rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:scale-95 min-h-[44px] min-w-[44px] md:min-h-[auto] md:min-w-[auto] touch-manipulation"
                   title={`Сортировать ${sortDirection === 'asc' ? 'по убыванию' : 'по возрастанию'}`}
                   aria-label={`Изменить направление сортировки на ${sortDirection === 'asc' ? 'убывание' : 'возрастание'}`}
                 >

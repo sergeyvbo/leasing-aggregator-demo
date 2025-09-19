@@ -171,8 +171,8 @@ export function DataGrid<T>({
         sortable={sortable}
       />
 
-      {/* Data Table with fixed actions column */}
-      <div className="relative">
+      {/* Data Table with horizontal scroll on mobile */}
+      <div className="relative overflow-x-auto">
         <DataTable
           data={paginatedData}
           columns={columns}

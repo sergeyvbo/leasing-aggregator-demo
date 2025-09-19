@@ -176,7 +176,7 @@ const CommercialProposalPage: React.FC<CommercialProposalPageProps> = ({
             <button
               onClick={handleSendProposal}
               disabled={isProposalSent}
-              className={`px-8 py-4 rounded-xl transition-all duration-300 flex items-center text-lg font-medium ${isProposalSent
+              className={`px-6 md:px-8 py-4 rounded-xl transition-all duration-300 flex items-center justify-center text-base md:text-lg font-medium min-h-[44px] w-full sm:w-auto ${isProposalSent
                 ? 'bg-green-500 text-white cursor-default'
                 : 'bg-gradient-to-r from-green-600 to-blue-600 text-white hover:from-green-700 hover:to-blue-700'
                 }`}
@@ -200,7 +200,7 @@ const CommercialProposalPage: React.FC<CommercialProposalPageProps> = ({
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={onRejectDeal}
-                className="px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl hover:from-red-700 hover:to-red-800 transition-all duration-300 flex items-center justify-center text-lg font-medium"
+                className="px-6 md:px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl hover:from-red-700 hover:to-red-800 transition-all duration-300 flex items-center justify-center text-base md:text-lg font-medium min-h-[44px] w-full sm:w-auto"
               >
                 <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -210,7 +210,7 @@ const CommercialProposalPage: React.FC<CommercialProposalPageProps> = ({
 
               <button
                 onClick={onProceedToContract}
-                className="px-8 py-4 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-xl hover:from-green-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center text-lg font-medium"
+                className="px-6 md:px-8 py-4 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-xl hover:from-green-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center text-base md:text-lg font-medium min-h-[44px] w-full sm:w-auto"
               >
                 <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />

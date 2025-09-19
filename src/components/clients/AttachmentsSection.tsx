@@ -33,28 +33,28 @@ const AttachmentsSection: React.FC<AttachmentsSectionProps> = ({ attachments, on
   }
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6">
-      <div className="mb-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-medium text-gray-900">
+    <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6">
+      <div className="mb-3 md:mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <h3 className="text-base md:text-lg font-medium text-gray-900 break-words">
             Сканы документов ({attachments.length})
           </h3>
           {onAddAttachment && (
             <button
               onClick={onAddAttachment}
-              className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-3 py-2 min-h-[44px] text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors touch-manipulation"
             >
-              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
-              Добавить
+              <span>Добавить</span>
             </button>
           )}
         </div>
       </div>
 
-      {/* Attachments Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
+      {/* Attachments Grid - Enhanced responsive grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
         {attachments.map((attachment) => (
           <AttachmentPreview
             key={attachment.id}

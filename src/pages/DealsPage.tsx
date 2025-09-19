@@ -462,12 +462,12 @@ const DealsPage: React.FC<DealsPageProps> = ({ prefilledClient, onBackToClient }
   // If we're in deal creation mode, render the leasing aggregator functionality
   if (showDealCreation) {
     return (
-      <div className="p-6">
+      <div className="p-4 md:p-6">
         {/* Back button to return to deals table or client page */}
-        <div className="mb-6">
+        <div className="mb-4 md:mb-6">
           <button
             onClick={handleBackToDealsList}
-            className="bg-white shadow-md hover:shadow-lg text-gray-700 font-medium py-2 px-4 rounded-md border border-gray-300 transition-all duration-200 flex items-center gap-2"
+            className="bg-white shadow-md hover:shadow-lg text-gray-700 font-medium py-3 px-4 md:py-2 md:px-4 rounded-md border border-gray-300 transition-all duration-200 flex items-center gap-2 min-h-[44px] md:min-h-[auto] text-sm md:text-base"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -487,7 +487,7 @@ const DealsPage: React.FC<DealsPageProps> = ({ prefilledClient, onBackToClient }
           skipFirstStep={!!prefilledClient}
         />
 
-        <div className="mt-8">
+        <div className="mt-6 md:mt-8">
           {currentPage === 'company-search' && (
             <CompanySearchPage
               companyData={companyData}
@@ -561,8 +561,8 @@ const DealsPage: React.FC<DealsPageProps> = ({ prefilledClient, onBackToClient }
 
   // Default view: Show deals table
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Сделки</h1>
+    <div className="p-4 md:p-6">
+      <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 md:mb-6">Сделки</h1>
       
       {/* DataGrid component replaces the old table */}
       <DataGrid

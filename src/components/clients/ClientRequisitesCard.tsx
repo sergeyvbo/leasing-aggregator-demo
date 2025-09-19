@@ -112,19 +112,19 @@ export const ClientRequisitesCard: React.FC<ClientRequisitesCardProps> = ({
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
-      {/* Card Header with Version Component */}
-      <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900">Реквизиты клиента</h3>
-            <p className="text-sm text-gray-600 mt-1">
+      {/* Card Header with Version Component - Enhanced for mobile */}
+      <div className="px-4 md:px-6 py-4 border-b border-gray-200 bg-gray-50">
+        <div className="flex items-start justify-between">
+          <div className="min-w-0 flex-1">
+            <h3 className="text-base md:text-lg font-semibold text-gray-900">Реквизиты клиента</h3>
+            <p className="text-xs md:text-sm text-gray-600 mt-1 break-words">
               Организационно-правовая форма: <span className="font-medium">{opf}</span>
             </p>
           </div>
         </div>
         
         {/* Version Component */}
-        <div className="mt-4">
+        <div className="mt-3 md:mt-4">
           <VersionComponent
             version={version}
             onVersionChange={onVersionChange}
@@ -134,9 +134,9 @@ export const ClientRequisitesCard: React.FC<ClientRequisitesCardProps> = ({
         </div>
       </div>
 
-      {/* Card Content */}
-      <div className="px-6 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Card Content - Enhanced responsive grid */}
+      <div className="px-4 md:px-6 py-4 md:py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
           {fieldsToDisplay.map((fieldKey) => {
             const value = currentRequisites[fieldKey];
             const label = fieldLabels[fieldKey] || fieldKey;
@@ -154,14 +154,14 @@ export const ClientRequisitesCard: React.FC<ClientRequisitesCardProps> = ({
                     value={value || ''}
                     onChange={(e) => handleFieldChange(fieldKey, e.target.value)}
                     className={`
-                      w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm
+                      w-full px-3 py-2 md:py-2 min-h-[44px] md:min-h-[40px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm touch-manipulation
                       ${isMandatory ? 'font-medium' : ''}
                     `}
                     placeholder={`Введите ${label.toLowerCase()}`}
                   />
                 ) : (
                   <div className={`
-                    px-3 py-2 border border-gray-200 rounded-md bg-gray-50 text-sm
+                    px-3 py-2 md:py-2 min-h-[44px] md:min-h-[40px] border border-gray-200 rounded-md bg-gray-50 text-sm flex items-center break-words
                     ${isMandatory ? 'font-medium' : ''}
                   `}>
                     {formatFieldValue(fieldKey, value)}
@@ -174,9 +174,9 @@ export const ClientRequisitesCard: React.FC<ClientRequisitesCardProps> = ({
 
         {/* Additional fields that might be specific to this client */}
         {Object.keys(currentRequisites).some(key => !fieldsToDisplay.includes(key) && !['fullName', 'inn'].includes(key)) && (
-          <div className="mt-6 pt-6 border-t border-gray-200">
-            <h4 className="text-sm font-medium text-gray-700 mb-4">Дополнительные поля</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="mt-4 md:mt-6 pt-4 md:pt-6 border-t border-gray-200">
+            <h4 className="text-sm font-medium text-gray-700 mb-3 md:mb-4">Дополнительные поля</h4>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
               {Object.entries(currentRequisites)
                 .filter(([key]) => !fieldsToDisplay.includes(key))
                 .map(([key, value]) => (
@@ -189,11 +189,11 @@ export const ClientRequisitesCard: React.FC<ClientRequisitesCardProps> = ({
                         type="text"
                         value={value || ''}
                         onChange={(e) => handleFieldChange(key, e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                        className="w-full px-3 py-2 md:py-2 min-h-[44px] md:min-h-[40px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm touch-manipulation"
                         placeholder={`Введите ${(fieldLabels[key] || key).toLowerCase()}`}
                       />
                     ) : (
-                      <div className="px-3 py-2 border border-gray-200 rounded-md bg-gray-50 text-sm">
+                      <div className="px-3 py-2 md:py-2 min-h-[44px] md:min-h-[40px] border border-gray-200 rounded-md bg-gray-50 text-sm flex items-center break-words">
                         {formatFieldValue(key, value)}
                       </div>
                     )}

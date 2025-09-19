@@ -23,19 +23,19 @@ export const DocumentsSection: React.FC<DocumentsSectionProps> = ({
 }) => {
   return (
     <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
-      {/* Section Header with Version Component */}
-      <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-xl font-semibold text-gray-900">Документы</h2>
-            <p className="text-sm text-gray-600 mt-1">
+      {/* Section Header with Version Component - Enhanced for mobile */}
+      <div className="px-4 md:px-6 py-4 border-b border-gray-200 bg-gray-50">
+        <div className="flex items-start justify-between">
+          <div className="min-w-0 flex-1">
+            <h2 className="text-lg md:text-xl font-semibold text-gray-900">Документы</h2>
+            <p className="text-xs md:text-sm text-gray-600 mt-1 break-words">
               Документооборот и регистрационные данные клиента
             </p>
           </div>
         </div>
         
         {/* Version Component */}
-        <div className="mt-4">
+        <div className="mt-3 md:mt-4">
           <VersionComponent
             version={version}
             onVersionChange={onVersionChange}
@@ -43,18 +43,18 @@ export const DocumentsSection: React.FC<DocumentsSectionProps> = ({
         </div>
       </div>
 
-      {/* Section Content */}
-      <div className="px-6 py-6">
-        {/* Add Document Button */}
-        <div className="mb-6">
+      {/* Section Content - Enhanced responsive padding */}
+      <div className="px-4 md:px-6 py-4 md:py-6">
+        {/* Add Document Button - Enhanced for mobile */}
+        <div className="mb-4 md:mb-6">
           <button
             onClick={onAddDocument}
-            className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 min-h-[44px] text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors touch-manipulation"
           >
-            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
-            Добавить документ
+            <span>Добавить документ</span>
           </button>
         </div>
 
@@ -72,7 +72,7 @@ export const DocumentsSection: React.FC<DocumentsSectionProps> = ({
             description="У данного клиента пока нет загруженных документов"
           />
         ) : (
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+          <div className="grid gap-3 md:gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
             {documents.map((document) => (
               <DocumentCard 
                 key={document.id} 

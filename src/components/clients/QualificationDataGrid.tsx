@@ -83,31 +83,33 @@ const QualificationDataGrid: React.FC<QualificationDataGridProps> = ({ qualifica
   }
 
   return (
-    <div className="space-y-4">
-      {/* Main qualification data grid */}
-      <DataGrid
-        data={qualifications}
-        columns={columns}
-        searchable={true}
-        sortable={true}
-        pageSize={10}
-        className="qualification-grid"
-      />
+    <div className="space-y-3 md:space-y-4">
+      {/* Main qualification data grid - Enhanced with horizontal scroll for mobile */}
+      <div className="overflow-x-auto">
+        <DataGrid
+          data={qualifications}
+          columns={columns}
+          searchable={true}
+          sortable={true}
+          pageSize={10}
+          className="qualification-grid min-w-full"
+        />
+      </div>
       
-      {/* Total summary row */}
-      <div className="bg-gray-50 rounded-lg border border-gray-200 p-4">
-        <div className="flex justify-between items-center">
+      {/* Total summary row - Enhanced responsive layout */}
+      <div className="bg-gray-50 rounded-lg border border-gray-200 p-3 md:p-4">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3">
           <span className="text-sm font-medium text-gray-900">Итого:</span>
-          <div className="flex space-x-8 text-sm">
-            <div>
+          <div className="flex flex-col sm:flex-row sm:space-x-4 md:space-x-8 space-y-2 sm:space-y-0 text-xs md:text-sm">
+            <div className="break-words">
               <span className="text-gray-600">Общий оборот: </span>
               <span className="font-medium text-gray-900">{formatCurrency(totalTurnover)}</span>
             </div>
-            <div>
+            <div className="break-words">
               <span className="text-gray-600">Общая выручка: </span>
               <span className="font-medium text-gray-900">{formatCurrency(totalRevenue)}</span>
             </div>
-            <div>
+            <div className="break-words">
               <span className="text-gray-600">Компаний с убытком: </span>
               <span className="font-medium text-gray-900">
                 {qualifications.filter(q => q.hasLoss).length} из {qualifications.length}

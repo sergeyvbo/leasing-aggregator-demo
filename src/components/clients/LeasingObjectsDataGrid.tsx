@@ -103,16 +103,18 @@ const LeasingObjectsDataGrid: React.FC<LeasingObjectsDataGridProps> = ({ leasing
 
   return (
     <>
-      {/* Main leasing objects data grid */}
-      <DataGrid
-        data={leasingObjects}
-        columns={columns}
-        searchable={true}
-        sortable={true}
-        pageSize={10}
-        onEdit={handleView} // Using onEdit for view functionality as per requirements
-        className="leasing-objects-grid"
-      />
+      {/* Main leasing objects data grid - Enhanced with horizontal scroll for mobile */}
+      <div className="overflow-x-auto">
+        <DataGrid
+          data={leasingObjects}
+          columns={columns}
+          searchable={true}
+          sortable={true}
+          pageSize={10}
+          onEdit={handleView} // Using onEdit for view functionality as per requirements
+          className="leasing-objects-grid min-w-full"
+        />
+      </div>
       
       {/* Leasing Object Details Modal */}
       {isModalOpen && selectedObject && (

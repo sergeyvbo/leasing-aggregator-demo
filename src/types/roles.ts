@@ -37,9 +37,10 @@ export const MENU_CONFIG: Record<RoleId, MenuItem[]> = {
   ],
   [ROLE_IDS.BUSINESS_ADMIN]: [
     { id: 'leasing-companies', label: 'Лизинговые компании', path: '/leasing-companies' },
+    { id: 'brokers', label: 'Брокеры', path: '/brokers' },
     { id: 'client-assignment', label: 'Закрепление клиентов за брокерами в привязке к ЛК', path: '/client-assignment' },
     { id: 'quote-ranges', label: 'Диапазоны котировок', path: '/quote-ranges' },
-    { id: 'org-settings', label: 'Настройка организаций', path: '/org-settings' },
+    { id: 'additional-products', label: 'Доп. продукты', path: '/additional-products' },
     { id: 'print-forms', label: 'Печатные формы', path: '/print-forms' },
     { id: 'reports', label: 'Отчеты', path: '/reports' }
   ],

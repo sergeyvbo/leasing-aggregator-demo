@@ -57,7 +57,7 @@ export const Layout: React.FC<LayoutProps> = ({
               <button
                 onClick={toggleMenu}
                 className="flex items-center justify-center w-10 h-10 md:w-8 md:h-8 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors duration-200 flex-shrink-0"
-                aria-label={isMenuOpen ? 'Закрыть меню' : 'Открыть меню'}
+                aria-label="Переключить меню"
               >
                 <svg
                   className="w-5 h-5 md:w-5 md:h-5"
@@ -65,37 +65,27 @@ export const Layout: React.FC<LayoutProps> = ({
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  {isMenuOpen ? (
-                    // X icon when menu is open
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  ) : (
-                    // Hamburger icon when menu is closed
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  )}
+                  {/* Always show hamburger icon */}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 </svg>
               </button>
-              
+
               <h1 className="text-lg sm:text-xl font-semibold text-gray-900 truncate">
                 Лизинговый брокер
               </h1>
             </div>
-            
+
             <div className="flex items-center gap-2 sm:gap-3 md:gap-4 flex-shrink-0">
               {/* User info - hidden on mobile */}
               <span className="hidden lg:block text-sm text-gray-600 whitespace-nowrap">
                 Добро пожаловать, <span className="font-medium">{username}</span>
               </span>
-              
+
               {/* RoleSelector - responsive */}
               <div className="flex items-center">
                 <RoleSelector
@@ -103,7 +93,7 @@ export const Layout: React.FC<LayoutProps> = ({
                   onRoleChange={onRoleChange}
                 />
               </div>
-              
+
               <button
                 onClick={onLogout}
                 className="text-xs sm:text-sm text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200 min-h-[44px] px-2 sm:px-3 flex items-center whitespace-nowrap"
@@ -127,8 +117,8 @@ export const Layout: React.FC<LayoutProps> = ({
               'relative'
             ) : (
               // Desktop: normal flow positioning
-              isMenuOpen 
-                ? 'w-64' 
+              isMenuOpen
+                ? 'w-64'
                 : 'w-0 overflow-hidden'
             )}
           `}
@@ -144,7 +134,7 @@ export const Layout: React.FC<LayoutProps> = ({
         </aside>
 
         {/* Content area - adapts to menu state */}
-        <main 
+        <main
           className={`
             flex-1 overflow-auto transition-all duration-300 ease-in-out
             ${!isMobile && !isMenuOpen ? 'ml-0' : ''}

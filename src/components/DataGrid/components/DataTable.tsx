@@ -49,17 +49,21 @@ export function DataTable<T>({
         {/* Main scrollable table */}
         <div className="data-grid-main">
           {/* Header */}
-          <div className="data-grid-header-main px-3 sm:px-6">
-            <div className="flex w-full">
-              {columns.map((column) => (
-                <div
-                  key={String(column.key)}
-                  className={`flex-shrink-0 ${column.width || 'min-w-[120px] flex-1'} px-3 first:pl-0 last:pr-0`}
-                >
-                  <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-                </div>
-              ))}
-            </div>
+          <div className="data-grid-header-main">
+            <table className="w-full">
+              <thead>
+                <tr>
+                  {columns.map((column) => (
+                    <th
+                      key={String(column.key)}
+                      className={`px-3 sm:px-6 text-left ${column.width || 'min-w-[120px]'}`}
+                    >
+                      <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+            </table>
           </div>
 
           {/* Table body */}
@@ -115,53 +119,57 @@ export function DataTable<T>({
         {/* Main scrollable table */}
         <div className="data-grid-main">
           {/* Header */}
-          <div className="data-grid-header-main px-3 sm:px-6">
-            <div className="flex w-full">
-              {columns.map((column) => (
-                <div
-                  key={String(column.key)}
-                  className={`text-left text-xs font-medium text-gray-500 uppercase tracking-wider flex-shrink-0 ${column.sortable ? 'cursor-pointer hover:bg-gray-100 select-none transition-colors duration-200' : ''
-                    } ${column.width || 'min-w-[120px] flex-1'} px-3 first:pl-0 last:pr-0`}
-                  onClick={() => handleColumnClick(String(column.key), column.sortable)}
-                >
-                  <div className="flex items-center space-x-1">
-                    <span className="truncate">{column.title}</span>
-                    {column.sortable && (
-                      <div className="flex flex-col flex-shrink-0">
-                        <svg
-                          className={`w-3 h-3 transition-colors duration-200 ${sortField === String(column.key) && sortDirection === 'asc'
-                            ? 'text-blue-600'
-                            : 'text-gray-400'
-                            }`}
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                        <svg
-                          className={`w-3 h-3 -mt-1 transition-colors duration-200 ${sortField === String(column.key) && sortDirection === 'desc'
-                            ? 'text-blue-600'
-                            : 'text-gray-400'
-                            }`}
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
+          <div className="data-grid-header-main">
+            <table className="w-full">
+              <thead>
+                <tr>
+                  {columns.map((column) => (
+                    <th
+                      key={String(column.key)}
+                      className={`px-3 sm:px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${column.sortable ? 'cursor-pointer hover:bg-gray-100 select-none transition-colors duration-200' : ''
+                        } ${column.width || 'min-w-[120px]'}`}
+                      onClick={() => handleColumnClick(String(column.key), column.sortable)}
+                    >
+                      <div className="flex items-center space-x-1">
+                        <span className="truncate">{column.title}</span>
+                        {column.sortable && (
+                          <div className="flex flex-col flex-shrink-0">
+                            <svg
+                              className={`w-3 h-3 transition-colors duration-200 ${sortField === String(column.key) && sortDirection === 'asc'
+                                ? 'text-blue-600'
+                                : 'text-gray-400'
+                                }`}
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                            <svg
+                              className={`w-3 h-3 -mt-1 transition-colors duration-200 ${sortField === String(column.key) && sortDirection === 'desc'
+                                ? 'text-blue-600'
+                                : 'text-gray-400'
+                                }`}
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+            </table>
           </div>
 
           {/* Empty state content */}
@@ -216,53 +224,57 @@ export function DataTable<T>({
       {/* Main scrollable table */}
       <div className="data-grid-main">
         {/* Header */}
-        <div className="data-grid-header-main px-3 sm:px-6">
-          <div className="flex w-full">
-            {columns.map((column) => (
-              <div
-                key={String(column.key)}
-                className={`text-left text-xs font-medium text-gray-500 uppercase tracking-wider flex-shrink-0 ${column.sortable ? 'cursor-pointer hover:bg-gray-100 select-none transition-colors duration-200' : ''
-                  } ${column.width || 'min-w-[120px] flex-1'} px-3 first:pl-0 last:pr-0`}
-                onClick={() => handleColumnClick(String(column.key), column.sortable)}
-              >
-                <div className="flex items-center space-x-1">
-                  <span className="truncate">{column.title}</span>
-                  {column.sortable && (
-                    <div className="flex flex-col flex-shrink-0">
-                      <svg
-                        className={`w-3 h-3 transition-colors duration-200 ${sortField === String(column.key) && sortDirection === 'asc'
-                          ? 'text-blue-600'
-                          : 'text-gray-400'
-                          }`}
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      <svg
-                        className={`w-3 h-3 -mt-1 transition-colors duration-200 ${sortField === String(column.key) && sortDirection === 'desc'
-                          ? 'text-blue-600'
-                          : 'text-gray-400'
-                          }`}
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+        <div className="data-grid-header-main">
+          <table className="w-full">
+            <thead>
+              <tr>
+                {columns.map((column) => (
+                  <th
+                    key={String(column.key)}
+                    className={`px-3 sm:px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${column.sortable ? 'cursor-pointer hover:bg-gray-100 select-none transition-colors duration-200' : ''
+                      } ${column.width || 'min-w-[120px]'}`}
+                    onClick={() => handleColumnClick(String(column.key), column.sortable)}
+                  >
+                    <div className="flex items-center space-x-1">
+                      <span className="truncate">{column.title}</span>
+                      {column.sortable && (
+                        <div className="flex flex-col flex-shrink-0">
+                          <svg
+                            className={`w-3 h-3 transition-colors duration-200 ${sortField === String(column.key) && sortDirection === 'asc'
+                              ? 'text-blue-600'
+                              : 'text-gray-400'
+                              }`}
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                          <svg
+                            className={`w-3 h-3 -mt-1 transition-colors duration-200 ${sortField === String(column.key) && sortDirection === 'desc'
+                              ? 'text-blue-600'
+                              : 'text-gray-400'
+                              }`}
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+          </table>
         </div>
 
         {/* Table body */}

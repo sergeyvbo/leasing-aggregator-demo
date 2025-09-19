@@ -91,9 +91,21 @@
   border-bottom: 1px solid #d1d5db;
 }
 
+.data-grid-header-main table {
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.data-grid-header-main th {
+  height: 49px;
+  vertical-align: middle;
+}
+
 /* Synchronized row heights using CSS custom properties */
 .data-grid-table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: separate;
   border-spacing: 0;
 }

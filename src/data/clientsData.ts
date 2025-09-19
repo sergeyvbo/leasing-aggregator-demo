@@ -15,7 +15,8 @@ export const mockClients: Client[] = [
     version: {
       id: 'v1-3',
       number: 3,
-      date: '2025-09-01',
+      startDate: '2025-09-01',
+      endDate: undefined, // для действующей версии окончание пустое
       status: 'active',
       previousVersionId: 'v1-2',
       nextVersionId: undefined
@@ -144,7 +145,8 @@ export const mockClients: Client[] = [
     version: {
       id: 'v2-1',
       number: 1,
-      date: '2025-08-15',
+      startDate: '2025-08-15',
+      endDate: undefined, // для действующей версии окончание пустое
       status: 'active',
       previousVersionId: undefined,
       nextVersionId: undefined
@@ -217,7 +219,8 @@ export const mockClients: Client[] = [
     version: {
       id: 'v3-2',
       number: 2,
-      date: '2025-07-20',
+      startDate: undefined, // для черновика обе даты пустые
+      endDate: undefined,
       status: 'draft',
       previousVersionId: 'v3-1',
       nextVersionId: undefined
@@ -289,7 +292,8 @@ clientVersions['v1-2'] = {
   version: {
     id: 'v1-2',
     number: 2,
-    date: '2025-06-15',
+    startDate: '2025-06-15',
+    endDate: '2025-08-31', // для архивной версии заполнено окончание
     status: 'archived',
     previousVersionId: 'v1-1',
     nextVersionId: 'v1-3'
@@ -308,7 +312,8 @@ clientVersions['v1-1'] = {
   version: {
     id: 'v1-1',
     number: 1,
-    date: '2025-03-01',
+    startDate: '2025-03-01',
+    endDate: '2025-06-14', // для архивной версии заполнено окончание
     status: 'archived',
     previousVersionId: undefined,
     nextVersionId: 'v1-2'
@@ -330,7 +335,8 @@ clientVersions['v3-1'] = {
   version: {
     id: 'v3-1',
     number: 1,
-    date: '2025-05-10',
+    startDate: '2025-05-10',
+    endDate: '2025-07-19', // для архивной версии заполнено окончание
     status: 'archived',
     previousVersionId: undefined,
     nextVersionId: 'v3-2'

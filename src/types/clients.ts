@@ -4,7 +4,8 @@
 export interface EntityVersion {
   id: string;
   number: number;
-  date: string;
+  startDate?: string; // начало периода действия (пустое для черновика)
+  endDate?: string; // окончание периода действия (пустое для действующей и черновика, заполнено для архивной)
   status: 'draft' | 'active' | 'archived'; // черновик | действующая | архивная
   previousVersionId?: string;
   nextVersionId?: string;

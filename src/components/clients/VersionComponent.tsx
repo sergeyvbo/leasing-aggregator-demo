@@ -64,7 +64,8 @@ export const VersionComponent: React.FC<VersionComponentProps> = ({
     const newVersion = {
       ...version,
       status: 'draft' as const,
-      date: new Date().toISOString().split('T')[0]
+      startDate: undefined, // для черновика обе даты пустые
+      endDate: undefined
     };
     setEditingVersion(newVersion);
     setIsEditing(true);
@@ -80,7 +81,9 @@ export const VersionComponent: React.FC<VersionComponentProps> = ({
   const handlePublish = () => {
     const publishedVersion = {
       ...editingVersion,
-      status: 'active' as const
+      status: 'active' as const,
+      startDate: new Date().toISOString().split('T')[0], // устанавливаем дату начала действия
+      endDate: undefined // для действующей версии окончание пустое
     };
     setEditingVersion(publishedVersion);
     setIsEditing(false);
@@ -98,6 +101,30 @@ export const VersionComponent: React.FC<VersionComponentProps> = ({
       month: '2-digit',
       year: 'numeric'
     });
+  };
+
+  // Get period display text
+  const getPeriodDisplay = (version: typeof currentVersion) => {
+    if (version.status === 'draft') {
+      return 'черновик'; // для черновика не показываем даты
+    }
+    
+    if (!version.startDate) {
+      return 'без даты';
+    }
+
+    const startDateFormatted = formatDate(version.startDate);
+    
+    if (version.status === 'active') {
+      return `с ${startDateFormatted}`; // для действующей показываем только начало
+    }
+    
+    if (version.status === 'archived' && version.endDate) {
+      const endDateFormatted = formatDate(version.endDate);
+      return `${startDateFormatted} - ${endDateFormatted}`; // для архивной показываем период
+    }
+    
+    return startDateFormatted;
   };
 
   // Get status display text and styling
@@ -151,9 +178,13 @@ export const VersionComponent: React.FC<VersionComponentProps> = ({
         {/* Version info */}
         <div className="flex flex-col items-center space-y-1 mx-2 min-w-0">
           <div className="text-xs sm:text-sm font-medium text-gray-900 text-center">
-            <span className="hidden sm:inline">версия №{currentVersion.number} от </span>
-            <span className="sm:hidden">v{currentVersion.number} </span>
-            {formatDate(currentVersion.date)}
+            <span className="hidden sm:inline">версия №{currentVersion.number}</span>
+            <span className="sm:hidden">v{currentVersion.number}</span>
+            {currentVersion.status !== 'draft' && (
+              <span className="block text-xs text-gray-600 mt-1">
+                {getPeriodDisplay(currentVersion)}
+              </span>
+            )}
           </div>
           <div className={`
             px-2 py-1 text-xs font-medium rounded-full border whitespace-nowrap

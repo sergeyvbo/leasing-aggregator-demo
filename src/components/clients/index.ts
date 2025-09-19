@@ -4,7 +4,6 @@ export { DocumentCard } from './DocumentCard';
 export { DocumentsSection } from './DocumentsSection';
 export { default as AttachmentPreview } from './AttachmentPreview';
 export { default as AttachmentsSection } from './AttachmentsSection';
-export { default as VersionComponentDemo } from './VersionComponentDemo';
 export { default as QualificationDataGrid } from './QualificationDataGrid';
 export { default as LeasingObjectsDataGrid } from './LeasingObjectsDataGrid';
 export { default as LeasingObjectModal } from './LeasingObjectModal';

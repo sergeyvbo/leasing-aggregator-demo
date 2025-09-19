@@ -39,20 +39,20 @@ const mockDocuments: ClientDocument[] = [
 ];
 
 export const DocumentsSectionTest: React.FC = () => {
-  const handleVersionChange = (versionId: string) => {
-    console.log('Version changed to:', versionId);
+  const handleVersionChange = (_versionId: string) => {
+    // TODO: Implement version change functionality
   };
 
   const handleAddDocument = () => {
-    console.log('Add document clicked');
+    // TODO: Implement add document functionality
   };
 
-  const handleEditDocument = (documentId: string) => {
-    console.log('Edit document:', documentId);
+  const handleEditDocument = (_documentId: string) => {
+    // TODO: Implement edit document functionality
   };
 
-  const handleDeleteDocument = (documentId: string) => {
-    console.log('Delete document:', documentId);
+  const handleDeleteDocument = (_documentId: string) => {
+    // TODO: Implement delete document functionality
   };
 
   return (

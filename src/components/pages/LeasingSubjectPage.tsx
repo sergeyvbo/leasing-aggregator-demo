@@ -32,7 +32,7 @@ const LeasingSubjectPage: React.FC<LeasingSubjectPageProps> = ({
           <select
             value={leasingSubject}
             onChange={(e) => setLeasingSubject(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[44px] text-base"
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[44px] text-base touch-manipulation"
           >
             <option value="">Выберите предмет лизинга</option>
             <option value="car">Автомобиль</option>
@@ -66,7 +66,7 @@ const LeasingSubjectPage: React.FC<LeasingSubjectPageProps> = ({
                     leasingSubject === 'aircraft' ? 'Введите название судна' :
                     'Введите название транспорта'
                   }
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[44px] text-base"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[44px] text-base touch-manipulation"
                 />
               </div>
               <button
@@ -100,7 +100,7 @@ const LeasingSubjectPage: React.FC<LeasingSubjectPageProps> = ({
                     leasingSubject === 'aircraft' ? 'Введите название судна' :
                     'Введите название транспорта'
                   }
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[44px] text-base"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[44px] text-base touch-manipulation"
                 />
               </div>
               <button
@@ -151,7 +151,7 @@ const LeasingSubjectPage: React.FC<LeasingSubjectPageProps> = ({
                       });
                     }}
                     placeholder="Введите стоимость (например: 2 500 000 ₽)"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[44px] text-base"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[44px] text-base touch-manipulation"
                   />
                 </div>
 

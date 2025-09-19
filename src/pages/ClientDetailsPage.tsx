@@ -88,15 +88,12 @@ const ClientDetailsPage: React.FC<ClientDetailsPageProps> = ({
               onVersionChange={handleVersionChange}
               onAddDocument={() => {
                 // TODO: Implement add document functionality
-                console.log('Add document clicked');
               }}
-              onEditDocument={(documentId) => {
+              onEditDocument={(_documentId) => {
                 // TODO: Implement edit document functionality
-                console.log('Edit document:', documentId);
               }}
-              onDeleteDocument={(documentId) => {
+              onDeleteDocument={(_documentId) => {
                 // TODO: Implement delete document functionality
-                console.log('Delete document:', documentId);
               }}
             />
           </section>
@@ -109,11 +106,9 @@ const ClientDetailsPage: React.FC<ClientDetailsPageProps> = ({
                 attachments={client.attachments}
                 onAddAttachment={() => {
                   // TODO: Implement add attachment functionality
-                  console.log('Add attachment clicked');
                 }}
-                onDeleteAttachment={(attachmentId) => {
+                onDeleteAttachment={(_attachmentId) => {
                   // TODO: Implement delete attachment functionality
-                  console.log('Delete attachment:', attachmentId);
                 }}
               />
             </div>

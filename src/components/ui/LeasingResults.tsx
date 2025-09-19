@@ -11,8 +11,6 @@ const LeasingResults: React.FC<LeasingResultsProps> = ({
   leasingProducts,
   onCreateProposal
 }) => {
-  console.log('LeasingResults received products:', leasingProducts);
-  
   if (leasingProducts.length === 0) {
     return (
       <div className="bg-white rounded-xl shadow-lg p-6 text-center">

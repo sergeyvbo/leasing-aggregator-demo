@@ -136,7 +136,7 @@ export const VersionComponent: React.FC<VersionComponentProps> = ({
           onClick={handlePreviousVersion}
           disabled={!version.previousVersionId || isEditing}
           className={`
-            flex items-center justify-center w-8 h-8 rounded-full border transition-colors flex-shrink-0
+            flex items-center justify-center w-10 h-10 md:w-8 md:h-8 rounded-full border transition-colors flex-shrink-0 touch-manipulation
             ${version.previousVersionId && !isEditing
               ? 'border-gray-300 text-gray-600 hover:bg-gray-100 hover:border-gray-400 cursor-pointer'
               : 'border-gray-200 text-gray-300 cursor-not-allowed'
@@ -168,7 +168,7 @@ export const VersionComponent: React.FC<VersionComponentProps> = ({
           onClick={handleNextVersion}
           disabled={!version.nextVersionId || isEditing}
           className={`
-            flex items-center justify-center w-8 h-8 rounded-full border transition-colors flex-shrink-0
+            flex items-center justify-center w-10 h-10 md:w-8 md:h-8 rounded-full border transition-colors flex-shrink-0 touch-manipulation
             ${version.nextVersionId && !isEditing
               ? 'border-gray-300 text-gray-600 hover:bg-gray-100 hover:border-gray-400 cursor-pointer'
               : 'border-gray-200 text-gray-300 cursor-not-allowed'
@@ -182,11 +182,11 @@ export const VersionComponent: React.FC<VersionComponentProps> = ({
       </div>
 
       {/* Action buttons */}
-      <div className="flex justify-center space-x-2">
+      <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-2">
         {!isEditing ? (
           <button
             onClick={handleEditData}
-            className="px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-200 rounded-md hover:bg-blue-100 transition-colors"
+            className="px-4 py-3 md:py-2 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-200 rounded-md hover:bg-blue-100 transition-colors min-h-[44px] md:min-h-[auto] touch-manipulation"
           >
             Изменить данные
           </button>
@@ -194,13 +194,13 @@ export const VersionComponent: React.FC<VersionComponentProps> = ({
           <>
             <button
               onClick={handleSave}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+              className="px-4 py-3 md:py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors min-h-[44px] md:min-h-[auto] touch-manipulation"
             >
               Сохранить
             </button>
             <button
               onClick={handlePublish}
-              className="px-4 py-2 text-sm font-medium text-white bg-green-600 border border-green-600 rounded-md hover:bg-green-700 transition-colors"
+              className="px-4 py-3 md:py-2 text-sm font-medium text-white bg-green-600 border border-green-600 rounded-md hover:bg-green-700 transition-colors min-h-[44px] md:min-h-[auto] touch-manipulation"
             >
               Опубликовать
             </button>

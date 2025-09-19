@@ -84,8 +84,6 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ onViewClient }) => {
   const handleViewClient = (client: Client) => {
     if (onViewClient) {
       onViewClient(client);
-    } else {
-      console.log('View client:', client);
     }
   };
 
@@ -94,9 +92,9 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ onViewClient }) => {
     return (
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="mb-8">
-            <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">Мои клиенты</h1>
-            <p className="text-sm text-gray-600 mt-2">
+          <div className="mb-6 md:mb-8">
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">Мои клиенты</h1>
+            <p className="text-sm md:text-base text-gray-600 mt-2">
               Управление клиентами и просмотр их информации
             </p>
           </div>
@@ -114,9 +112,9 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ onViewClient }) => {
       {/* Main container with consistent responsive padding */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Header section */}
-        <div className="mb-8">
-          <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">Мои клиенты</h1>
-          <p className="text-sm text-gray-600 mt-2">
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">Мои клиенты</h1>
+          <p className="text-sm md:text-base text-gray-600 mt-2">
             Управление клиентами и просмотр их информации
           </p>
         </div>
@@ -136,7 +134,7 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ onViewClient }) => {
         </div>
 
         {/* Bottom spacing for better UX */}
-        <div className="h-8"></div>
+        <div className="h-6 md:h-8"></div>
       </div>
     </div>
   );

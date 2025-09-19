@@ -151,10 +151,6 @@ const LeasingAggregator: React.FC = () => {
 
       // Применяем фильтры с адаптацией значений
       const filteredProducts = applyFiltersToProducts(allProducts, filters);
-
-      console.log('Applied filters:', filters);
-      console.log('Filtered and adapted products:', filteredProducts);
-
       setLeasingProducts(filteredProducts);
       setLoading(false);
     }, 500);

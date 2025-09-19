@@ -219,7 +219,7 @@ const DealsPage: React.FC<DealsPageProps> = ({ prefilledClient, onBackToClient }
     setPaymentSchedule(null);
     setShowSuccess(false);
     setShowDealCreation(false);
-    
+
     // If we came from a client page, go back there
     if (onBackToClient) {
       onBackToClient();
@@ -274,10 +274,6 @@ const DealsPage: React.FC<DealsPageProps> = ({ prefilledClient, onBackToClient }
 
       // Применяем фильтры с адаптацией значений
       const filteredProducts = applyFiltersToProducts(allProducts, filters);
-
-      console.log('Applied filters:', filters);
-      console.log('Filtered and adapted products:', filteredProducts);
-
       setLeasingProducts(filteredProducts);
       setLoading(false);
     }, 500);
@@ -416,7 +412,7 @@ const DealsPage: React.FC<DealsPageProps> = ({ prefilledClient, onBackToClient }
   // DataGrid handler functions
   const handleAddDeal = () => {
     setShowDealCreation(true);
-    
+
     // If we have a prefilled client, skip to step 2 with client already selected
     if (prefilledClient) {
       // Set the company data as if search was completed
@@ -428,15 +424,15 @@ const DealsPage: React.FC<DealsPageProps> = ({ prefilledClient, onBackToClient }
         opf: prefilledClient.opf || '',
         address: prefilledClient.address || ''
       }];
-      
-      setCompanyData({ 
-        inn: prefilledClient.inn, 
-        result: mockCompanyResult 
+
+      setCompanyData({
+        inn: prefilledClient.inn,
+        result: mockCompanyResult
       });
-      
+
       // Set the selected company
       setSelectedCompany(mockCompanyResult[0]);
-      
+
       // Go directly to step 2 (leasing subject selection)
       setCurrentPage('leasing-subject');
     } else {
@@ -445,16 +441,14 @@ const DealsPage: React.FC<DealsPageProps> = ({ prefilledClient, onBackToClient }
     }
   };
 
-  const handleEditDeal = (deal: Deal) => {
+  const handleEditDeal = (_deal: Deal) => {
     // TODO: Implement deal editing functionality
-    console.log('Edit deal:', deal);
     // For now, we'll just log the deal. In a real implementation,
     // this would open an edit modal or navigate to an edit page
   };
 
-  const handleDeleteDeal = (id: string | number) => {
+  const handleDeleteDeal = (_id: string | number) => {
     // TODO: Implement deal deletion functionality
-    console.log('Delete deal:', id);
     // For now, we'll just log the ID. In a real implementation,
     // this would show a confirmation dialog and then delete the deal
   };
@@ -563,7 +557,7 @@ const DealsPage: React.FC<DealsPageProps> = ({ prefilledClient, onBackToClient }
   return (
     <div className="p-4 md:p-6">
       <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 md:mb-6">Сделки</h1>
-      
+
       {/* DataGrid component replaces the old table */}
       <DataGrid
         data={mockDeals}

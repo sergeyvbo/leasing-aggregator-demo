@@ -66,14 +66,14 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
           </button>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Сумма лизинга</label>
             <input 
               type="text" 
               value={formData.leasingAmount}
               onChange={(e) => handleInputChange('leasingAmount', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+              className="w-full px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base touch-manipulation" 
             />
           </div>
           <div>
@@ -82,7 +82,7 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
               type="text" 
               value={formData.leasingTerm}
               onChange={(e) => handleInputChange('leasingTerm', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+              className="w-full px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base touch-manipulation" 
             />
           </div>
           <div>
@@ -91,7 +91,7 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
               type="text" 
               value={formData.initialPayment}
               onChange={(e) => handleInputChange('initialPayment', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+              className="w-full px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base touch-manipulation" 
             />
           </div>
           <div>
@@ -100,7 +100,7 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
               type="text" 
               value={formData.interestRate}
               onChange={(e) => handleInputChange('interestRate', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+              className="w-full px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base touch-manipulation" 
             />
           </div>
           <div>
@@ -108,7 +108,7 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
             <select 
               value={formData.currency}
               onChange={(e) => handleInputChange('currency', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base touch-manipulation"
             >
               <option value="RUB">RUB</option>
               <option value="USD">USD</option>
@@ -120,7 +120,7 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
             <select 
               value={formData.insuranceType}
               onChange={(e) => handleInputChange('insuranceType', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base touch-manipulation"
             >
               <option value="КАСКО + ОСАГО">КАСКО + ОСАГО</option>
               <option value="Только ОСАГО">Только ОСАГО</option>
@@ -133,22 +133,22 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
               rows={4} 
               value={formData.additionalConditions}
               onChange={(e) => handleInputChange('additionalConditions', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] text-base touch-manipulation resize-y"
               placeholder="Укажите дополнительные условия договора..."
             />
           </div>
         </div>
 
-        <div className="mt-8 flex justify-end space-x-4">
+        <div className="mt-6 md:mt-8 flex flex-col sm:flex-row justify-end gap-3 sm:gap-4">
           <button
             onClick={onClose}
-            className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+            className="px-6 py-3 md:py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors min-h-[44px] md:min-h-[auto] text-base touch-manipulation"
           >
             Отмена
           </button>
           <button
             onClick={handleContinue}
-            className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-8 py-3 rounded-lg hover:from-green-700 hover:to-blue-700 transition-all duration-300 flex items-center"
+            className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-8 py-3 rounded-lg hover:from-green-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center min-h-[44px] text-base touch-manipulation"
           >
             <SendIcon size={20} className="mr-2" />
             Продолжить

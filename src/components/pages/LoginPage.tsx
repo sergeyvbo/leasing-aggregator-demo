@@ -49,7 +49,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
           <p className="text-blue-200">Личный кабинет</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
           <div className="relative">
             <UserIcon size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-200 z-10" />
             <input
@@ -57,7 +57,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
               placeholder="Имя пользователя"
               value={loginData.username}
               onChange={handleUsernameChange}
-              className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+              className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm min-h-[44px] text-base touch-manipulation"
               required
             />
           </div>
@@ -69,7 +69,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
               placeholder="Пароль"
               value={loginData.password}
               onChange={handlePasswordChange}
-              className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
+              className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm min-h-[44px] text-base touch-manipulation"
               required
             />
           </div>
@@ -77,7 +77,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
           <button
             type="submit"
             disabled={loading || !loginData.username || !loginData.password}
-            className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 transform hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed min-h-[44px] text-base touch-manipulation"
           >
             {loading ? (
               <div className="flex items-center justify-center">
@@ -90,11 +90,11 @@ const LoginPage: React.FC<LoginPageProps> = ({
           </button>
         </form>
 
-        <div className="mt-6 flex justify-between text-sm">
-          <button className="text-blue-300 hover:text-white transition-colors">
+        <div className="mt-4 md:mt-6 flex flex-col sm:flex-row justify-between gap-3 sm:gap-0 text-sm">
+          <button className="text-blue-300 hover:text-white transition-colors py-2 min-h-[44px] sm:min-h-[auto] touch-manipulation">
             Регистрация
           </button>
-          <button className="text-blue-300 hover:text-white transition-colors">
+          <button className="text-blue-300 hover:text-white transition-colors py-2 min-h-[44px] sm:min-h-[auto] touch-manipulation">
             Забыли пароль?
           </button>
         </div>

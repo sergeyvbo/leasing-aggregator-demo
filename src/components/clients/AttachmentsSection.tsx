@@ -11,9 +11,8 @@ interface AttachmentsSectionProps {
 
 const AttachmentsSection: React.FC<AttachmentsSectionProps> = ({ attachments, onAddAttachment, onDeleteAttachment }) => {
   const handleViewAttachment = (attachment: ClientAttachment) => {
-    // For demo purposes, we'll just log the attachment
+    // For demo purposes, we'll just handle the attachment
     // In a real application, this would open a modal or navigate to a viewer
-    console.log('Viewing attachment:', attachment);
     
     // Simple implementation: try to open the file in a new tab
     if (attachment.url) {

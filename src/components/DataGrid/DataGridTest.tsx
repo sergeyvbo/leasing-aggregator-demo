@@ -103,15 +103,15 @@ const columns: ColumnDefinition<TestItem>[] = [
 
 export function DataGridTest() {
   const handleAdd = () => {
-    console.log('Добавить новую запись');
+    // TODO: Implement add functionality
   };
 
-  const handleEdit = (item: TestItem) => {
-    console.log('Редактировать:', item);
+  const handleEdit = (_item: TestItem) => {
+    // TODO: Implement edit functionality
   };
 
-  const handleDelete = (id: string | number) => {
-    console.log('Удалить:', id);
+  const handleDelete = (_id: string | number) => {
+    // TODO: Implement delete functionality
   };
 
   return (

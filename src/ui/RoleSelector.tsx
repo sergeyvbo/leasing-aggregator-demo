@@ -32,7 +32,7 @@ export const RoleSelector: React.FC<RoleSelectorProps> = ({
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between w-32 sm:w-48 md:w-64 px-3 md:px-4 py-2 min-h-[44px] text-left bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+        className="flex items-center justify-between w-32 sm:w-48 md:w-64 px-3 md:px-4 py-2 min-h-[44px] text-left bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 touch-manipulation"
       >
         <span className="text-gray-900 text-sm md:text-base truncate pr-2">{currentRoleName}</span>
         <svg

@@ -72,7 +72,7 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
                 <select
                   value={filter.parameter}
                   onChange={(e) => onUpdateFilter(filter.id, 'parameter', e.target.value)}
-                  className="flex-1 px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base"
+                  className="flex-1 px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base touch-manipulation"
                 >
                   <option value="">Выберите параметр</option>
                   {filterParameters.map((param) => (
@@ -85,7 +85,7 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
                 <select
                   value={filter.operator}
                   onChange={(e) => onUpdateFilter(filter.id, 'operator', e.target.value)}
-                  className="flex-1 px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base"
+                  className="flex-1 px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base touch-manipulation"
                   disabled={!filter.parameter}
                 >
                   <option value="">Выберите условие</option>
@@ -112,7 +112,7 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
                             onUpdateFilter(filter.id, 'value', newValues.join(','));
                           }}
                           placeholder={`От (${parameter.unit || ''})`}
-                          className="flex-1 px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base"
+                          className="flex-1 px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base touch-manipulation"
                         />
                         <input
                           type="number"
@@ -122,7 +122,7 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
                             onUpdateFilter(filter.id, 'value', newValues.join(','));
                           }}
                           placeholder={`До (${parameter.unit || ''})`}
-                          className="flex-1 px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base"
+                          className="flex-1 px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base touch-manipulation"
                         />
                       </div>
                     );
@@ -173,7 +173,7 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
                       <select
                         value={filter.value}
                         onChange={(e) => onUpdateFilter(filter.id, 'value', e.target.value)}
-                        className="flex-1 px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base"
+                        className="flex-1 px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base touch-manipulation"
                         disabled={!filter.operator}
                       >
                         <option value="">Выберите значение</option>
@@ -193,7 +193,7 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
                       value={filter.value}
                       onChange={(e) => onUpdateFilter(filter.id, 'value', e.target.value)}
                       placeholder={parameter?.unit ? `Значение (${parameter.unit})` : 'Значение'}
-                      className="flex-1 px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base"
+                      className="flex-1 px-3 py-3 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] md:min-h-[auto] text-base touch-manipulation"
                       disabled={!filter.operator}
                     />
                   );
@@ -221,7 +221,7 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
                 <select
                   value={filter.parameter}
                   onChange={(e) => onUpdateFilter(filter.id, 'parameter', e.target.value)}
-                  className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] text-base"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] text-base touch-manipulation"
                 >
                   <option value="">Выберите параметр</option>
                   {filterParameters.map((param) => (
@@ -234,7 +234,7 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
                 <select
                   value={filter.operator}
                   onChange={(e) => onUpdateFilter(filter.id, 'operator', e.target.value)}
-                  className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] text-base"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] text-base touch-manipulation"
                   disabled={!filter.parameter}
                 >
                   <option value="">Выберите условие</option>
@@ -261,7 +261,7 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
                             onUpdateFilter(filter.id, 'value', newValues.join(','));
                           }}
                           placeholder={`От (${parameter.unit || ''})`}
-                          className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] text-base"
+                          className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] text-base touch-manipulation"
                         />
                         <input
                           type="number"
@@ -271,7 +271,7 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
                             onUpdateFilter(filter.id, 'value', newValues.join(','));
                           }}
                           placeholder={`До (${parameter.unit || ''})`}
-                          className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] text-base"
+                          className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] text-base touch-manipulation"
                         />
                       </div>
                     );
@@ -320,7 +320,7 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
                       <select
                         value={filter.value}
                         onChange={(e) => onUpdateFilter(filter.id, 'value', e.target.value)}
-                        className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] text-base"
+                        className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] text-base touch-manipulation"
                         disabled={!filter.operator}
                       >
                         <option value="">Выберите значение</option>
@@ -340,7 +340,7 @@ const LeasingFilters: React.FC<LeasingFiltersProps> = ({
                       value={filter.value}
                       onChange={(e) => onUpdateFilter(filter.id, 'value', e.target.value)}
                       placeholder={parameter?.unit ? `Значение (${parameter.unit})` : 'Значение'}
-                      className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] text-base"
+                      className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] text-base touch-manipulation"
                       disabled={!filter.operator}
                     />
                   );

@@ -1,7 +1,6 @@
 import React from 'react';
 import type { LeasingCompany } from '../types/leasingCompanies';
 import { LeasingCompanyRequisitesCard, LeasingCompanyAttachmentsSection, LeasingCompanyDocumentsSection } from '../components/leasingCompanies';
-import { getLeasingCompanyWithVersion } from '../data/leasingCompaniesData';
 
 interface LeasingCompanyDetailsPageProps {
   leasingCompany: LeasingCompany;

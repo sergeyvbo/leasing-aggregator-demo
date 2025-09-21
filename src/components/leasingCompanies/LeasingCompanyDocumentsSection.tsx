@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import type { LeasingCompanyDocument, EntityVersion } from '../../types/leasingCompanies';
+import type { LeasingCompanyDocument } from '../../types/leasingCompanies';
+import type { EntityVersion } from '../../types/clients';
 import { EmptyState } from '../common';
 import { VersionComponent } from '../clients/VersionComponent';
 import LeasingCompanyDocumentCard from './LeasingCompanyDocumentCard';

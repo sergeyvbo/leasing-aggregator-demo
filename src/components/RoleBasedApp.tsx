@@ -3,6 +3,8 @@ import { Layout } from './Layout';
 import DealsPage from '../pages/DealsPage';
 import ClientsPage from '../pages/ClientsPage';
 import ClientDetailsPage from '../pages/ClientDetailsPage';
+import LeasingCompaniesPage from '../pages/LeasingCompaniesPage';
+import LeasingCompanyDetailsPage from '../pages/LeasingCompanyDetailsPage';
 import ReportsPage from '../pages/ReportsPage';
 import ReportDetailsPage from '../pages/ReportDetailsPage';
 import PlaceholderPage from '../pages/PlaceholderPage';
@@ -11,10 +13,12 @@ import LoginPage from './pages/LoginPage';
 import type { RoleId } from '../types/roles';
 import type { LoginData } from '../types';
 import type { Client } from '../types/clients';
+import type { LeasingCompany } from '../types/leasingCompanies';
 import type { Report } from '../types/reports';
 import { ROLE_IDS, MENU_CONFIG } from '../types/roles';
 import { getSavedRole } from '../ui/RoleSelector';
 import { getClientWithVersion } from '../data/clientsData';
+import { getLeasingCompanyWithVersion } from '../data/leasingCompaniesData';
 
 const RoleBasedApp: React.FC = () => {
   // Authentication state
@@ -40,6 +44,10 @@ const RoleBasedApp: React.FC = () => {
     opf?: string;
     address?: string;
   } | null>(null);
+
+  // Leasing company navigation state
+  const [leasingCompanyView, setLeasingCompanyView] = useState<'list' | 'details'>('list');
+  const [selectedLeasingCompany, setSelectedLeasingCompany] = useState<LeasingCompany | null>(null);
 
   // Reports navigation state
   const [reportsView, setReportsView] = useState<'list' | 'details'>('list');
@@ -82,6 +90,9 @@ const RoleBasedApp: React.FC = () => {
     setCurrentView('list');
     setSelectedClient(null);
     setDealCreationClient(null);
+    // Reset leasing company navigation when switching menu items
+    setLeasingCompanyView('list');
+    setSelectedLeasingCompany(null);
     // Reset reports navigation when switching menu items
     setReportsView('list');
     setSelectedReport(null);
@@ -127,6 +138,26 @@ const RoleBasedApp: React.FC = () => {
   const handleBackToClientFromDeal = () => {
     setCurrentView('details');
     setDealCreationClient(null);
+  };
+
+  // Handle leasing company navigation
+  const handleViewLeasingCompany = (leasingCompany: LeasingCompany) => {
+    setSelectedLeasingCompany(leasingCompany);
+    setLeasingCompanyView('details');
+  };
+
+  const handleBackToLeasingCompaniesList = () => {
+    setLeasingCompanyView('list');
+    setSelectedLeasingCompany(null);
+  };
+
+  const handleLeasingCompanyVersionChange = (versionId: string) => {
+    if (selectedLeasingCompany) {
+      const leasingCompanyWithVersion = getLeasingCompanyWithVersion(selectedLeasingCompany.id, versionId);
+      if (leasingCompanyWithVersion) {
+        setSelectedLeasingCompany(leasingCompanyWithVersion);
+      }
+    }
   };
 
   // Handle reports navigation
@@ -221,7 +252,17 @@ const RoleBasedApp: React.FC = () => {
     if (currentRole === ROLE_IDS.BUSINESS_ADMIN) {
       switch (activeMenuItem) {
         case 'leasing-companies':
-          return <PlaceholderPage title="Лизинговые компании" />;
+          // Handle leasing company navigation
+          if (leasingCompanyView === 'details' && selectedLeasingCompany) {
+            return (
+              <LeasingCompanyDetailsPage
+                leasingCompany={selectedLeasingCompany}
+                onBack={handleBackToLeasingCompaniesList}
+                onVersionChange={handleLeasingCompanyVersionChange}
+              />
+            );
+          }
+          return <LeasingCompaniesPage onViewLeasingCompany={handleViewLeasingCompany} />;
         case 'client-assignment':
           return <PlaceholderPage title="Закрепление клиентов за брокерами в привязке к ЛК" />;
         case 'quote-ranges':
@@ -233,7 +274,7 @@ const RoleBasedApp: React.FC = () => {
         case 'reports':
           return <PlaceholderPage title="Отчеты" />;
         default:
-          return <PlaceholderPage title="Лизинговые компании" />;
+          return <LeasingCompaniesPage onViewLeasingCompany={handleViewLeasingCompany} />;
       }
     }
 

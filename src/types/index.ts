@@ -68,3 +68,6 @@ export * from './clients';
 
 // Re-export organization types
 export * from './organization';
+
+// Re-export leasing companies types
+export * from './leasingCompanies';

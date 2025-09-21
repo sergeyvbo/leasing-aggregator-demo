@@ -5,6 +5,8 @@ import ClientsPage from '../pages/ClientsPage';
 import ClientDetailsPage from '../pages/ClientDetailsPage';
 import LeasingCompaniesPage from '../pages/LeasingCompaniesPage';
 import LeasingCompanyDetailsPage from '../pages/LeasingCompanyDetailsPage';
+import BrokersPage from '../pages/BrokersPage';
+import BrokerDetailsPage from '../pages/BrokerDetailsPage';
 import ReportsPage from '../pages/ReportsPage';
 import ReportDetailsPage from '../pages/ReportDetailsPage';
 import PlaceholderPage from '../pages/PlaceholderPage';
@@ -14,11 +16,13 @@ import type { RoleId } from '../types/roles';
 import type { LoginData } from '../types';
 import type { Client } from '../types/clients';
 import type { LeasingCompany } from '../types/leasingCompanies';
+import type { Broker } from '../types/brokers';
 import type { Report } from '../types/reports';
 import { ROLE_IDS, MENU_CONFIG } from '../types/roles';
 import { getSavedRole } from '../ui/RoleSelector';
 import { getClientWithVersion } from '../data/clientsData';
 import { getLeasingCompanyWithVersion } from '../data/leasingCompaniesData';
+import { getBrokerWithVersion } from '../data/brokersData';
 
 const RoleBasedApp: React.FC = () => {
   // Authentication state
@@ -48,6 +52,10 @@ const RoleBasedApp: React.FC = () => {
   // Leasing company navigation state
   const [leasingCompanyView, setLeasingCompanyView] = useState<'list' | 'details'>('list');
   const [selectedLeasingCompany, setSelectedLeasingCompany] = useState<LeasingCompany | null>(null);
+
+  // Broker navigation state
+  const [brokerView, setBrokerView] = useState<'list' | 'details'>('list');
+  const [selectedBroker, setSelectedBroker] = useState<Broker | null>(null);
 
   // Reports navigation state
   const [reportsView, setReportsView] = useState<'list' | 'details'>('list');
@@ -93,6 +101,9 @@ const RoleBasedApp: React.FC = () => {
     // Reset leasing company navigation when switching menu items
     setLeasingCompanyView('list');
     setSelectedLeasingCompany(null);
+    // Reset broker navigation when switching menu items
+    setBrokerView('list');
+    setSelectedBroker(null);
     // Reset reports navigation when switching menu items
     setReportsView('list');
     setSelectedReport(null);
@@ -156,6 +167,26 @@ const RoleBasedApp: React.FC = () => {
       const leasingCompanyWithVersion = getLeasingCompanyWithVersion(selectedLeasingCompany.id, versionId);
       if (leasingCompanyWithVersion) {
         setSelectedLeasingCompany(leasingCompanyWithVersion);
+      }
+    }
+  };
+
+  // Handle broker navigation
+  const handleViewBroker = (broker: Broker) => {
+    setSelectedBroker(broker);
+    setBrokerView('details');
+  };
+
+  const handleBackToBrokersList = () => {
+    setBrokerView('list');
+    setSelectedBroker(null);
+  };
+
+  const handleBrokerVersionChange = (versionId: string) => {
+    if (selectedBroker) {
+      const brokerWithVersion = getBrokerWithVersion(selectedBroker.id, versionId);
+      if (brokerWithVersion) {
+        setSelectedBroker(brokerWithVersion);
       }
     }
   };
@@ -263,6 +294,18 @@ const RoleBasedApp: React.FC = () => {
             );
           }
           return <LeasingCompaniesPage onViewLeasingCompany={handleViewLeasingCompany} />;
+        case 'brokers':
+          // Handle broker navigation
+          if (brokerView === 'details' && selectedBroker) {
+            return (
+              <BrokerDetailsPage
+                broker={selectedBroker}
+                onBack={handleBackToBrokersList}
+                onVersionChange={handleBrokerVersionChange}
+              />
+            );
+          }
+          return <BrokersPage onViewBroker={handleViewBroker} />;
         case 'client-assignment':
           return <PlaceholderPage title="Закрепление клиентов за брокерами в привязке к ЛК" />;
         case 'quote-ranges':

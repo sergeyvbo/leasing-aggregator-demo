@@ -56,6 +56,28 @@ export const documentTypeFields: Record<string, string[]> = {
     'contractAmount',
     'counterparty'
   ],
+  broker_license: [
+    'licenseNumber',
+    'issueDate',
+    'expiryDate',
+    'issuingAuthority',
+    'activityType',
+    'scope'
+  ],
+  charter: [
+    'version',
+    'registrationDate',
+    'changesDate',
+    'registrationAuthority'
+  ],
+  certificate: [
+    'certificateNumber',
+    'issueDate',
+    'expiryDate',
+    'issuingOrganization',
+    'standard',
+    'description'
+  ],
   other: [
     'documentNumber', 
     'issueDate', 
@@ -95,7 +117,15 @@ export const documentFieldLabels: Record<string, string> = {
   contractDate: 'Дата договора',
   contractSubject: 'Предмет договора',
   contractAmount: 'Сумма договора',
-  counterparty: 'Контрагент'
+  counterparty: 'Контрагент',
+  activityType: 'Вид деятельности',
+  version: 'Версия',
+  registrationDate: 'Дата регистрации',
+  changesDate: 'Дата изменений',
+  registrationAuthority: 'Орган регистрации',
+  certificateNumber: 'Номер сертификата',
+  issuingOrganization: 'Организация-выдаватель',
+  standard: 'Стандарт'
 };
 
 // Document type labels in Russian
@@ -108,5 +138,8 @@ export const documentTypeLabels: Record<string, string> = {
   bank_statement: 'Банковская выписка',
   financial_report: 'Финансовая отчетность',
   contract: 'Договор',
+  broker_license: 'Лицензия брокера',
+  charter: 'Устав',
+  certificate: 'Сертификат',
   other: 'Прочие документы'
 };

@@ -13,6 +13,7 @@ import PlaceholderPage from '../pages/PlaceholderPage';
 import MyOrganizationPage from '../pages/MyOrganizationPage';
 import ClientBrokerBindingPageWrapper from '../pages/ClientBrokerBindingPage';
 import QuotationRangesPageWrapper from '../pages/QuotationRangesPage';
+import LeasingObjectsSettingsPageWrapper from '../pages/LeasingObjectsSettingsPageWrapper';
 import LoginPage from './pages/LoginPage';
 import type { RoleId } from '../types/roles';
 import type { LoginData } from '../types';
@@ -312,6 +313,8 @@ const RoleBasedApp: React.FC = () => {
           return <ClientBrokerBindingPageWrapper />;
         case 'quote-ranges':
           return <QuotationRangesPageWrapper />;
+        case 'leasing-objects-settings':
+          return <LeasingObjectsSettingsPageWrapper />;
         case 'org-settings':
           return <PlaceholderPage title="Настройка организаций" />;
         case 'print-forms':

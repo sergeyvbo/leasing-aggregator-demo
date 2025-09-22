@@ -40,6 +40,7 @@ export const MENU_CONFIG: Record<RoleId, MenuItem[]> = {
     { id: 'brokers', label: 'Брокеры', path: '/brokers' },
     { id: 'client-assignment', label: 'Закрепление клиентов за брокерами в привязке к ЛК', path: '/client-assignment' },
     { id: 'quote-ranges', label: 'Диапазоны котировок', path: '/quote-ranges' },
+    { id: 'leasing-objects-settings', label: 'Настройка доступных предметов лизинга', path: '/leasing-objects-settings' },
     { id: 'additional-products', label: 'Доп. продукты', path: '/additional-products' },
     { id: 'print-forms', label: 'Печатные формы', path: '/print-forms' },
     { id: 'reports', label: 'Отчеты', path: '/reports' }

@@ -11,6 +11,7 @@ import ReportsPage from '../pages/ReportsPage';
 import ReportDetailsPage from '../pages/ReportDetailsPage';
 import PlaceholderPage from '../pages/PlaceholderPage';
 import MyOrganizationPage from '../pages/MyOrganizationPage';
+import ClientBrokerBindingPageWrapper from '../pages/ClientBrokerBindingPage';
 import LoginPage from './pages/LoginPage';
 import type { RoleId } from '../types/roles';
 import type { LoginData } from '../types';
@@ -307,7 +308,7 @@ const RoleBasedApp: React.FC = () => {
           }
           return <BrokersPage onViewBroker={handleViewBroker} />;
         case 'client-assignment':
-          return <PlaceholderPage title="Закрепление клиентов за брокерами в привязке к ЛК" />;
+          return <ClientBrokerBindingPageWrapper />;
         case 'quote-ranges':
           return <PlaceholderPage title="Диапазоны котировок" />;
         case 'org-settings':

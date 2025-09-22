@@ -71,3 +71,6 @@ export * from './organization';
 
 // Re-export leasing companies types
 export * from './leasingCompanies';
+
+// Re-export quotation ranges types
+export * from './quotationRanges';

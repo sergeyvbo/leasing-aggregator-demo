@@ -12,6 +12,7 @@ import ReportDetailsPage from '../pages/ReportDetailsPage';
 import PlaceholderPage from '../pages/PlaceholderPage';
 import MyOrganizationPage from '../pages/MyOrganizationPage';
 import ClientBrokerBindingPageWrapper from '../pages/ClientBrokerBindingPage';
+import QuotationRangesPageWrapper from '../pages/QuotationRangesPage';
 import LoginPage from './pages/LoginPage';
 import type { RoleId } from '../types/roles';
 import type { LoginData } from '../types';
@@ -310,7 +311,7 @@ const RoleBasedApp: React.FC = () => {
         case 'client-assignment':
           return <ClientBrokerBindingPageWrapper />;
         case 'quote-ranges':
-          return <PlaceholderPage title="Диапазоны котировок" />;
+          return <QuotationRangesPageWrapper />;
         case 'org-settings':
           return <PlaceholderPage title="Настройка организаций" />;
         case 'print-forms':

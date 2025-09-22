@@ -60,6 +60,20 @@ const QuotationRangesPage: React.FC<QuotationRangePageProps> = ({
     }
   };
 
+  // Handle upload from Excel action
+  const handleUploadExcel = () => {
+    // TODO: Implement upload from Excel functionality
+    console.log('Upload quotation ranges from Excel clicked');
+    alert('Функция загрузки диапазонов котировок из Excel будет реализована');
+  };
+
+  // Handle download to Excel action
+  const handleDownloadExcel = () => {
+    // TODO: Implement download to Excel functionality
+    console.log('Download quotation ranges to Excel clicked');
+    alert('Функция выгрузки диапазонов котировок в Excel будет реализована');
+  };
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -111,6 +125,8 @@ const QuotationRangesPage: React.FC<QuotationRangePageProps> = ({
             onAddRange={handleAddRange}
             onEditRange={handleEditRange}
             onDeleteRange={handleDeleteRange}
+            onUploadExcel={handleUploadExcel}
+            onDownloadExcel={handleDownloadExcel}
           />
         </div>
       </div>

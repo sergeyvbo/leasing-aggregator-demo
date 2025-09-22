@@ -87,6 +87,20 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ onViewClient }) => {
     }
   };
 
+  // Handle upload from Excel action
+  const handleUploadExcel = () => {
+    // TODO: Implement upload from Excel functionality
+    console.log('Upload clients from Excel clicked');
+    alert('Функция загрузки клиентов из Excel будет реализована');
+  };
+
+  // Handle download to Excel action
+  const handleDownloadExcel = () => {
+    // TODO: Implement download to Excel functionality
+    console.log('Download clients to Excel clicked');
+    alert('Функция выгрузки клиентов в Excel будет реализована');
+  };
+
   // Show loading state
   if (loading) {
     return (
@@ -125,6 +139,9 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ onViewClient }) => {
             data={clients}
             columns={clientsColumns}
             onEdit={handleViewClient} // Using onEdit as "view" action since we only have view functionality
+            onUploadExcel={handleUploadExcel}
+            onDownloadExcel={handleDownloadExcel}
+            onAdd={() => {}}
             pageSize={10}
             searchable={true}
             sortable={true}

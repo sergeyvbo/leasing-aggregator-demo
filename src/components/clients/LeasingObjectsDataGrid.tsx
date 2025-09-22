@@ -7,9 +7,15 @@ import { EmptyState } from '../common';
 
 interface LeasingObjectsDataGridProps {
   leasingObjects: LeasingObject[];
+  onUploadExcel?: () => void;
+  onDownloadExcel?: () => void;
 }
 
-const LeasingObjectsDataGrid: React.FC<LeasingObjectsDataGridProps> = ({ leasingObjects }) => {
+const LeasingObjectsDataGrid: React.FC<LeasingObjectsDataGridProps> = ({ 
+  leasingObjects, 
+  onUploadExcel, 
+  onDownloadExcel 
+}) => {
   const [selectedObject, setSelectedObject] = useState<LeasingObject | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -108,6 +114,8 @@ const LeasingObjectsDataGrid: React.FC<LeasingObjectsDataGridProps> = ({ leasing
         <DataGrid
           data={leasingObjects}
           columns={columns}
+          onUploadExcel={onUploadExcel}
+          onDownloadExcel={onDownloadExcel}
           searchable={true}
           sortable={true}
           pageSize={10}

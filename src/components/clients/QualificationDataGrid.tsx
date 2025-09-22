@@ -6,9 +6,15 @@ import { EmptyState } from '../common';
 
 interface QualificationDataGridProps {
   qualifications: ClientQualification[];
+  onUploadExcel?: () => void;
+  onDownloadExcel?: () => void;
 }
 
-const QualificationDataGrid: React.FC<QualificationDataGridProps> = ({ qualifications }) => {
+const QualificationDataGrid: React.FC<QualificationDataGridProps> = ({ 
+  qualifications, 
+  onUploadExcel, 
+  onDownloadExcel 
+}) => {
   // Format currency values
   const formatCurrency = (amount: number): string => {
     return new Intl.NumberFormat('ru-RU', {
@@ -116,6 +122,8 @@ const QualificationDataGrid: React.FC<QualificationDataGridProps> = ({ qualifica
       <DataGrid
         data={qualifications}
         columns={columns}
+        onUploadExcel={onUploadExcel}
+        onDownloadExcel={onDownloadExcel}
         searchable={true}
         sortable={true}
         pageSize={10}

@@ -109,6 +109,20 @@ const BrokersPage: React.FC<BrokersPageProps> = ({ onViewBroker }) => {
     }
   };
 
+  // Handle upload from Excel action
+  const handleUploadExcel = () => {
+    // TODO: Implement upload from Excel functionality
+    console.log('Upload brokers from Excel clicked');
+    alert('Функция загрузки брокеров из Excel будет реализована');
+  };
+
+  // Handle download to Excel action
+  const handleDownloadExcel = () => {
+    // TODO: Implement download to Excel functionality
+    console.log('Download brokers to Excel clicked');
+    alert('Функция выгрузки брокеров в Excel будет реализована');
+  };
+
   // Show loading state
   if (loading) {
     return (
@@ -147,6 +161,8 @@ const BrokersPage: React.FC<BrokersPageProps> = ({ onViewBroker }) => {
             data={brokers}
             columns={brokersColumns}
             onEdit={handleViewBroker} // Using onEdit as "view" action since we only have view functionality
+            onUploadExcel={handleUploadExcel}
+            onDownloadExcel={handleDownloadExcel}
             pageSize={10}
             searchable={true}
             sortable={true}

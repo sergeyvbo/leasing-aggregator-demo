@@ -8,6 +8,8 @@ interface QuotationRangesDataGridProps {
   onAddRange: () => void;
   onEditRange: (id: string) => void;
   onDeleteRange: (id: string) => void;
+  onUploadExcel?: () => void;
+  onDownloadExcel?: () => void;
 }
 
 const QuotationRangesDataGrid: React.FC<QuotationRangesDataGridProps> = ({
@@ -15,6 +17,8 @@ const QuotationRangesDataGrid: React.FC<QuotationRangesDataGridProps> = ({
   onAddRange,
   onEditRange,
   onDeleteRange,
+  onUploadExcel,
+  onDownloadExcel,
 }) => {
   const columns: ColumnDefinition<QuotationRange>[] = [
     {
@@ -76,6 +80,8 @@ const QuotationRangesDataGrid: React.FC<QuotationRangesDataGridProps> = ({
       onAdd={onAddRange}
       onEdit={handleEdit}
       onDelete={handleDelete}
+      onUploadExcel={onUploadExcel}
+      onDownloadExcel={onDownloadExcel}
       pageSize={10}
     />
   );

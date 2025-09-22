@@ -79,6 +79,20 @@ const LeasingObjectsSettingsPage: React.FC<LeasingObjectAvailabilityPageProps> =
     }
   };
 
+  // Handle upload from Excel action
+  const handleUploadExcel = () => {
+    // TODO: Implement upload from Excel functionality
+    console.log('Upload leasing object rules from Excel clicked');
+    alert('Функция загрузки правил предметов лизинга из Excel будет реализована');
+  };
+
+  // Handle download to Excel action
+  const handleDownloadExcel = () => {
+    // TODO: Implement download to Excel functionality
+    console.log('Download leasing object rules to Excel clicked');
+    alert('Функция выгрузки правил предметов лизинга в Excel будет реализована');
+  };
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -113,6 +127,8 @@ const LeasingObjectsSettingsPage: React.FC<LeasingObjectAvailabilityPageProps> =
         onAddRule={handleAddClick}
         onEditRule={handleEditClick}
         onDeleteRule={onDeleteRule}
+        onUploadExcel={handleUploadExcel}
+        onDownloadExcel={handleDownloadExcel}
       />
 
       {/* Modal */}

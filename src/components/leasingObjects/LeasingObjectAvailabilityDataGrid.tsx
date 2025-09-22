@@ -6,7 +6,9 @@ const LeasingObjectAvailabilityDataGrid: React.FC<LeasingObjectAvailabilityDataG
   rules,
   onAddRule,
   onEditRule,
-  onDeleteRule
+  onDeleteRule,
+  onUploadExcel,
+  onDownloadExcel
 }) => {
   const columns = [
     {
@@ -41,6 +43,8 @@ const LeasingObjectAvailabilityDataGrid: React.FC<LeasingObjectAvailabilityDataG
       onAdd={onAddRule}
       onEdit={handleEdit}
       onDelete={handleDelete}
+      onUploadExcel={onUploadExcel}
+      onDownloadExcel={onDownloadExcel}
       pageSize={10}
       searchable={true}
       sortable={true}

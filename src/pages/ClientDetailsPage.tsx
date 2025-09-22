@@ -24,6 +24,34 @@ const ClientDetailsPage: React.FC<ClientDetailsPageProps> = ({
     }
   };
 
+  // Handle upload from Excel action for qualifications
+  const handleUploadQualificationExcel = () => {
+    // TODO: Implement upload from Excel functionality
+    console.log('Upload qualifications from Excel clicked');
+    alert('Функция загрузки квалификации из Excel будет реализована');
+  };
+
+  // Handle download to Excel action for qualifications
+  const handleDownloadQualificationExcel = () => {
+    // TODO: Implement download to Excel functionality
+    console.log('Download qualifications to Excel clicked');
+    alert('Функция выгрузки квалификации в Excel будет реализована');
+  };
+
+  // Handle upload from Excel action for leasing objects
+  const handleUploadLeasingObjectsExcel = () => {
+    // TODO: Implement upload from Excel functionality
+    console.log('Upload leasing objects from Excel clicked');
+    alert('Функция загрузки предметов лизинга из Excel будет реализована');
+  };
+
+  // Handle download to Excel action for leasing objects
+  const handleDownloadLeasingObjectsExcel = () => {
+    // TODO: Implement download to Excel functionality
+    console.log('Download leasing objects to Excel clicked');
+    alert('Функция выгрузки предметов лизинга в Excel будет реализована');
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Main container with proper responsive padding */}
@@ -119,7 +147,11 @@ const ClientDetailsPage: React.FC<ClientDetailsPageProps> = ({
             <div className="space-y-3 md:space-y-4">
               <h2 className="text-lg md:text-xl font-semibold text-gray-900 px-1">Квалификация</h2>
               <div className="overflow-hidden">
-                <QualificationDataGrid qualifications={client.qualifications} />
+                <QualificationDataGrid 
+                  qualifications={client.qualifications}
+                  onUploadExcel={handleUploadQualificationExcel}
+                  onDownloadExcel={handleDownloadQualificationExcel}
+                />
               </div>
             </div>
           </section>
@@ -129,7 +161,11 @@ const ClientDetailsPage: React.FC<ClientDetailsPageProps> = ({
             <div className="space-y-3 md:space-y-4">
               <h2 className="text-lg md:text-xl font-semibold text-gray-900 px-1">Предметы лизинга</h2>
               <div className="overflow-hidden">
-                <LeasingObjectsDataGrid leasingObjects={client.leasingObjects} />
+                <LeasingObjectsDataGrid 
+                  leasingObjects={client.leasingObjects}
+                  onUploadExcel={handleUploadLeasingObjectsExcel}
+                  onDownloadExcel={handleDownloadLeasingObjectsExcel}
+                />
               </div>
             </div>
           </section>

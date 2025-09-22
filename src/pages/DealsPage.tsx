@@ -34,6 +34,125 @@ import { DataGrid } from '../components/DataGrid/DataGrid';
 import type { Deal } from './DealsPage/types';
 import { dealsColumns } from './DealsPage/dealsColumns';
 
+// Вспомогательные функции для генерации мок-данных при редактировании сделки
+const generateInnFromClient = (clientName: string): string => {
+  // Генерируем ИНН на основе названия клиента
+  const hash = clientName.split('').reduce((a, b) => {
+    a = ((a << 5) - a) + b.charCodeAt(0);
+    return a & a;
+  }, 0);
+  return Math.abs(hash).toString().padStart(10, '0').substring(0, 10);
+};
+
+const generateKpp = (): string => {
+  return Math.floor(Math.random() * 900000000 + 100000000).toString();
+};
+
+const generateOkato = (): string => {
+  return Math.floor(Math.random() * 90000000000 + 10000000000).toString();
+};
+
+const generateAddress = (): string => {
+  const cities = ['Москва', 'Санкт-Петербург', 'Новосибирск', 'Екатеринбург', 'Казань'];
+  const streets = ['ул. Ленина', 'пр. Мира', 'ул. Пушкина', 'ул. Гагарина', 'ул. Советская'];
+  const city = cities[Math.floor(Math.random() * cities.length)];
+  const street = streets[Math.floor(Math.random() * streets.length)];
+  const house = Math.floor(Math.random() * 200) + 1;
+  return `${city}, ${street}, д. ${house}`;
+};
+
+const generateVehicleTypeFromAmount = (amount: number): string => {
+  if (amount < 1000000) return 'Легковой автомобиль';
+  if (amount < 3000000) return 'Грузовой автомобиль';
+  if (amount < 5000000) return 'Специальная техника';
+  return 'Строительная техника';
+};
+
+const generateVehicleFromAmount = (amount: number, vehicleType: string) => {
+  const baseCost = amount;
+  const customCost = Math.floor(baseCost * (0.8 + Math.random() * 0.4)); // ±20% от базовой стоимости
+  
+  if (vehicleType === 'Легковой автомобиль') {
+    const brands = ['Toyota', 'Honda', 'Nissan', 'Hyundai', 'Kia'];
+    const models = ['Camry', 'Accord', 'Altima', 'Elantra', 'Optima'];
+    const brand = brands[Math.floor(Math.random() * brands.length)];
+    const model = models[Math.floor(Math.random() * models.length)];
+    
+    return {
+      brand,
+      model,
+      year: (2020 + Math.floor(Math.random() * 4)).toString(),
+      vin: `VIN${Math.random().toString(36).substr(2, 17).toUpperCase()}`,
+      power: (150 + Math.floor(Math.random() * 100)).toString(),
+      engineNumber: `ENG${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
+      cost: baseCost.toString(),
+      customCost: customCost.toString()
+    };
+  } else if (vehicleType === 'Грузовой автомобиль') {
+    const brands = ['КАМАЗ', 'МАЗ', 'Урал', 'ГАЗ', 'ЗИЛ'];
+    const models = ['5320', '6312', '4320', '3302', '4331'];
+    const brand = brands[Math.floor(Math.random() * brands.length)];
+    const model = models[Math.floor(Math.random() * models.length)];
+    
+    return {
+      brand,
+      model,
+      year: (2018 + Math.floor(Math.random() * 6)).toString(),
+      vin: `VIN${Math.random().toString(36).substr(2, 17).toUpperCase()}`,
+      power: (200 + Math.floor(Math.random() * 200)).toString(),
+      engineNumber: `ENG${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
+      cost: baseCost.toString(),
+      customCost: customCost.toString()
+    };
+  } else {
+    const brands = ['Caterpillar', 'Komatsu', 'Volvo', 'JCB', 'Liebherr'];
+    const models = ['320D', 'PC200', 'EC210', '3CX', 'R944'];
+    const brand = brands[Math.floor(Math.random() * brands.length)];
+    const model = models[Math.floor(Math.random() * models.length)];
+    
+    return {
+      brand,
+      model,
+      year: (2017 + Math.floor(Math.random() * 7)).toString(),
+      vin: `VIN${Math.random().toString(36).substr(2, 17).toUpperCase()}`,
+      power: (300 + Math.floor(Math.random() * 300)).toString(),
+      engineNumber: `ENG${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
+      cost: baseCost.toString(),
+      customCost: customCost.toString()
+    };
+  }
+};
+
+const generateLeasingProductsFromAmount = (amount: number) => {
+  const companies = ['Альфа-Лизинг', 'ВТБ Лизинг', 'Сбербанк Лизинг', 'Газпромбанк Лизинг', 'Россельхозбанк Лизинг'];
+  const products = [];
+  
+  // Генерируем 2-3 лизинговых продукта
+  const numProducts = 2 + Math.floor(Math.random() * 2);
+  
+  for (let i = 0; i < numProducts; i++) {
+    const company = companies[i % companies.length];
+    const rate = 8 + Math.random() * 7; // Ставка от 8% до 15%
+    const term = 12 + Math.floor(Math.random() * 36); // Срок от 12 до 48 месяцев
+    const advance = 10 + Math.floor(Math.random() * 20); // Аванс от 10% до 30%
+    
+    products.push({
+      id: i + 1,
+      company,
+      rate: (Math.round(rate * 100) / 100).toString(),
+      term: term.toString(),
+      advance: advance.toString(),
+      amount: amount,
+      monthlyPayment: Math.round((amount * (1 - advance / 100) * (rate / 100 / 12) * Math.pow(1 + rate / 100 / 12, term)) / (Math.pow(1 + rate / 100 / 12, term) - 1)),
+      paymentSchedule: '',
+      agentFee: Math.round(amount * 0.01).toString(),
+      buyoutPayment: Math.round(amount * 0.05).toString()
+    });
+  }
+  
+  return products;
+};
+
 interface DealsPageProps {
   prefilledClient?: {
     inn: string;
@@ -441,10 +560,53 @@ const DealsPage: React.FC<DealsPageProps> = ({ prefilledClient, onBackToClient }
     }
   };
 
-  const handleEditDeal = (_deal: Deal) => {
-    // TODO: Implement deal editing functionality
-    // For now, we'll just log the deal. In a real implementation,
-    // this would open an edit modal or navigate to an edit page
+  const handleEditDeal = (deal: Deal) => {
+    // Переходим в режим создания сделки
+    setShowDealCreation(true);
+    
+    // Генерируем мок-данные для компании на основе данных сделки
+    const mockCompanyResult = [{
+      name: deal.client,
+      inn: generateInnFromClient(deal.client),
+      kpp: generateKpp(),
+      okato: generateOkato(),
+      opf: deal.client.startsWith('ИП') ? 'Индивидуальный предприниматель' : 'Общество с ограниченной ответственностью',
+      address: generateAddress()
+    }];
+
+    // Заполняем данные компании (1 шаг)
+    setCompanyData({
+      inn: mockCompanyResult[0].inn,
+      result: mockCompanyResult
+    });
+
+    // Устанавливаем выбранную компанию
+    setSelectedCompany(mockCompanyResult[0]);
+
+    // Генерируем данные предмета лизинга на основе суммы сделки (2 шаг)
+    const vehicleType = generateVehicleTypeFromAmount(deal.amount);
+    setLeasingSubject(vehicleType);
+    
+    // Генерируем мок-данные транспортного средства
+    const mockVehicleResult = generateVehicleFromAmount(deal.amount, vehicleType);
+    setVehicleData({
+      searchQuery: `${mockVehicleResult.brand} ${mockVehicleResult.model}`,
+      result: mockVehicleResult
+    });
+    
+    setSelectedVehicle(mockVehicleResult);
+
+    // Генерируем мок-данные для лизинговых продуктов (3 шаг)
+    const mockLeasingProducts = generateLeasingProductsFromAmount(deal.amount);
+    setLeasingProducts(mockLeasingProducts);
+    
+    // Выбираем первый продукт как выбранный
+    if (mockLeasingProducts.length > 0) {
+      setSelectedProduct(mockLeasingProducts[0]);
+    }
+
+    // Переходим сразу на 4 шаг (Коммерческое предложение)
+    setCurrentPage('commercial-proposal');
   };
 
   const handleDeleteDeal = (_id: string | number) => {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { BrokerDocument, BrokerAttachment } from '../../types/brokers';
 import { documentTypeFields, documentFieldLabels, documentTypeLabels } from '../../data/documentTypes';
 import BrokerAttachmentPreview from './BrokerAttachmentPreview.tsx';
+import VersionComponent from '../clients/VersionComponent.tsx';
 
 interface BrokerDocumentModalProps {
   document?: BrokerDocument;
@@ -153,6 +154,16 @@ const BrokerDocumentModal: React.FC<BrokerDocumentModalProps> = ({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
+          </div>
+
+          {/* Version Component */}
+          <div className="p-4">
+            <VersionComponent
+              version={{id: '1', number: 1, status: 'active', startDate: '01.09.2025', endDate: '31.12.2025'}}
+              onVersionChange={() => {}}
+              onEditStart={() => {}}
+              onEditEnd={() => {}}
+            />
           </div>
 
           {/* Content */}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { ClientDocument, ClientAttachment } from '../../types/clients';
 import { documentTypeFields, documentFieldLabels, documentTypeLabels } from '../../data/documentTypes';
 import AttachmentPreview from './AttachmentPreview';
+import VersionComponent from './VersionComponent';
 
 interface DocumentModalProps {
   document?: ClientDocument;
@@ -157,6 +158,17 @@ const DocumentModal: React.FC<DocumentModalProps> = ({
 
           {/* Content */}
           <div className="p-4 md:p-6 space-y-4 md:space-y-6">
+
+            {/* Version Component */}
+            <div >
+              <VersionComponent
+                version={{id: '1', number: 1, status: 'active', startDate: '01.09.2025', endDate: '31.12.2025'}}
+                onVersionChange={() => {}}
+                onEditStart={() => {}}
+                onEditEnd={() => {}}
+              />
+            </div>          
+
             {/* Basic Information */}
             <div className="bg-gray-50 rounded-lg p-4">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Основная информация</h3>

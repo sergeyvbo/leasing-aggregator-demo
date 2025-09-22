@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { DataGrid } from '../components/DataGrid/DataGrid';
 import type { ColumnDefinition } from '../components/DataGrid/types';
 import type { Broker } from '../types/brokers';
-import { getAllBrokers } from '../data/brokersData';
+import { getAllBrokers, createEmptyBroker } from '../data/brokersData';
 import { formatCurrency } from '../components/DataGrid/utils';
 import { LoadingState } from '../components/common';
 
@@ -123,6 +123,14 @@ const BrokersPage: React.FC<BrokersPageProps> = ({ onViewBroker }) => {
     alert('Функция выгрузки брокеров в Excel будет реализована');
   };
 
+  // Handle add broker action - navigate to broker details with empty data
+  const handleAddBroker = () => {
+    const emptyBroker = createEmptyBroker();
+    if (onViewBroker) {
+      onViewBroker(emptyBroker);
+    }
+  };
+
   // Show loading state
   if (loading) {
     return (
@@ -160,14 +168,14 @@ const BrokersPage: React.FC<BrokersPageProps> = ({ onViewBroker }) => {
           <DataGrid
             data={brokers}
             columns={brokersColumns}
+            onAdd={handleAddBroker}
+            onDelete={() => {}}
             onEdit={handleViewBroker} // Using onEdit as "view" action since we only have view functionality
             onUploadExcel={handleUploadExcel}
             onDownloadExcel={handleDownloadExcel}
             pageSize={10}
             searchable={true}
             sortable={true}
-            // No onAdd prop - disables add functionality as required
-            // No onDelete prop - disables delete functionality
           />
         </div>
 

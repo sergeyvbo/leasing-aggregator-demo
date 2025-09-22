@@ -65,6 +65,7 @@ export interface BrokerRequisitesCardProps {
   broker: Broker;
   version: EntityVersion;
   onVersionChange: (versionId: string) => void;
+  isNewBroker?: boolean;
 }
 
 export interface BrokerAttachmentsSectionProps {

@@ -128,6 +128,20 @@ const MyOrganizationPage: React.FC<MyOrganizationPageProps> = () => {
     };
   };
 
+  // Handle upload from Excel action for employees
+  const handleUploadEmployeesExcel = () => {
+    // TODO: Implement upload from Excel functionality
+    console.log('Upload employees from Excel clicked');
+    alert('Функция загрузки сотрудников из Excel будет реализована');
+  };
+
+  // Handle download to Excel action for employees
+  const handleDownloadEmployeesExcel = () => {
+    // TODO: Implement download to Excel functionality
+    console.log('Download employees to Excel clicked');
+    alert('Функция выгрузки сотрудников в Excel будет реализована');
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Page Container with proper responsive layout */}
@@ -188,6 +202,8 @@ const MyOrganizationPage: React.FC<MyOrganizationPageProps> = () => {
               onAddEmployee={handleAddEmployee}
               onEditEmployee={handleEditEmployee}
               onDeleteEmployee={handleDeleteEmployee}
+              onUploadExcel={handleUploadEmployeesExcel}
+              onDownloadExcel={handleDownloadEmployeesExcel}
             />
           </div>
         </div>

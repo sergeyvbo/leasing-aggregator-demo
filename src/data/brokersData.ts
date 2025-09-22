@@ -552,3 +552,47 @@ export const getAverageSuccessRate = (): number => {
   const totalRate = mockBrokers.reduce((total, broker) => total + broker.successRate, 0);
   return totalRate / mockBrokers.length;
 };
+
+export const createEmptyBroker = (): Broker => {
+  const now = new Date().toISOString().split('T')[0];
+  const id = `br-new-${Date.now()}`;
+
+  return {
+    id,
+    opf: '',
+    fullName: '',
+    inn: '',
+    dealsCount: 0,
+    totalCommission: 0,
+    successRate: 0,
+    averageDealSize: 0,
+    version: {
+      id: `${id}-v1`,
+      number: 1,
+      startDate: now,
+      endDate: undefined,
+      status: 'active',
+      previousVersionId: undefined,
+      nextVersionId: undefined
+    },
+    requisites: {
+      fullName: '',
+      inn: '',
+      kpp: '',
+      ogrn: '',
+      address: '',
+      phone: '',
+      email: '',
+      directorName: '',
+      foundationDate: '',
+      licenseNumber: '',
+      licenseDate: '',
+      licenseExpiryDate: '',
+      specialization: '',
+      experience: 0,
+      rating: 0
+    },
+    documents: [],
+    attachments: []
+  };
+};

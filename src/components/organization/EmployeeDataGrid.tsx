@@ -9,13 +9,17 @@ interface EmployeeDataGridProps {
   onAddEmployee?: () => void;
   onEditEmployee?: (employee: Employee) => void;
   onDeleteEmployee?: (employeeId: string) => void;
+  onUploadExcel?: () => void;
+  onDownloadExcel?: () => void;
 }
 
 const EmployeeDataGrid: React.FC<EmployeeDataGridProps> = ({ 
   employees, 
   onAddEmployee, 
   onEditEmployee, 
-  onDeleteEmployee 
+  onDeleteEmployee,
+  onUploadExcel,
+  onDownloadExcel
 }) => {
   // Format role with color coding
   const formatRole = (role: string): React.ReactNode => {
@@ -181,6 +185,8 @@ const EmployeeDataGrid: React.FC<EmployeeDataGridProps> = ({
         onAdd={onAddEmployee}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        onUploadExcel={onUploadExcel}
+        onDownloadExcel={onDownloadExcel}
         searchable={true}
         sortable={true}
         pageSize={10}

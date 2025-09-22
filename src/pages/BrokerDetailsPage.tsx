@@ -14,6 +14,8 @@ const BrokerDetailsPage: React.FC<BrokerDetailsPageProps> = ({
   onBack,
   onVersionChange
 }) => {
+  // Check if this is a new broker (empty data)
+  const isNewBroker = !broker.fullName && !broker.inn;
   // Employee state management
   const [employees, setEmployees] = useState<BrokerEmployee[]>(getBrokerEmployees(broker.id));
   
@@ -126,17 +128,19 @@ const BrokerDetailsPage: React.FC<BrokerDetailsPageProps> = ({
             {/* Broker info - Responsive layout */}
             <div className="text-left md:text-right">
               <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 break-words leading-tight">
-                {broker.fullName}
+                {isNewBroker ? 'Новый брокер' : broker.fullName}
               </h1>
               <p className="text-sm text-gray-600 mt-1 break-words">
-                {broker.opf} • ИНН: {broker.inn}
+                {isNewBroker ? 'Заполните данные для создания нового брокера' : `${broker.opf} • ИНН: ${broker.inn}`}
               </p>
-              {/* Additional broker info */}
-              <div className="flex flex-wrap gap-4 mt-2 text-xs text-gray-500">
-                <span>Сделок: <span className="font-medium text-gray-900">{broker.dealsCount}</span></span>
-                <span>Успешность: <span className="font-medium text-green-600">{broker.successRate}%</span></span>
-                <span>Рейтинг: <span className="font-medium text-yellow-600">{broker.requisites.rating || '—'}/5 ⭐</span></span>
-              </div>
+              {/* Additional broker info - only show for existing brokers */}
+              {!isNewBroker && (
+                <div className="flex flex-wrap gap-4 mt-2 text-xs text-gray-500">
+                  <span>Сделок: <span className="font-medium text-gray-900">{broker.dealsCount}</span></span>
+                  <span>Успешность: <span className="font-medium text-green-600">{broker.successRate}%</span></span>
+                  <span>Рейтинг: <span className="font-medium text-yellow-600">{broker.requisites.rating || '—'}/5 ⭐</span></span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -149,6 +153,7 @@ const BrokerDetailsPage: React.FC<BrokerDetailsPageProps> = ({
               broker={broker}
               version={broker.version}
               onVersionChange={handleVersionChange}
+              isNewBroker={isNewBroker}
             />
           </section>
 

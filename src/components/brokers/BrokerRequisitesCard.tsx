@@ -5,10 +5,11 @@ import { VersionComponent } from '../clients/VersionComponent';
 const BrokerRequisitesCard: React.FC<BrokerRequisitesCardProps> = ({
   broker,
   version,
-  onVersionChange
+  onVersionChange,
+  isNewBroker = false
 }) => {
   const { requisites, opf } = broker;
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(isNewBroker);
   const [editingRequisites, setEditingRequisites] = useState(requisites);
 
   const handleEditStart = () => {

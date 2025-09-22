@@ -43,6 +43,10 @@ export interface DataGridProps<T> {
   onEdit?: (item: T) => void;
   /** Callback function when delete button is clicked for a row */
   onDelete?: (id: string | number) => void;
+  /** Callback function when upload from Excel button is clicked */
+  onUploadExcel?: () => void;
+  /** Callback function when download to Excel button is clicked */
+  onDownloadExcel?: () => void;
   /** Loading state indicator */
   loading?: boolean;
   /** Number of items per page for pagination */
@@ -76,6 +80,10 @@ export interface SortableColumn {
 export interface CommandBarProps {
   /** Callback function when add button is clicked */
   onAdd?: () => void;
+  /** Callback function when upload from Excel button is clicked */
+  onUploadExcel?: () => void;
+  /** Callback function when download to Excel button is clicked */
+  onDownloadExcel?: () => void;
   /** Current search value */
   searchValue: string;
   /** Callback function when search value changes */

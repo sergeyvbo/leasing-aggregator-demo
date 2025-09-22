@@ -13,6 +13,9 @@ const LeasingCompanyDetailsPage: React.FC<LeasingCompanyDetailsPageProps> = ({
   onBack,
   onVersionChange
 }) => {
+  // Check if this is a new company (empty data)
+  const isNewCompany = !leasingCompany.fullName && !leasingCompany.inn;
+
   // Handle version change - this will update the leasing company data when version navigation occurs
   const handleVersionChange = (versionId: string) => {
     if (onVersionChange) {
@@ -41,10 +44,10 @@ const LeasingCompanyDetailsPage: React.FC<LeasingCompanyDetailsPageProps> = ({
             {/* Company info - Responsive layout */}
             <div className="text-left md:text-right">
               <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 break-words leading-tight">
-                {leasingCompany.fullName}
+                {isNewCompany ? 'Новая лизинговая компания' : leasingCompany.fullName}
               </h1>
               <p className="text-sm text-gray-600 mt-1 break-words">
-                {leasingCompany.opf} • ИНН: {leasingCompany.inn}
+                {isNewCompany ? 'Заполните данные для создания новой компании' : `${leasingCompany.opf} • ИНН: ${leasingCompany.inn}`}
               </p>
             </div>
           </div>
@@ -58,6 +61,7 @@ const LeasingCompanyDetailsPage: React.FC<LeasingCompanyDetailsPageProps> = ({
               leasingCompany={leasingCompany}
               version={leasingCompany.version}
               onVersionChange={handleVersionChange}
+              isNewCompany={isNewCompany}
             />
           </section>
 

@@ -5,10 +5,11 @@ import { VersionComponent } from '../clients/VersionComponent';
 const LeasingCompanyRequisitesCard: React.FC<LeasingCompanyRequisitesCardProps> = ({
   leasingCompany,
   version,
-  onVersionChange
+  onVersionChange,
+  isNewCompany = false
 }) => {
   const { requisites, opf } = leasingCompany;
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(isNewCompany);
   const [editingRequisites, setEditingRequisites] = useState(requisites);
 
   const handleEditStart = () => {

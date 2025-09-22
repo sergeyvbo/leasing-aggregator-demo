@@ -471,3 +471,43 @@ export const getTotalDealsCount = (): number => {
 export const getTotalCommission = (): number => {
   return mockLeasingCompanies.reduce((total, company) => total + company.totalCommission, 0);
 };
+
+// Create empty leasing company for new company creation
+export const createEmptyLeasingCompany = (): LeasingCompany => {
+  const now = new Date().toISOString().split('T')[0];
+  const id = `lc-new-${Date.now()}`;
+  
+  return {
+    id,
+    opf: '',
+    fullName: '',
+    inn: '',
+    dealsCount: 0,
+    totalCommission: 0,
+    version: {
+      id: `${id}-v1`,
+      number: 1,
+      startDate: now,
+      endDate: undefined,
+      status: 'active',
+      previousVersionId: undefined,
+      nextVersionId: undefined
+    },
+    requisites: {
+      fullName: '',
+      inn: '',
+      kpp: '',
+      ogrn: '',
+      address: '',
+      phone: '',
+      email: '',
+      directorName: '',
+      foundationDate: '',
+      licenseNumber: '',
+      licenseDate: '',
+      licenseExpiryDate: ''
+    },
+    documents: [],
+    attachments: []
+  };
+};

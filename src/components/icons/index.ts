@@ -8,3 +8,5 @@ export { default as BuildingIcon } from './BuildingIcon';
 export { default as FileTextIcon } from './FileTextIcon';
 export { default as SendIcon } from './SendIcon';
 export { default as CheckCircleIcon } from './CheckCircleIcon';
+export { default as DownloadIcon } from './DownloadIcon';
+export { default as UploadIcon } from './UploadIcon';

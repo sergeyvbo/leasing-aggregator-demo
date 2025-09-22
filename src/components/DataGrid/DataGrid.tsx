@@ -77,6 +77,8 @@ export function DataGrid<T>({
   onAdd,
   onEdit,
   onDelete,
+  onUploadExcel,
+  onDownloadExcel,
   loading = false,
   pageSize = 10,
   searchable = true,
@@ -168,6 +170,8 @@ export function DataGrid<T>({
       {/* Command Bar */}
       <CommandBar
         onAdd={onAdd}
+        onUploadExcel={onUploadExcel}
+        onDownloadExcel={onDownloadExcel}
         searchValue={searchTerm}
         onSearchChange={handleSearchChange}
         sortField={sortField}

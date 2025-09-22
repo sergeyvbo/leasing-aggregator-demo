@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { DataGrid } from '../components/DataGrid/DataGrid';
 import type { ColumnDefinition } from '../components/DataGrid/types';
 import type { LeasingCompany } from '../types/leasingCompanies';
-import { getAllLeasingCompanies } from '../data/leasingCompaniesData';
+import { getAllLeasingCompanies, createEmptyLeasingCompany } from '../data/leasingCompaniesData';
 import { formatCurrency } from '../components/DataGrid/utils';
 import { LoadingState } from '../components/common';
 
@@ -87,6 +87,29 @@ const LeasingCompaniesPage: React.FC<LeasingCompaniesPageProps> = ({ onViewLeasi
     }
   };
 
+  // Handle add leasing company action
+  const handleAddLeasingCompany = () => {
+    // Create empty leasing company and navigate to details page
+    const emptyLeasingCompany = createEmptyLeasingCompany();
+    if (onViewLeasingCompany) {
+      onViewLeasingCompany(emptyLeasingCompany);
+    }
+  };
+
+  // Handle upload from Excel action
+  const handleUploadExcel = () => {
+    // TODO: Implement upload from Excel functionality
+    console.log('Upload from Excel clicked');
+    alert('Функция загрузки из Excel будет реализована');
+  };
+
+  // Handle download to Excel action
+  const handleDownloadExcel = () => {
+    // TODO: Implement download to Excel functionality
+    console.log('Download to Excel clicked');
+    alert('Функция выгрузки в Excel будет реализована');
+  };
+
   // Show loading state
   if (loading) {
     return (
@@ -124,11 +147,13 @@ const LeasingCompaniesPage: React.FC<LeasingCompaniesPageProps> = ({ onViewLeasi
           <DataGrid
             data={leasingCompanies}
             columns={leasingCompaniesColumns}
+            onAdd={handleAddLeasingCompany}
             onEdit={handleViewLeasingCompany} // Using onEdit as "view" action since we only have view functionality
+            onUploadExcel={handleUploadExcel}
+            onDownloadExcel={handleDownloadExcel}
             pageSize={10}
             searchable={true}
             sortable={true}
-            // No onAdd prop - disables add functionality as required
             // No onDelete prop - disables delete functionality
           />
         </div>

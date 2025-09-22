@@ -1,5 +1,6 @@
 import React from 'react';
 import type { CommandBarProps } from '../types';
+import { UploadIcon, DownloadIcon } from '../../icons';
 
 /**
  * CommandBar component for DataGrid
@@ -7,6 +8,8 @@ import type { CommandBarProps } from '../types';
  */
 export const CommandBar: React.FC<CommandBarProps> = ({
   onAdd,
+  onUploadExcel,
+  onDownloadExcel,
   searchValue,
   onSearchChange,
   sortField,
@@ -39,8 +42,8 @@ export const CommandBar: React.FC<CommandBarProps> = ({
 
   return (
     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 p-4 sm:p-6 bg-gray-50 border-b border-gray-200">
-      {/* Left side - Add button */}
-      <div className="flex items-center">
+      {/* Left side - Action buttons */}
+      <div className="flex items-center gap-3">
         {onAdd && (
           <button
             onClick={onAdd}
@@ -62,6 +65,28 @@ export const CommandBar: React.FC<CommandBarProps> = ({
             </svg>
             <span className="hidden sm:inline">Добавить</span>
             <span className="sm:hidden">+</span>
+          </button>
+        )}
+        
+        {onUploadExcel && (
+          <button
+            onClick={onUploadExcel}
+            className="inline-flex items-center justify-center px-4 py-3 md:py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 active:scale-95 min-h-[44px] md:min-h-[auto] touch-manipulation"
+          >
+            <UploadIcon className="w-4 h-4 mr-2" />
+            <span className="hidden sm:inline">Загрузить из Excel</span>
+            <span className="sm:hidden">↑ Excel</span>
+          </button>
+        )}
+        
+        {onDownloadExcel && (
+          <button
+            onClick={onDownloadExcel}
+            className="inline-flex items-center justify-center px-4 py-3 md:py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 active:scale-95 min-h-[44px] md:min-h-[auto] touch-manipulation"
+          >
+            <DownloadIcon className="w-4 h-4 mr-2" />
+            <span className="hidden sm:inline">Выгрузить в Excel</span>
+            <span className="sm:hidden">↓ Excel</span>
           </button>
         )}
       </div>

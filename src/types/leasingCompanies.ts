@@ -59,6 +59,7 @@ export interface LeasingCompanyRequisitesCardProps {
   leasingCompany: LeasingCompany;
   version: EntityVersion;
   onVersionChange: (versionId: string) => void;
+  isNewCompany?: boolean;
 }
 
 export interface LeasingCompanyAttachmentsSectionProps {

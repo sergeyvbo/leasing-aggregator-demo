@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import XIcon from '../icons/XIcon';
 import SendIcon from '../icons/SendIcon';
-import type { BrokerEmployeeFormData, EmployeeRole } from '../../types/brokers';
+import type { BrokerEmployeeFormData } from '../../types/brokers';
+import type { EmployeeRole } from '@/types/index';
 
 interface BrokerEmployeeModalProps {
   isOpen: boolean;

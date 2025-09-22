@@ -105,6 +105,13 @@ export interface BrokerEmployee {
   actions?: React.ReactNode; // Действия
 }
 
+// Broker employee form data for modals
+export interface BrokerEmployeeFormData {
+  fullName: string;
+  login: string;
+  role: EmployeeRole;
+}
+
 // Broker employee management props
 export interface BrokerEmployeeDataGridProps {
   employees: BrokerEmployee[];

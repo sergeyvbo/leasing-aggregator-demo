@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import type { Broker } from '../types/brokers';
-import { BrokerRequisitesCard, BrokerAttachmentsSection, BrokerDocumentsSection, BrokerEmployeeDataGrid } from '../components/brokers';
+import type { Broker, BrokerEmployee, BrokerEmployeeFormData } from '../types/brokers';
+import { BrokerRequisitesCard, BrokerAttachmentsSection, BrokerDocumentsSection, BrokerEmployeeDataGrid, BrokerEmployeeModal } from '../components/brokers';
 import { getBrokerEmployees, approveBrokerEmployee, rejectBrokerEmployee } from '../data/brokerEmployeesData';
-import type { BrokerEmployee } from '../types/brokers';
 
 interface BrokerDetailsPageProps {
   broker: Broker;
@@ -17,6 +16,11 @@ const BrokerDetailsPage: React.FC<BrokerDetailsPageProps> = ({
 }) => {
   // Employee state management
   const [employees, setEmployees] = useState<BrokerEmployee[]>(getBrokerEmployees(broker.id));
+  
+  // Modal state management
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingEmployee, setEditingEmployee] = useState<BrokerEmployee | null>(null);
 
   // Handle version change - this will update the broker data when version navigation occurs
   const handleVersionChange = (versionId: string) => {
@@ -51,8 +55,8 @@ const BrokerDetailsPage: React.FC<BrokerDetailsPageProps> = ({
 
   // Handle employee edit
   const handleEditEmployee = (employee: BrokerEmployee) => {
-    // TODO: Implement edit employee functionality
-    console.log('Edit employee:', employee);
+    setEditingEmployee(employee);
+    setIsEditModalOpen(true);
   };
 
   // Handle employee delete
@@ -63,8 +67,42 @@ const BrokerDetailsPage: React.FC<BrokerDetailsPageProps> = ({
 
   // Handle add employee
   const handleAddEmployee = () => {
+    setIsAddModalOpen(true);
+  };
+
+  // Modal handlers
+  const handleAddModalClose = () => {
+    setIsAddModalOpen(false);
+  };
+
+  const handleEditModalClose = () => {
+    setIsEditModalOpen(false);
+    setEditingEmployee(null);
+  };
+
+  // Handle add employee submit
+  const handleAddEmployeeSubmit = (data: BrokerEmployeeFormData) => {
     // TODO: Implement add employee functionality
-    console.log('Add employee for broker:', broker.id);
+    console.log('Add employee:', data);
+    setIsAddModalOpen(false);
+  };
+
+  // Handle edit employee submit
+  const handleEditEmployeeSubmit = (data: BrokerEmployeeFormData) => {
+    // TODO: Implement edit employee functionality
+    console.log('Edit employee:', data);
+    setIsEditModalOpen(false);
+    setEditingEmployee(null);
+  };
+
+  // Get initial data for edit modal
+  const getEditModalInitialData = (): BrokerEmployeeFormData | undefined => {
+    if (!editingEmployee) return undefined;
+    return {
+      fullName: editingEmployee.fullName,
+      login: editingEmployee.login,
+      role: editingEmployee.role
+    };
   };
 
   return (
@@ -181,6 +219,23 @@ const BrokerDetailsPage: React.FC<BrokerDetailsPageProps> = ({
         {/* Bottom spacing for better UX - Responsive */}
         <div className="h-6 md:h-8"></div>
       </div>
+
+      {/* Add Employee Modal */}
+      <BrokerEmployeeModal
+        isOpen={isAddModalOpen}
+        onClose={handleAddModalClose}
+        onSubmit={handleAddEmployeeSubmit}
+        title="Добавить нового сотрудника"
+      />
+
+      {/* Edit Employee Modal */}
+      <BrokerEmployeeModal
+        isOpen={isEditModalOpen}
+        onClose={handleEditModalClose}
+        onSubmit={handleEditEmployeeSubmit}
+        initialData={getEditModalInitialData()}
+        title="Редактировать сотрудника"
+      />
     </div>
   );
 };

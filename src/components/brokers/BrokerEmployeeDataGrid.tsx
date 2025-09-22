@@ -8,6 +8,10 @@ import BrokerEmployeeActionsColumn from './BrokerEmployeeActionsColumn';
 const BrokerEmployeeDataGrid: React.FC<BrokerEmployeeDataGridProps> = ({ 
   employees, 
   onAddEmployee,
+  onApproveEmployee,
+  onRejectEmployee,
+  onEditEmployee,
+  onDeleteEmployee,
 }) => {
   // Format role with color coding
   const formatRole = (role: string): React.ReactNode => {
@@ -43,10 +47,6 @@ const BrokerEmployeeDataGrid: React.FC<BrokerEmployeeDataGridProps> = ({
     );
   };
 
-  const onEditEmployee = (employee: BrokerEmployee) => {console.log('onEditEmployee', employee)}
-  const onDeleteEmployee = (employeeId: string) => {console.log('onDeleteEmployee', employeeId)}
-  const onApproveEmployee = (employeeId: string) => {console.log('onApproveEmployee', employeeId)}
-  const onRejectEmployee = (employeeId: string) => {console.log('onRejectEmployee', employeeId)}
 
   // Column definitions for broker employee data
   const columns: ColumnDefinition<BrokerEmployee>[] = [

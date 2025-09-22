@@ -1,0 +1,10 @@
+---
+description: 
+    Use UI patterns and interface solutions already present in existing pages.
+    Do not implement new logic unless explicitly requested in the instructions.
+    Write only the minimum necessary code to fulfill the requirements.
+    Avoid creating abstractions unless they are clearly needed.
+    Do not add new functionality to existing shared components (e.g., do not add row selection to a shared datagrid).
+globs:
+alwaysApply: true
+---

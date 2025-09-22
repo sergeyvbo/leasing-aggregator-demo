@@ -6,3 +6,4 @@ export { default as BrokerDocumentModal } from './BrokerDocumentModal';
 export { default as BrokerAttachmentPreview } from './BrokerAttachmentPreview';
 export { default as BrokerEmployeeDataGrid } from './BrokerEmployeeDataGrid';
 export { default as BrokerEmployeeActionsColumn } from './BrokerEmployeeActionsColumn';
+export { default as BrokerEmployeeModal } from './BrokerEmployeeModal';

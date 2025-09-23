@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { CommandBarProps } from '../types';
 import { UploadIcon, DownloadIcon } from '../../icons';
+import { selectExcelFile, isValidExcelFile } from '../../../utils/excelUtils';
 
 /**
  * CommandBar component for DataGrid
@@ -19,6 +20,7 @@ export const CommandBar: React.FC<CommandBarProps> = ({
   searchable,
   sortable,
 }) => {
+  const [isUploading, setIsUploading] = useState(false);
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onSearchChange(event.target.value);
   };
@@ -38,6 +40,42 @@ export const CommandBar: React.FC<CommandBarProps> = ({
   const toggleSortDirection = () => {
     const newDirection = sortDirection === 'asc' ? 'desc' : 'asc';
     onSortChange(sortField, newDirection);
+  };
+
+  const handleUploadExcel = async () => {
+    if (!onUploadExcel) return;
+    
+    try {
+      setIsUploading(true);
+      const file = await selectExcelFile();
+      
+      if (!file) {
+        return; // Пользователь отменил выбор файла
+      }
+      
+      if (!isValidExcelFile(file)) {
+        alert('Пожалуйста, выберите файл Excel (.xlsx или .xls)');
+        return;
+      }
+      
+      await onUploadExcel(file);
+    } catch (error) {
+      console.error('Ошибка при загрузке Excel файла:', error);
+      alert(`Ошибка при загрузке файла: ${error instanceof Error ? error.message : 'Неизвестная ошибка'}`);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleDownloadExcel = () => {
+    if (onDownloadExcel) {
+      try {
+        onDownloadExcel();
+      } catch (error) {
+        console.error('Ошибка при выгрузке в Excel:', error);
+        alert(`Ошибка при выгрузке файла: ${error instanceof Error ? error.message : 'Неизвестная ошибка'}`);
+      }
+    }
   };
 
   return (
@@ -70,18 +108,23 @@ export const CommandBar: React.FC<CommandBarProps> = ({
         
         {onUploadExcel && (
           <button
-            onClick={onUploadExcel}
-            className="inline-flex items-center justify-center px-4 py-3 md:py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 active:scale-95 min-h-[44px] md:min-h-[auto] touch-manipulation"
+            onClick={handleUploadExcel}
+            disabled={isUploading}
+            className="inline-flex items-center justify-center px-4 py-3 md:py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 active:scale-95 min-h-[44px] md:min-h-[auto] touch-manipulation disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <UploadIcon className="w-4 h-4 mr-2" />
-            <span className="hidden sm:inline">Загрузить из Excel</span>
-            <span className="sm:hidden">↑ Excel</span>
+            <span className="hidden sm:inline">
+              {isUploading ? 'Загрузка...' : 'Загрузить из Excel'}
+            </span>
+            <span className="sm:hidden">
+              {isUploading ? '...' : '↑ Excel'}
+            </span>
           </button>
         )}
         
         {onDownloadExcel && (
           <button
-            onClick={onDownloadExcel}
+            onClick={handleDownloadExcel}
             className="inline-flex items-center justify-center px-4 py-3 md:py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 active:scale-95 min-h-[44px] md:min-h-[auto] touch-manipulation"
           >
             <DownloadIcon className="w-4 h-4 mr-2" />

@@ -7,7 +7,7 @@ import { EmptyState } from '../common';
 
 interface LeasingObjectsDataGridProps {
   leasingObjects: LeasingObject[];
-  onUploadExcel?: () => void;
+  onUploadExcel?: (file: File) => Promise<void>;
   onDownloadExcel?: () => void;
 }
 

@@ -5,6 +5,8 @@ import type { Broker } from '../types/brokers';
 import { getAllBrokers, createEmptyBroker } from '../data/brokersData';
 import { formatCurrency } from '../components/DataGrid/utils';
 import { LoadingState } from '../components/common';
+import { useExcelData } from '../hooks/useExcelData';
+import type { ExcelImportConfig, ExcelExportConfig } from '../utils/excelUtils';
 
 /**
  * Column configuration for brokers table
@@ -85,8 +87,63 @@ interface BrokersPageProps {
 }
 
 const BrokersPage: React.FC<BrokersPageProps> = ({ onViewBroker }) => {
-  const [brokers, setBrokers] = useState<Broker[]>([]);
+  const [initialBrokers, setInitialBrokers] = useState<Broker[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Конфигурация для импорта Excel
+  const importConfig: ExcelImportConfig<Broker> = {
+    validateData: (data: any[]) => {
+      const errors: string[] = [];
+      
+      data.forEach((item, index) => {
+        if (!item.id) errors.push(`Строка ${index + 2}: отсутствует ID`);
+        if (!item.fullName) errors.push(`Строка ${index + 2}: отсутствует полное наименование`);
+        if (!item.inn) errors.push(`Строка ${index + 2}: отсутствует ИНН`);
+      });
+
+      return {
+        isValid: errors.length === 0,
+        errors
+      };
+    },
+    transformData: (data: any[]) => {
+      return data.map(item => ({
+        ...item,
+        dealsCount: Number(item.dealsCount) || 0,
+        totalCommission: Number(item.totalCommission) || 0,
+        successRate: Number(item.successRate) || 0,
+        averageDealSize: Number(item.averageDealSize) || 0,
+      }));
+    }
+  };
+
+  // Конфигурация для экспорта Excel
+  const exportConfig: ExcelExportConfig<Broker> = {
+    fileName: 'brokers',
+    sheetName: 'Брокеры',
+    transformData: (data: Broker[]) => {
+      return data.map(broker => ({
+        'ID': broker.id,
+        'ОПФ': broker.opf,
+        'Полное наименование': broker.fullName,
+        'ИНН': broker.inn,
+        'Количество сделок': broker.dealsCount,
+        'Итого вознаграждение': broker.totalCommission,
+        'Успешность (%)': broker.successRate,
+        'Средний размер сделки': broker.averageDealSize,
+      }));
+    }
+  };
+
+  // Используем хук для работы с Excel
+  const {
+    data: brokers,
+    isLoading: excelLoading,
+    error: excelError,
+    handleUploadExcel,
+    handleDownloadExcel,
+    updateData,
+  } = useExcelData(initialBrokers, importConfig, exportConfig);
 
   // Simulate loading brokers data
   useEffect(() => {
@@ -95,12 +152,13 @@ const BrokersPage: React.FC<BrokersPageProps> = ({ onViewBroker }) => {
       // Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 800));
       const brokersData = getAllBrokers();
-      setBrokers(brokersData);
+      setInitialBrokers(brokersData);
+      updateData(brokersData);
       setLoading(false);
     };
 
     loadBrokers();
-  }, []);
+  }, [updateData]);
 
   // Handle view broker action - navigate to broker details
   const handleViewBroker = (broker: Broker) => {
@@ -110,17 +168,13 @@ const BrokersPage: React.FC<BrokersPageProps> = ({ onViewBroker }) => {
   };
 
   // Handle upload from Excel action
-  const handleUploadExcel = () => {
-    // TODO: Implement upload from Excel functionality
-    console.log('Upload brokers from Excel clicked');
-    alert('Функция загрузки брокеров из Excel будет реализована');
+  const handleUploadExcelAction = async (file: File) => {
+    await handleUploadExcel(file);
   };
 
   // Handle download to Excel action
-  const handleDownloadExcel = () => {
-    // TODO: Implement download to Excel functionality
-    console.log('Download brokers to Excel clicked');
-    alert('Функция выгрузки брокеров в Excel будет реализована');
+  const handleDownloadExcelAction = () => {
+    handleDownloadExcel();
   };
 
   // Handle add broker action - navigate to broker details with empty data
@@ -132,7 +186,7 @@ const BrokersPage: React.FC<BrokersPageProps> = ({ onViewBroker }) => {
   };
 
   // Show loading state
-  if (loading) {
+  if (loading || excelLoading) {
     return (
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -143,7 +197,7 @@ const BrokersPage: React.FC<BrokersPageProps> = ({ onViewBroker }) => {
             </p>
           </div>
           <LoadingState 
-            message="Загрузка списка брокерских компаний..." 
+            message={loading ? "Загрузка списка брокерских компаний..." : "Обработка Excel файла..."} 
             size="lg"
           />
         </div>
@@ -161,6 +215,25 @@ const BrokersPage: React.FC<BrokersPageProps> = ({ onViewBroker }) => {
           <p className="text-sm md:text-base text-gray-600 mt-2">
             Управление брокерскими компаниями и просмотр их информации
           </p>
+          {excelError && (
+            <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-red-800">
+                    Ошибка при работе с Excel
+                  </h3>
+                  <div className="mt-2 text-sm text-red-700">
+                    {excelError}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         
         {/* DataGrid component for brokers list */}
@@ -171,8 +244,8 @@ const BrokersPage: React.FC<BrokersPageProps> = ({ onViewBroker }) => {
             onAdd={handleAddBroker}
             onDelete={() => {}}
             onEdit={handleViewBroker} // Using onEdit as "view" action since we only have view functionality
-            onUploadExcel={handleUploadExcel}
-            onDownloadExcel={handleDownloadExcel}
+            onUploadExcel={handleUploadExcelAction}
+            onDownloadExcel={handleDownloadExcelAction}
             pageSize={10}
             searchable={true}
             sortable={true}

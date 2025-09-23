@@ -44,7 +44,7 @@ export interface DataGridProps<T> {
   /** Callback function when delete button is clicked for a row */
   onDelete?: (id: string | number) => void;
   /** Callback function when upload from Excel button is clicked */
-  onUploadExcel?: () => void;
+  onUploadExcel?: (file: File) => Promise<void>;
   /** Callback function when download to Excel button is clicked */
   onDownloadExcel?: () => void;
   /** Loading state indicator */
@@ -81,7 +81,7 @@ export interface CommandBarProps {
   /** Callback function when add button is clicked */
   onAdd?: () => void;
   /** Callback function when upload from Excel button is clicked */
-  onUploadExcel?: () => void;
+  onUploadExcel?: (file: File) => Promise<void>;
   /** Callback function when download to Excel button is clicked */
   onDownloadExcel?: () => void;
   /** Current search value */

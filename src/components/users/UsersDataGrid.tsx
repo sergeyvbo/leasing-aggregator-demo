@@ -47,7 +47,7 @@ interface UsersDataGridProps {
   onEdit: (user: User) => void;
   onDelete: (user: User) => void;
   onAdd: () => void;
-  onUploadExcel: () => void;
+  onUploadExcel: (file: File) => Promise<void>;
   onDownloadExcel: () => void;
   loading?: boolean;
 }

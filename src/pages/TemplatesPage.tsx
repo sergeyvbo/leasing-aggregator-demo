@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { TemplatesDataGrid } from '../components/templates';
 import { VersionComponent } from '../components/clients/VersionComponent';
 import type { TemplatesPageProps, TemplateCollection } from '../types/templates';
+import { useExcelData } from '../hooks/useExcelData';
+import type { ExcelImportConfig, ExcelExportConfig } from '../utils/excelUtils';
 
 const TemplatesPage: React.FC<TemplatesPageProps> = ({
   collections,
@@ -9,6 +11,53 @@ const TemplatesPage: React.FC<TemplatesPageProps> = ({
   onEditCollection,
   onDeleteCollection,
 }) => {
+  // Конфигурация для импорта Excel
+  const importConfig: ExcelImportConfig<TemplateCollection> = {
+    validateData: (data: any[]) => {
+      const errors: string[] = [];
+      
+      data.forEach((item, index) => {
+        if (!item.id) errors.push(`Строка ${index + 2}: отсутствует ID`);
+        if (!item.leasingCompanyName) errors.push(`Строка ${index + 2}: отсутствует название лизинговой компании`);
+        if (!item.leasingObjectType) errors.push(`Строка ${index + 2}: отсутствует предмет лизинга`);
+      });
+
+      return {
+        isValid: errors.length === 0,
+        errors
+      };
+    },
+    transformData: (data: any[]) => {
+      return data.map(item => ({
+        ...item,
+        leasingCompanyId: item.leasingCompanyId || '',
+        version: item.version || { id: '1', number: 1, status: 'active', createdAt: new Date().toISOString(), isActive: true },
+      }));
+    }
+  };
+
+  // Конфигурация для экспорта Excel
+  const exportConfig: ExcelExportConfig<TemplateCollection> = {
+    fileName: 'templates',
+    sheetName: 'Шаблоны',
+    transformData: (data: TemplateCollection[]) => {
+      return data.map(collection => ({
+        'ID': collection.id,
+        'Лизинговая компания': collection.leasingCompanyName,
+        'Предмет лизинга': collection.leasingObjectType,
+        'Наименования шаблонов': collection.templateNames,
+        'Дата создания': collection.createdAt,
+      }));
+    }
+  };
+
+  // Используем хук для работы с Excel
+  const {
+    data: templateCollections,
+    error: excelError,
+    handleUploadExcel,
+    handleDownloadExcel,
+  } = useExcelData(collections, importConfig, exportConfig);
 
   // Mock version data for the page
   const [currentVersion] = useState({
@@ -44,17 +93,13 @@ const TemplatesPage: React.FC<TemplatesPageProps> = ({
   };
 
   // Handle upload from Excel action
-  const handleUploadExcel = () => {
-    // TODO: Implement upload from Excel functionality
-    console.log('Upload templates from Excel clicked');
-    alert('Функция загрузки шаблонов из Excel будет реализована');
+  const handleUploadExcelAction = async (file: File) => {
+    await handleUploadExcel(file);
   };
 
   // Handle download to Excel action
-  const handleDownloadExcel = () => {
-    // TODO: Implement download to Excel functionality
-    console.log('Download templates to Excel clicked');
-    alert('Функция выгрузки шаблонов в Excel будет реализована');
+  const handleDownloadExcelAction = () => {
+    handleDownloadExcel();
   };
 
   return (
@@ -70,6 +115,25 @@ const TemplatesPage: React.FC<TemplatesPageProps> = ({
               <p className="text-sm text-gray-600 mt-1">
                 Управление шаблонами для различных предметов лизинга
               </p>
+              {excelError && (
+                <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <h3 className="text-sm font-medium text-red-800">
+                        Ошибка при работе с Excel
+                      </h3>
+                      <div className="mt-2 text-sm text-red-700">
+                        {excelError}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           
@@ -87,12 +151,12 @@ const TemplatesPage: React.FC<TemplatesPageProps> = ({
 
       {/* Data Grid */}
       <TemplatesDataGrid
-        collections={collections}
+        collections={templateCollections}
         onAddCollection={handleAddClick}
         onEditCollection={handleEditClick}
         onDeleteCollection={onDeleteCollection}
-        onUploadExcel={handleUploadExcel}
-        onDownloadExcel={handleDownloadExcel}
+        onUploadExcel={handleUploadExcelAction}
+        onDownloadExcel={handleDownloadExcelAction}
       />
     </div>
   );

@@ -3,6 +3,8 @@ import { VersionComponent } from '../clients/VersionComponent';
 import QuotationRangesDataGrid from './QuotationRangesDataGrid';
 import QuotationRangeModal from './QuotationRangeModal';
 import type { QuotationRangePageProps, QuotationRange } from '../../types/quotationRanges';
+import { useExcelData } from '../../hooks/useExcelData';
+import type { ExcelImportConfig, ExcelExportConfig } from '../../utils/excelUtils';
 
 const QuotationRangesPage: React.FC<QuotationRangePageProps> = ({
   ranges,
@@ -13,6 +15,59 @@ const QuotationRangesPage: React.FC<QuotationRangePageProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<'add' | 'edit'>('add');
   const [editingRange, setEditingRange] = useState<QuotationRange | null>(null);
+
+  // Конфигурация для импорта Excel
+  const importConfig: ExcelImportConfig<QuotationRange> = {
+    validateData: (data: any[]) => {
+      const errors: string[] = [];
+      
+      data.forEach((item, index) => {
+        if (!item.id) errors.push(`Строка ${index + 2}: отсутствует ID`);
+        if (!item.leasingCompany) errors.push(`Строка ${index + 2}: отсутствует лизинговая компания`);
+        if (!item.term) errors.push(`Строка ${index + 2}: отсутствует срок`);
+        if (!item.rate) errors.push(`Строка ${index + 2}: отсутствует ставка`);
+      });
+
+      return {
+        isValid: errors.length === 0,
+        errors
+      };
+    },
+    transformData: (data: any[]) => {
+      return data.map(item => ({
+        ...item,
+        version: Number(item.version) || 1,
+        status: item.status || 'draft',
+      }));
+    }
+  };
+
+  // Конфигурация для экспорта Excel
+  const exportConfig: ExcelExportConfig<QuotationRange> = {
+    fileName: 'quotation-ranges',
+    sheetName: 'Диапазоны котировок',
+    transformData: (data: QuotationRange[]) => {
+      return data.map(range => ({
+        'ID': range.id,
+        'Лизинговая компания': range.leasingCompany,
+        'Срок': range.term,
+        'Ставка': range.rate,
+        'Аванс': range.advance,
+        'Комиссия агента': range.agentFee,
+        'Тип графика': range.scheduleType,
+        'Статус': range.status,
+        'Дата создания': range.createdAt,
+      }));
+    }
+  };
+
+  // Используем хук для работы с Excel
+  const {
+    data: quotationRanges,
+    error: excelError,
+    handleUploadExcel,
+    handleDownloadExcel,
+  } = useExcelData(ranges, importConfig, exportConfig);
 
   const handleEditStart = () => {
     // Handle edit start if needed
@@ -61,17 +116,13 @@ const QuotationRangesPage: React.FC<QuotationRangePageProps> = ({
   };
 
   // Handle upload from Excel action
-  const handleUploadExcel = () => {
-    // TODO: Implement upload from Excel functionality
-    console.log('Upload quotation ranges from Excel clicked');
-    alert('Функция загрузки диапазонов котировок из Excel будет реализована');
+  const handleUploadExcelAction = async (file: File) => {
+    await handleUploadExcel(file);
   };
 
   // Handle download to Excel action
-  const handleDownloadExcel = () => {
-    // TODO: Implement download to Excel functionality
-    console.log('Download quotation ranges to Excel clicked');
-    alert('Функция выгрузки диапазонов котировок в Excel будет реализована');
+  const handleDownloadExcelAction = () => {
+    handleDownloadExcel();
   };
 
   return (
@@ -120,13 +171,33 @@ const QuotationRangesPage: React.FC<QuotationRangePageProps> = ({
             Правила диапазонов котировок
           </h2>
           
+          {excelError && (
+            <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-red-800">
+                    Ошибка при работе с Excel
+                  </h3>
+                  <div className="mt-2 text-sm text-red-700">
+                    {excelError}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          
           <QuotationRangesDataGrid
-            ranges={ranges}
+            ranges={quotationRanges}
             onAddRange={handleAddRange}
             onEditRange={handleEditRange}
             onDeleteRange={handleDeleteRange}
-            onUploadExcel={handleUploadExcel}
-            onDownloadExcel={handleDownloadExcel}
+            onUploadExcel={handleUploadExcelAction}
+            onDownloadExcel={handleDownloadExcelAction}
           />
         </div>
       </div>

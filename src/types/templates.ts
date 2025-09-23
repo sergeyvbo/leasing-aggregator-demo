@@ -32,7 +32,7 @@ export interface TemplatesDataGridProps {
   onAddCollection: () => void;
   onEditCollection: (collection: TemplateCollection) => void;
   onDeleteCollection: (collection: TemplateCollection) => void;
-  onUploadExcel?: () => void;
+  onUploadExcel?: (file: File) => Promise<void>;
   onDownloadExcel?: () => void;
 }
 

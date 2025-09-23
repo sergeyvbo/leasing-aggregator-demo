@@ -63,9 +63,9 @@ const ClientBrokerBindingPage: React.FC<ClientBrokerBindingPageProps> = ({
   };
 
   // Handle upload from Excel action for binding rules
-  const handleUploadExcel = () => {
+  const handleUploadExcel = async (file: File) => {
     // TODO: Implement upload from Excel functionality
-    console.log('Upload binding rules from Excel clicked');
+    console.log('Upload binding rules from Excel clicked', file);
     alert('Функция загрузки правил закрепления из Excel будет реализована');
   };
 

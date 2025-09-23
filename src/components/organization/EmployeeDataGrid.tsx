@@ -9,7 +9,7 @@ interface EmployeeDataGridProps {
   onAddEmployee?: () => void;
   onEditEmployee?: (employee: Employee) => void;
   onDeleteEmployee?: (employeeId: string) => void;
-  onUploadExcel?: () => void;
+  onUploadExcel?: ((file: File) => Promise<void>);
   onDownloadExcel?: () => void;
 }
 

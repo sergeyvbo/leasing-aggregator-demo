@@ -6,7 +6,7 @@ import { EmptyState } from '../common';
 
 interface QualificationDataGridProps {
   qualifications: ClientQualification[];
-  onUploadExcel?: () => void;
+  onUploadExcel?: (file: File) => Promise<void>;
   onDownloadExcel?: () => void;
 }
 

@@ -47,7 +47,7 @@ export interface IntegrationsDataGridProps {
   onEdit: (integration: Integration) => void;
   onDelete: (id: string | number) => void;
   onAdd: () => void;
-  onUploadExcel: () => void;
+  onUploadExcel: (file: File) => Promise<void>;
   onDownloadExcel: () => void;
   loading?: boolean;
 }

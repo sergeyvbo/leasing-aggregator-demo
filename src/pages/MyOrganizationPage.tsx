@@ -16,6 +16,8 @@ import {
   getOrganizationByVersionId, 
   getAllEmployees
 } from '../data/organizationData';
+import { useExcelData } from '../hooks/useExcelData';
+import type { ExcelImportConfig, ExcelExportConfig } from '../utils/excelUtils';
 
 /**
  * MyOrganizationPage - Main component for organization management
@@ -33,7 +35,58 @@ const MyOrganizationPage: React.FC<MyOrganizationPageProps> = () => {
   const [currentVersion, setCurrentVersion] = useState<EntityVersion>(organization.version);
   
   // Employee state
-  const [employees] = useState<Employee[]>(getAllEmployees());
+  const [initialEmployees] = useState<Employee[]>(getAllEmployees());
+
+  // Конфигурация для импорта Excel
+  const importConfig: ExcelImportConfig<Employee> = {
+    validateData: (data: any[]) => {
+      const errors: string[] = [];
+      
+      data.forEach((item, index) => {
+        if (!item.id) errors.push(`Строка ${index + 2}: отсутствует ID`);
+        if (!item.fullName) errors.push(`Строка ${index + 2}: отсутствует ФИО`);
+        if (!item.login) errors.push(`Строка ${index + 2}: отсутствует логин`);
+        if (!item.role) errors.push(`Строка ${index + 2}: отсутствует роль`);
+      });
+
+      return {
+        isValid: errors.length === 0,
+        errors
+      };
+    },
+    transformData: (data: any[]) => {
+      return data.map(item => ({
+        ...item,
+        activeDealsCount: Number(item.activeDealsCount) || 0,
+        isCurrentUser: Boolean(item.isCurrentUser),
+      }));
+    }
+  };
+
+  // Конфигурация для экспорта Excel
+  const exportConfig: ExcelExportConfig<Employee> = {
+    fileName: 'employees',
+    sheetName: 'Сотрудники',
+    transformData: (data: Employee[]) => {
+      return data.map(employee => ({
+        'ID': employee.id,
+        'ФИО': employee.fullName,
+        'Логин': employee.login,
+        'Роль': employee.role,
+        'Статус': employee.status,
+        'Активных сделок': employee.activeDealsCount,
+        'Текущий пользователь': employee.isCurrentUser ? 'Да' : 'Нет',
+      }));
+    }
+  };
+
+  // Используем хук для работы с Excel
+  const {
+    data: employees,
+    error: excelError,
+    handleUploadExcel,
+    handleDownloadExcel,
+  } = useExcelData(initialEmployees, importConfig, exportConfig);
   
   // Modal state management
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -125,17 +178,13 @@ const MyOrganizationPage: React.FC<MyOrganizationPageProps> = () => {
   };
 
   // Handle upload from Excel action for employees
-  const handleUploadEmployeesExcel = () => {
-    // TODO: Implement upload from Excel functionality
-    console.log('Upload employees from Excel clicked');
-    alert('Функция загрузки сотрудников из Excel будет реализована');
+  const handleUploadEmployeesExcel = async (file: File) => {
+    await handleUploadExcel(file);
   };
 
   // Handle download to Excel action for employees
   const handleDownloadEmployeesExcel = () => {
-    // TODO: Implement download to Excel functionality
-    console.log('Download employees to Excel clicked');
-    alert('Функция выгрузки сотрудников в Excel будет реализована');
+    handleDownloadExcel();
   };
 
   return (
@@ -202,6 +251,25 @@ const MyOrganizationPage: React.FC<MyOrganizationPageProps> = () => {
               onDownloadExcel={handleDownloadEmployeesExcel}
             />
           </div>
+          {excelError && (
+            <div className="p-4 bg-red-50 border-t border-red-200">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-red-800">
+                    Ошибка при работе с Excel
+                  </h3>
+                  <div className="mt-2 text-sm text-red-700">
+                    {excelError}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

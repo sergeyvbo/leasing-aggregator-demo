@@ -8,7 +8,7 @@ interface QuotationRangesDataGridProps {
   onAddRange: () => void;
   onEditRange: (id: string) => void;
   onDeleteRange: (id: string) => void;
-  onUploadExcel?: () => void;
+  onUploadExcel?: (file: File) => Promise<void>;
   onDownloadExcel?: () => void;
 }
 

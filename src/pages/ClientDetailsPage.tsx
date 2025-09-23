@@ -25,9 +25,9 @@ const ClientDetailsPage: React.FC<ClientDetailsPageProps> = ({
   };
 
   // Handle upload from Excel action for qualifications
-  const handleUploadQualificationExcel = () => {
+  const handleUploadQualificationExcel = async (file: File) => {
     // TODO: Implement upload from Excel functionality
-    console.log('Upload qualifications from Excel clicked');
+    console.log('Upload qualifications from Excel clicked', file);
     alert('Функция загрузки квалификации из Excel будет реализована');
   };
 
@@ -39,9 +39,9 @@ const ClientDetailsPage: React.FC<ClientDetailsPageProps> = ({
   };
 
   // Handle upload from Excel action for leasing objects
-  const handleUploadLeasingObjectsExcel = () => {
+  const handleUploadLeasingObjectsExcel = async (file: File) => {
     // TODO: Implement upload from Excel functionality
-    console.log('Upload leasing objects from Excel clicked');
+    console.log('Upload leasing objects from Excel clicked', file);
     alert('Функция загрузки предметов лизинга из Excel будет реализована');
   };
 

@@ -80,9 +80,9 @@ const LeasingObjectsSettingsPage: React.FC<LeasingObjectAvailabilityPageProps> =
   };
 
   // Handle upload from Excel action
-  const handleUploadExcel = () => {
+  const handleUploadExcel = async (file: File) => {
     // TODO: Implement upload from Excel functionality
-    console.log('Upload leasing object rules from Excel clicked');
+    console.log('Upload leasing object rules from Excel clicked', file);
     alert('Функция загрузки правил предметов лизинга из Excel будет реализована');
   };
 

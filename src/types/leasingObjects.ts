@@ -29,7 +29,7 @@ export interface LeasingObjectAvailabilityDataGridProps {
   onAddRule: () => void;
   onEditRule: (rule: LeasingObjectAvailabilityRule) => void;
   onDeleteRule: (rule: LeasingObjectAvailabilityRule) => void;
-  onUploadExcel?: () => void;
+  onUploadExcel?: (file: File) => Promise<void>;
   onDownloadExcel?: () => void;
 }
 

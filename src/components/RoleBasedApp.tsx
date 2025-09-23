@@ -315,8 +315,8 @@ const RoleBasedApp: React.FC = () => {
           return <QuotationRangesPageWrapper />;
         case 'leasing-objects-settings':
           return <LeasingObjectsSettingsPageWrapper />;
-        case 'org-settings':
-          return <PlaceholderPage title="Настройка организаций" />;
+        case 'additional-products':
+          return <PlaceholderPage title="Доп. продукты" />;
         case 'print-forms':
           return <PlaceholderPage title="Печатные формы" />;
         case 'reports':

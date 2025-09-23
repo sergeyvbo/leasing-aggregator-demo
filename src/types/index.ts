@@ -80,3 +80,6 @@ export * from './leasingObjects';
 
 // Re-export users types
 export * from './users';
+
+// Re-export integrations types
+export * from './integrations';

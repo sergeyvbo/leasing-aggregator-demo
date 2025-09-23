@@ -15,6 +15,7 @@ import ClientBrokerBindingPageWrapper from '../pages/ClientBrokerBindingPage';
 import QuotationRangesPageWrapper from '../pages/QuotationRangesPage';
 import LeasingObjectsSettingsPageWrapper from '../pages/LeasingObjectsSettingsPageWrapper';
 import UsersPage from '../pages/UsersPage';
+import IntegrationsPage from '../pages/IntegrationsPage';
 import LoginPage from './pages/LoginPage';
 import type { RoleId } from '../types/roles';
 import type { LoginData } from '../types';
@@ -333,7 +334,7 @@ const RoleBasedApp: React.FC = () => {
         case 'users':
           return <UsersPage />;
         case 'integrations':
-          return <PlaceholderPage title="Интеграции" />;
+          return <IntegrationsPage />;
         case 'templates':
           return <PlaceholderPage title="Шаблоны" />;
         case 'settings':

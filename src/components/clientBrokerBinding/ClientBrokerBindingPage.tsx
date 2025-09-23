@@ -62,6 +62,20 @@ const ClientBrokerBindingPage: React.FC<ClientBrokerBindingPageProps> = ({
     }
   };
 
+  // Handle upload from Excel action for binding rules
+  const handleUploadExcel = () => {
+    // TODO: Implement upload from Excel functionality
+    console.log('Upload binding rules from Excel clicked');
+    alert('Функция загрузки правил закрепления из Excel будет реализована');
+  };
+
+  // Handle download to Excel action for binding rules
+  const handleDownloadExcel = () => {
+    // TODO: Implement download to Excel functionality
+    console.log('Download binding rules to Excel clicked');
+    alert('Функция выгрузки правил закрепления в Excel будет реализована');
+  };
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -107,6 +121,8 @@ const ClientBrokerBindingPage: React.FC<ClientBrokerBindingPageProps> = ({
             onAddRule={handleAddRule}
             onEditRule={handleEditRule}
             onDeleteRule={handleDeleteRule}
+            onUploadExcel={handleUploadExcel}
+            onDownloadExcel={handleDownloadExcel}
           />
         </div>
       </div>

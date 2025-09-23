@@ -30,6 +30,8 @@ export interface ClientBrokerBindingDataGridProps {
   onAddRule?: () => void;
   onEditRule?: (ruleId: string) => void;
   onDeleteRule?: (ruleId: string) => void;
+  onUploadExcel?: () => void;
+  onDownloadExcel?: () => void;
 }
 
 export interface ClientBrokerBindingActionsColumnProps {

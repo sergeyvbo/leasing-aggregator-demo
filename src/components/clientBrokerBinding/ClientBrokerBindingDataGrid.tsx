@@ -10,6 +10,8 @@ const ClientBrokerBindingDataGrid: React.FC<ClientBrokerBindingDataGridProps> = 
   onAddRule,
   onEditRule,
   onDeleteRule,
+  onUploadExcel,
+  onDownloadExcel,
 }) => {
   // Format restriction with color coding
   const formatRestriction = (restriction: 'allow' | 'deny'): React.ReactNode => {
@@ -152,6 +154,8 @@ const ClientBrokerBindingDataGrid: React.FC<ClientBrokerBindingDataGridProps> = 
         data={rules}
         columns={columnsWithActions}
         onAdd={onAddRule}
+        onUploadExcel={onUploadExcel}
+        onDownloadExcel={onDownloadExcel}
         searchable={true}
         sortable={true}
         pageSize={10}

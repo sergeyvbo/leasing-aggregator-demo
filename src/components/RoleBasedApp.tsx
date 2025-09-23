@@ -16,6 +16,8 @@ import QuotationRangesPageWrapper from '../pages/QuotationRangesPage';
 import LeasingObjectsSettingsPageWrapper from '../pages/LeasingObjectsSettingsPageWrapper';
 import UsersPage from '../pages/UsersPage';
 import IntegrationsPage from '../pages/IntegrationsPage';
+import TemplatesPage from '../pages/TemplatesPage';
+import TemplateEditPage from '../pages/TemplateEditPage';
 import LoginPage from './pages/LoginPage';
 import type { RoleId } from '../types/roles';
 import type { LoginData } from '../types';
@@ -23,11 +25,13 @@ import type { Client } from '../types/clients';
 import type { LeasingCompany } from '../types/leasingCompanies';
 import type { Broker } from '../types/brokers';
 import type { Report } from '../types/reports';
+import type { TemplateCollection, Template } from '../types/templates';
 import { ROLE_IDS, MENU_CONFIG } from '../types/roles';
 import { getSavedRole } from '../ui/RoleSelector';
 import { getClientWithVersion } from '../data/clientsData';
 import { getLeasingCompanyWithVersion } from '../data/leasingCompaniesData';
 import { getBrokerWithVersion } from '../data/brokersData';
+import { templateCollectionsData, templatesData } from '../data/templatesData';
 
 const RoleBasedApp: React.FC = () => {
   // Authentication state
@@ -65,6 +69,11 @@ const RoleBasedApp: React.FC = () => {
   // Reports navigation state
   const [reportsView, setReportsView] = useState<'list' | 'details'>('list');
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
+
+  // Templates navigation state
+  const [templatesView, setTemplatesView] = useState<'list' | 'edit'>('list');
+  const [selectedTemplateCollection, setSelectedTemplateCollection] = useState<TemplateCollection | null>(null);
+  const [templates, setTemplates] = useState<Template[]>(templatesData);
 
   // Initialize active menu item when role changes
   useEffect(() => {
@@ -112,6 +121,9 @@ const RoleBasedApp: React.FC = () => {
     // Reset reports navigation when switching menu items
     setReportsView('list');
     setSelectedReport(null);
+    // Reset templates navigation when switching menu items
+    setTemplatesView('list');
+    setSelectedTemplateCollection(null);
   };
 
   // Handle client navigation
@@ -205,6 +217,70 @@ const RoleBasedApp: React.FC = () => {
   const handleBackToReportsList = () => {
     setReportsView('list');
     setSelectedReport(null);
+  };
+
+  // Handle templates navigation
+  const handleViewTemplateCollection = (collection: TemplateCollection) => {
+    setSelectedTemplateCollection(collection);
+    setTemplatesView('edit');
+  };
+
+
+  const handleAddTemplateCollection = () => {
+    // Create empty template collection for adding new one
+    const emptyCollection: TemplateCollection = {
+      id: 'new',
+      leasingCompanyId: '',
+      leasingCompanyName: '',
+      leasingObjectType: '',
+      templateNames: '',
+      version: {
+        id: 'v1',
+        number: 1,
+        status: 'draft',
+        startDate: undefined,
+        endDate: undefined,
+        previousVersionId: undefined,
+        nextVersionId: undefined,
+      },
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    
+    setSelectedTemplateCollection(emptyCollection);
+    setTemplatesView('edit');
+  };
+
+  const handleEditTemplateCollection = (collection: TemplateCollection) => {
+    handleViewTemplateCollection(collection);
+  };
+
+  const handleDeleteTemplateCollection = (collection: TemplateCollection) => {
+    if (window.confirm(`Удалить коллекцию шаблонов для ${collection.leasingCompanyName} - ${collection.leasingObjectType}?`)) {
+      console.log('Delete template collection:', collection);
+      alert('Функция удаления коллекции шаблонов будет реализована');
+    }
+  };
+
+  const handleSaveTemplates = (updatedTemplates: Template[]) => {
+    setTemplates(updatedTemplates);
+    console.log('Templates saved:', updatedTemplates);
+    
+    // If this was a new collection, we should add it to the collections list
+    if (selectedTemplateCollection?.id === 'new') {
+      console.log('New collection would be created with templates:', updatedTemplates);
+      // In a real application, this would call an API to create the collection
+    }
+    
+    // Return to templates list after saving
+    setTemplatesView('list');
+    setSelectedTemplateCollection(null);
+  };
+
+  const handleCancelTemplates = () => {
+    console.log('Templates edit cancelled');
+    setTemplatesView('list');
+    setSelectedTemplateCollection(null);
   };
 
   // Render content based on active menu item and role
@@ -336,7 +412,25 @@ const RoleBasedApp: React.FC = () => {
         case 'integrations':
           return <IntegrationsPage />;
         case 'templates':
-          return <PlaceholderPage title="Шаблоны" />;
+          // Handle templates navigation
+          if (templatesView === 'edit' && selectedTemplateCollection) {
+            return (
+              <TemplateEditPage
+                collection={selectedTemplateCollection}
+                templates={selectedTemplateCollection.id === 'new' ? [] : templates}
+                onSave={handleSaveTemplates}
+                onCancel={handleCancelTemplates}
+              />
+            );
+          }
+          return (
+            <TemplatesPage
+              collections={templateCollectionsData}
+              onAddCollection={handleAddTemplateCollection}
+              onEditCollection={handleEditTemplateCollection}
+              onDeleteCollection={handleDeleteTemplateCollection}
+            />
+          );
         case 'settings':
           return <PlaceholderPage title="Настройки" />;
         default:

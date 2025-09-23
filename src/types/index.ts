@@ -83,3 +83,6 @@ export * from './users';
 
 // Re-export integrations types
 export * from './integrations';
+
+// Re-export templates types
+export * from './templates';

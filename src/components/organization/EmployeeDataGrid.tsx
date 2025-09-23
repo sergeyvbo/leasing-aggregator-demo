@@ -149,7 +149,7 @@ const EmployeeDataGrid: React.FC<EmployeeDataGridProps> = ({
 
   // Custom edit handler that only allows editing current user
   const handleEdit = (employee: Employee) => {
-    if (employee.isCurrentUser && onEditEmployee) {
+    if (onEditEmployee) {
       onEditEmployee(employee);
     }
   };
@@ -157,7 +157,7 @@ const EmployeeDataGrid: React.FC<EmployeeDataGridProps> = ({
   // Custom delete handler that only allows deleting current user
   const handleDelete = (employeeId: string | number) => {
     const employee = employees.find(emp => emp.id === employeeId);
-    if (employee?.isCurrentUser && onDeleteEmployee) {
+    if (employee && onDeleteEmployee) {
       onDeleteEmployee(String(employeeId));
     }
   };

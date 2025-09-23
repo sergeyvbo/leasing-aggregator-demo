@@ -75,11 +75,9 @@ const MyOrganizationPage: React.FC<MyOrganizationPageProps> = () => {
 
   // Handle edit employee modal
   const handleEditEmployee = (employee: Employee) => {
-    // Only allow editing current user (as per requirements)
-    if (employee.isCurrentUser) {
-      setEditingEmployee(employee);
-      setIsEditModalOpen(true);
-    }
+    console.log('Editing employee:', employee);
+    setEditingEmployee(employee);
+    setIsEditModalOpen(true);
   };
 
   const handleEditModalClose = () => {
@@ -103,18 +101,16 @@ const MyOrganizationPage: React.FC<MyOrganizationPageProps> = () => {
   // Handle delete employee
   const handleDeleteEmployee = (employeeId: string) => {
     const employee = employees.find(emp => emp.id === employeeId);
+    if (!employee) return;
+    // In a real application, this would make an API call
+    // For now, we just show the notification
+    setShowNotification(true);
     
-    // Only allow deleting current user (as per requirements)
-    if (employee?.isCurrentUser) {
-      // In a real application, this would make an API call
-      // For now, we just show the notification
-      setShowNotification(true);
-      
-      // Auto-hide notification after 5 seconds
-      setTimeout(() => {
-        setShowNotification(false);
-      }, 5000);
-    }
+    // Auto-hide notification after 5 seconds
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 5000);
+    
   };
 
   // Prepare initial data for edit modal

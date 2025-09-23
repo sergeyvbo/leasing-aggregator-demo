@@ -148,7 +148,8 @@ const LeasingCompaniesPage: React.FC<LeasingCompaniesPageProps> = ({ onViewLeasi
             data={leasingCompanies}
             columns={leasingCompaniesColumns}
             onAdd={handleAddLeasingCompany}
-            onEdit={handleViewLeasingCompany} // Using onEdit as "view" action since we only have view functionality
+            onEdit={handleViewLeasingCompany} 
+            onDelete={() => {}}
             onUploadExcel={handleUploadExcel}
             onDownloadExcel={handleDownloadExcel}
             pageSize={10}

@@ -77,3 +77,6 @@ export * from './quotationRanges';
 
 // Re-export leasing objects types
 export * from './leasingObjects';
+
+// Re-export users types
+export * from './users';

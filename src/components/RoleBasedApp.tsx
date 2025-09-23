@@ -14,6 +14,7 @@ import MyOrganizationPage from '../pages/MyOrganizationPage';
 import ClientBrokerBindingPageWrapper from '../pages/ClientBrokerBindingPage';
 import QuotationRangesPageWrapper from '../pages/QuotationRangesPage';
 import LeasingObjectsSettingsPageWrapper from '../pages/LeasingObjectsSettingsPageWrapper';
+import UsersPage from '../pages/UsersPage';
 import LoginPage from './pages/LoginPage';
 import type { RoleId } from '../types/roles';
 import type { LoginData } from '../types';
@@ -330,7 +331,7 @@ const RoleBasedApp: React.FC = () => {
     if (currentRole === ROLE_IDS.TECH_ADMIN) {
       switch (activeMenuItem) {
         case 'users':
-          return <PlaceholderPage title="Пользователи" />;
+          return <UsersPage />;
         case 'integrations':
           return <PlaceholderPage title="Интеграции" />;
         case 'templates':
@@ -338,7 +339,7 @@ const RoleBasedApp: React.FC = () => {
         case 'settings':
           return <PlaceholderPage title="Настройки" />;
         default:
-          return <PlaceholderPage title="Пользователи" />;
+          return <UsersPage />;
       }
     }
 
